@@ -1,0 +1,115 @@
+.header {
+  height: 110px;
+  background-color: #eee;
+}
+
+.header.fixed {
+  position: sticky;
+  top: -10px;
+}
+.top-bar {
+  padding: 30px 50px;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo .logo-img {
+  width: 50px;
+  border-radius: 5px;
+}
+
+.logo .logo-title {
+  color: #1a162e;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 145.455%;
+}
+
+.navbar {
+  text-transform: uppercase;
+  margin-right: auto;
+  margin-left: 144px;
+}
+
+.navbar a:hover,
+.navbar-link.active a {
+  text-shadow: 1px 0 0 currentColor;
+  color: #171100;
+}
+
+.navbar .navbar-list {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navbar .navbar-link {
+  color: #1a162e;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 146.667% */
+}
+.navbar li {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar-arrow {
+  color: #1a162e;
+}
+
+.top-act {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-act .top-act-group {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 20px 60px 10px rgba(237, 237, 246, 0.2);
+  min-width: 50;
+  height: 50px;
+}
+
+.top-act .top-act-btn {
+  display: flex;
+  align-items: center;
+  padding: 13px 20px;
+  gap: 10px;
+}
+
+.top-act-search {
+  font-size: 1.8rem;
+  font-family: "BeVetnamPro";
+  font-weight: 500;
+  width: 250px;
+  border: 1px solid #4f4c4c;
+  border-radius: 5px;
+  height: 35px;
+}
+.top-act-img {
+  font-size: 25px;
+}
+
+.top-act .top-act-seperate {
+  width: 1px;
+  height: 30px;
+  background: #3b3939;
+}
+
+.top-act-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}

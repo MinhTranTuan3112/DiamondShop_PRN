@@ -1,8 +1,14 @@
+import Header from "../../Components/Layout/Header";
+import Footer from "../../Components/Layout/Footer";
+
 export default function Home() {
   return (
-    <>
-      <h1>Hello World</h1>
-      <p>Em Phuc Dinh cao vkl</p>
-    </>
+    <div className="container">
+      <Header />
+      <div style={{ height: "1000px" }}></div>
+      <div className="main-content">
+        <Footer />
+      </div>
+    </div>
   );
 }
