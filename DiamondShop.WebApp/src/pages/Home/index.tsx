@@ -8,10 +8,7 @@ export default function Home() {
       <div style={{ height: "1000px" }}>
         <p className="text-red-600 text-center">Hello World</p>
       </div>
-
-      <div className="main-content">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

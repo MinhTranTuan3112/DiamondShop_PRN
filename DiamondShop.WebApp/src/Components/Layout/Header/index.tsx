@@ -6,6 +6,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa6";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const Navbar = [
@@ -29,17 +30,14 @@ export default function Header() {
     },
   ];
   const [isActive, setIsActive] = useState("");
-  const handleNavHover = (item: string) => {
-    setIsActive(item);
-  };
   return (
     <header className="header fixed ">
       <div className="top-bar">
         {/* Logo */}
-        <div className="logo">
+        <Link to={"/"} className="logo">
           <img className="logo-img" src={LogoIMG} alt="MAPTH" />
           <h2 className="logo-title">MAPTH</h2>
-        </div>
+        </Link>
         {/* Nav bar */}
         <nav className="navbar">
           <ul className="navbar-list">
@@ -52,7 +50,7 @@ export default function Header() {
               >
                 <a
                   href="#!"
-                  onMouseOver={() => handleNavHover(item.title)}
+                  onMouseOver={() => setIsActive(item.title)}
                   onMouseOut={() => setIsActive("")}
                 >
                   {item.title}
@@ -66,7 +64,12 @@ export default function Header() {
         <div className="top-act">
           <div className="top-act-group">
             <button className="top-act-btn">
-              <input type="text" className="top-act-search" />
+              <input
+                type="text"
+                className="top-act-search"
+                placeholder="Search..."
+                style={{ fontFamily: "Be Vietnam Pro" }}
+              />
               <CiSearch className="top-act-img" />
             </button>
           </div>
@@ -81,9 +84,9 @@ export default function Header() {
               <span className="top-act-title">$65.42</span>
             </button>
           </div>
-          <div className="top-act-user">
+          <Link to={"/user"} className="top-act-user">
             <img src={Avartar} alt="" className="top-act-avatar" />
-          </div>
+          </Link>
         </div>
       </div>
     </header>
