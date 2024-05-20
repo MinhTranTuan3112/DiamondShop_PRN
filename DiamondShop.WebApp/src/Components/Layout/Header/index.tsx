@@ -33,7 +33,7 @@ export default function Header() {
     setIsActive(item);
   };
   return (
-    <header className="header fixed">
+    <header className="header fixed ">
       <div className="top-bar">
         {/* Logo */}
         <div className="logo">

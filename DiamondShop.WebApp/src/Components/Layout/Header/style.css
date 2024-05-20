@@ -7,6 +7,7 @@
   position: sticky;
   top: -10px;
 }
+
 .top-bar {
   padding: 30px 50px;
   display: flex;
@@ -108,8 +109,8 @@
 }
 
 .top-act-avatar {
-  width: 50px;
-  height: 50px;
+  width: 7rem;
+  aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;
 }
