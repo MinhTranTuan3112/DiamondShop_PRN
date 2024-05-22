@@ -18,7 +18,7 @@ create table [Account]
 	[Password] nvarchar(max),
 	AvatarUrl nvarchar(max),
 	[TimeStamp] datetime,
-	[Role] int,--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
+	[Role] nvarchar(10) not null,--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
 	[Status] nvarchar(20)
 );
 go

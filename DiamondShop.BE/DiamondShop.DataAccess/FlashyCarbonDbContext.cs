@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using DiamondShop.DataAccess.Models;
 
 namespace DiamondShop.DataAccess;
+
 
 public partial class FlashyCarbonDbContext : DbContext
 {
@@ -39,29 +40,27 @@ public partial class FlashyCarbonDbContext : DbContext
     public virtual DbSet<StakeHolder> StakeHolders { get; set; }
 
     public virtual DbSet<Warranty> Warranties { get; set; }
-
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseSqlServer("");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Account__3214EC07FF84C912");
+            entity.HasKey(e => e.Id).HasName("PK__Account__3214EC07336BDE70");
 
             entity.ToTable("Account");
 
-            entity.HasIndex(e => e.Email, "UQ__Account__A9D105343EA15EB7").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Account__A9D1053463584908").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Role).HasMaxLength(10);
             entity.Property(e => e.Status).HasMaxLength(20);
             entity.Property(e => e.TimeStamp).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07766302BD");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07F7D52FB2");
 
             entity.ToTable("Category");
 
@@ -73,7 +72,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Certification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Certific__3214EC07252D917E");
+            entity.HasKey(e => e.Id).HasName("PK__Certific__3214EC074E67BA6B");
 
             entity.ToTable("Certification");
 
@@ -86,11 +85,11 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC07C16347A7");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC072A6D2B62");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Customer__85FB4E384396CC7E").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Customer__85FB4E3882059BA6").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Fullname).HasMaxLength(100);
@@ -103,7 +102,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Diamond>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Diamond__3214EC0792C478B9");
+            entity.HasKey(e => e.Id).HasName("PK__Diamond__3214EC0743B0BEFD");
 
             entity.ToTable("Diamond");
 
@@ -118,7 +117,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<DiamondProduct>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DiamondP__3214EC079032350A");
+            entity.HasKey(e => e.Id).HasName("PK__DiamondP__3214EC07F1D1DCE9");
 
             entity.ToTable("DiamondProduct");
 
@@ -135,7 +134,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07B215DF1B");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07AAAF1A5D");
 
             entity.ToTable("Order");
 
@@ -160,7 +159,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProductId, e.WarrantyId }).HasName("PK__OrderDet__1AFE44BBF1536777");
+            entity.HasKey(e => new { e.OrderId, e.ProductId, e.WarrantyId }).HasName("PK__OrderDet__1AFE44BBAB60F801");
 
             entity.ToTable("OrderDetail");
 
@@ -184,7 +183,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Picture>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Picture__3214EC0786B77899");
+            entity.HasKey(e => e.Id).HasName("PK__Picture__3214EC07399D6D4E");
 
             entity.ToTable("Picture");
 
@@ -201,7 +200,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC07629ACF28");
+            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC07A08B1C8E");
 
             entity.ToTable("Product");
 
@@ -218,11 +217,11 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<StakeHolder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__StakeHol__3214EC07DEDB45E0");
+            entity.HasKey(e => e.Id).HasName("PK__StakeHol__3214EC07DDC452E6");
 
             entity.ToTable("StakeHolder");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__StakeHol__85FB4E3861395F63").IsUnique();
+            entity.HasIndex(e => e.PhoneNumber, "UQ__StakeHol__85FB4E38DCCAA149").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Fullname).HasMaxLength(100);
@@ -236,7 +235,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Warranty>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Warranty__3214EC07FC87E0D8");
+            entity.HasKey(e => e.Id).HasName("PK__Warranty__3214EC071BF36EE6");
 
             entity.ToTable("Warranty");
 

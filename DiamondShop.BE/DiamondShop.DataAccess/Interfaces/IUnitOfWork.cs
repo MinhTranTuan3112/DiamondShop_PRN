@@ -7,6 +7,7 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface IUnitOfWork
     {
+        IAccountRepository GetAccountRepository();
         Task<int> SaveChangesAsync();
     }
 }

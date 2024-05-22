@@ -20,7 +20,7 @@ namespace DiamondShop.DataAccess.Extensions
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IAccountRepository, AccoutRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             return services;
         }
     }

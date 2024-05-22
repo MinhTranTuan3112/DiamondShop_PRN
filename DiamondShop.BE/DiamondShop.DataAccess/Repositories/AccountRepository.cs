@@ -7,9 +7,9 @@ using DiamondShop.DataAccess.Models;
 
 namespace DiamondShop.DataAccess.Repositories
 {
-    public class AccoutRepository : GenericRepository<Account>, IAccountRepository
+    public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
-        public AccoutRepository(FlashyCarbonDbContext context) : base(context)
+        public AccountRepository(FlashyCarbonDbContext context) : base(context)
         {
         }
     }

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DiamondShop.DataAccess\DiamondShop.DataAccess.csproj" />
+    <ProjectReference Include="..\DiamondShop.Shared\DiamondShop.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
