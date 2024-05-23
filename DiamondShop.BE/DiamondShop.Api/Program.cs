@@ -1,4 +1,5 @@
 using DiamondShop.Api.Extensions;
+using DiamondShop.Api.Middlewares;
 using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.DataAccess.Extensions;
 
@@ -18,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
