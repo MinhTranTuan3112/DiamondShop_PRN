@@ -6,29 +6,86 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa6";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const Navbar = [
+  {
+    title: "Home",
+    path: "/",
+    id: 0,
+    src: "/",
+  },
+  {
+    title: "Product",
+    path: "/product",
+    id: 1,
+    src: "/product",
+  },
+  {
+    title: "Policy",
+    path: "/policy",
+    id: 2,
+    src: "/product",
+  },
+];
+const Product = [
+  {
+    heading: "Bakery & Bread",
+    items: [
+      "Shop All",
+      "New in Bakery",
+      "Sliced Bread",
+      "Celebrate Salad Month",
+      "Healthy Living",
+      "Fresh Flowers",
+      "Chilled Dressing",
+      "Fresh Fruit",
+    ],
+  },
+  {
+    heading: "Bakery & Bread",
+    items: [
+      "Shop All",
+      "New in Bakery",
+      "Sliced Bread",
+      "Celebrate Salad Month",
+      "Healthy Living",
+      "Fresh Flowers",
+      "Chilled Dressing",
+      "Fresh Fruit",
+    ],
+  },
+  {
+    heading: "Bakery & Bread",
+    items: [
+      "Shop All",
+      "New in Bakery",
+      "Sliced Bread",
+      "Celebrate Salad Month",
+      "Healthy Living",
+      "Fresh Flowers",
+      "Chilled Dressing",
+      "Fresh Fruit",
+    ],
+  },
+  {
+    heading: "Bakery & Bread",
+    items: [
+      "Shop All",
+      "New in Bakery",
+      "Sliced Bread",
+      "Celebrate Salad Month",
+      "Healthy Living",
+      "Fresh Flowers",
+      "Chilled Dressing",
+      "Fresh Fruit",
+    ],
+  },
+];
 
 export default function Header() {
-  const Navbar = [
-    {
-      title: "Home",
-      path: "/",
-      id: 0,
-      src: "/",
-    },
-    {
-      title: "Product",
-      path: "/product",
-      id: 1,
-      src: "/",
-    },
-    {
-      title: "Policy",
-      path: "/policy",
-      id: 2,
-      src: "/",
-    },
-  ];
+  const navigate = useNavigate();
+
   const [isActive, setIsActive] = useState("");
   return (
     <header className="header fixed ">
@@ -44,18 +101,42 @@ export default function Header() {
             {Navbar.map((item) => (
               <li
                 key={item.id}
+                onMouseOver={() => setIsActive(item.title)}
+                onMouseOut={() => setIsActive("")}
                 className={
                   isActive === item.title ? "navbar-link active" : "navbar-link"
                 }
               >
-                <a
-                  href="#!"
-                  onMouseOver={() => setIsActive(item.title)}
-                  onMouseOut={() => setIsActive("")}
-                >
-                  {item.title}
-                </a>
+                <a onClick={() => navigate(item.path)}>{item.title}</a>
                 <MdKeyboardArrowDown className="navbar-arrow" />
+                {isActive === item.title && isActive === "Product" ? (
+                  <div className="dropdown">
+                    <div className="dropdown-inner">
+                      <div className="top-menu">
+                        {Product.map((category, index) => (
+                          <div className="top-menu-main" key={index}>
+                            <div className="menu-column">
+                              <h2 className="menu-column-heading">
+                                {category.heading}
+                              </h2>
+                              <ul className="menu-column-list">
+                                {category.items.map((item, index) => (
+                                  <li key={index}>
+                                    <a href="" className="menu-column-link">
+                                      {item}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </li>
             ))}
           </ul>

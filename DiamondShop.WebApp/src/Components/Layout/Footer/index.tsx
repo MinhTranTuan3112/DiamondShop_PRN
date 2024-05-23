@@ -16,10 +16,21 @@ export default function Footer() {
               Your match is just a click away!
             </p>
             <div className="socials">
-              <FaFacebookF className="icon" />
-              <FaInstagram className="icon" />
-              <FaLinkedin className="icon" />
-              <FaXTwitter className="icon" />
+              <a
+                target="blank"
+                href="https://www.facebook.com/profile.php?id=100021014582039"
+              >
+                <FaFacebookF className="icon" />
+              </a>
+              <a href="https://www.instagram.com/sword.1111/" target="blank">
+                <FaInstagram className="icon" />
+              </a>
+              <a target="blank" href="">
+                <FaLinkedin className="icon" />
+              </a>
+              <a target="blank" href="">
+                <FaXTwitter className="icon" />
+              </a>
             </div>
           </div>
           <div className="column">

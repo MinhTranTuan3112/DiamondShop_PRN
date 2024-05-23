@@ -5,9 +5,7 @@ export default function Home() {
   return (
     <div className="">
       <Header />
-      <div style={{ height: "1000px" }}>
-        <p className="text-red-600 text-center">Hello World</p>
-      </div>
+      <div style={{ height: "1000px", background: "#ccc" }}></div>
       <Footer />
     </div>
   );

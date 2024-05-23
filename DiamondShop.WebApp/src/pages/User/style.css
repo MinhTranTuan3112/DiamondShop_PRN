@@ -5,7 +5,7 @@
 }
 
 .profile-sidebar {
-  width: 20%;
+  width: 23%;
   padding-bottom: 30px;
   background: #fff;
   overflow: hidden;
@@ -26,7 +26,7 @@
 .profile-user-avatar {
   width: 110px;
   height: 110px;
-  object-fit: cover;
+  object-fit: contain;
   border: 5px solid rgba(154, 147, 147, 0.2);
   border-radius: 50%;
   background: #ccc;
@@ -62,6 +62,7 @@
 .profile-menu .menu-list {
   margin-top: 10px;
 }
+
 .profile-menu-icon {
   display: flex;
   align-items: center;
