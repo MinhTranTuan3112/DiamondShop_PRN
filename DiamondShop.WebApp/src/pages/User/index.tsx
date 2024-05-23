@@ -4,8 +4,18 @@ import { FaUser } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { LuPhone } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
+import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
+
+const User = {
+  name: "Phuc Le",
+  email: "tarek97.ta@gmail.com",
+  phone: "+000 11122 2345 657",
+  DOB: "11-11-2002",
+  Address: "Bangladesh Embassy, Washington, DC 20008",
+  registed: "11-11-2002",
+};
 
 export default function Profile() {
   return (
@@ -21,8 +31,8 @@ export default function Profile() {
               className="profile-user-avatar"
               style={{}}
             />
-            <h1 className="profile-user-name">Phuc Le</h1>
-            <p className="profile-user-desc">Registed: 17th May 2024</p>
+            <h1 className="profile-user-name">{User.name}</h1>
+            <p className="profile-user-desc">Ngày đăng ký: {User.registed}</p>
           </div>
           {/* Menu 1*/}
           <div className="profile-menu">
@@ -86,37 +96,50 @@ export default function Profile() {
           </div>
         </aside>
         <div className="profile-info">
-          <h2 className="profile-info-heading">Account info</h2>
+          <div className="profile-wrap">
+            <h2 className="profile-info-heading">Account info</h2>
+
+            <button className="profile-edit-btn">Edit</button>
+          </div>
           <p className="profile-info-desc">
             Addresses, contact information and password
           </p>
-          <div className="account-info">
-            <span className="account-info-icon">
-              <MdOutlineMail />
-            </span>
-            <div className="account-info-detail">
-              <h3 className="account-info-heading">Email Address</h3>
-              <p className="account-info-desc">tarek97.ta@gmail.com</p>
+          <div className="account-inner">
+            <div className="account-info">
+              <span className="account-info-icon">
+                <MdOutlineMail />
+              </span>
+              <div className="account-info-detail">
+                <h3 className="account-info-heading">Email</h3>
+                <p className="account-info-desc">{User.email}</p>
+              </div>
             </div>
-          </div>
-          <div className="account-info">
-            <span className="account-info-icon">
-              <LuPhone />
-            </span>
-            <div className="account-info-detail">
-              <h3 className="account-info-heading">Phone number</h3>
-              <p className="account-info-desc">+000 11122 2345 657</p>
+            <div className="account-info">
+              <span className="account-info-icon">
+                <LuPhone />
+              </span>
+              <div className="account-info-detail">
+                <h3 className="account-info-heading">Số điện thoại</h3>
+                <p className="account-info-desc">{User.phone}</p>
+              </div>
             </div>
-          </div>
-          <div className="account-info">
-            <span className="account-info-icon">
-              <CiLocationOn />
-            </span>
-            <div className="account-info-detail">
-              <h3 className="account-info-heading">Add an address</h3>
-              <p className="account-info-desc">
-                Bangladesh Embassy, Washington, DC 20008
-              </p>
+            <div className="account-info">
+              <span className="account-info-icon">
+                <LiaBirthdayCakeSolid />
+              </span>
+              <div className="account-info-detail">
+                <h3 className="account-info-heading">Ngày sinh</h3>
+                <p className="account-info-desc">{User.DOB}</p>
+              </div>
+            </div>
+            <div className="account-info">
+              <span className="account-info-icon">
+                <CiLocationOn />
+              </span>
+              <div className="account-info-detail">
+                <h3 className="account-info-heading">Địa chỉ</h3>
+                <p className="account-info-desc">{User.Address}</p>
+              </div>
             </div>
           </div>
         </div>

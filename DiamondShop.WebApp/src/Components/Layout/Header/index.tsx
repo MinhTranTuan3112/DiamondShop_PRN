@@ -6,7 +6,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa6";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = [
   {
@@ -16,7 +16,7 @@ const Navbar = [
     src: "/",
   },
   {
-    title: "Product",
+    title: "Trang Sức",
     path: "/product",
     id: 1,
     src: "/product",
@@ -30,62 +30,32 @@ const Navbar = [
 ];
 const Product = [
   {
-    heading: "Bakery & Bread",
+    heading: "Chủng loại",
+    items: ["Nhẫn", "Dây chuyền", "Mặt dây chuyền", "Bông tai", "Lắc", "Vòng"],
+  },
+  {
+    heading: "Chất Liệu",
+    items: ["Vàng", "Bạc", "Platinum"],
+  },
+
+  {
+    heading: "Dòng hàng",
     items: [
-      "Shop All",
-      "New in Bakery",
-      "Sliced Bread",
-      "Celebrate Salad Month",
-      "Healthy Living",
-      "Fresh Flowers",
-      "Chilled Dressing",
-      "Fresh Fruit",
+      "Trang sức đính kim cương",
+      "Kim cuong viên",
+      "Trang sức công nghệ ý",
+      "Trang sức đính ngọc trai",
+      "Trang sức không đính đá",
+      "Kim cương viên",
     ],
   },
   {
-    heading: "Bakery & Bread",
-    items: [
-      "Shop All",
-      "New in Bakery",
-      "Sliced Bread",
-      "Celebrate Salad Month",
-      "Healthy Living",
-      "Fresh Flowers",
-      "Chilled Dressing",
-      "Fresh Fruit",
-    ],
-  },
-  {
-    heading: "Bakery & Bread",
-    items: [
-      "Shop All",
-      "New in Bakery",
-      "Sliced Bread",
-      "Celebrate Salad Month",
-      "Healthy Living",
-      "Fresh Flowers",
-      "Chilled Dressing",
-      "Fresh Fruit",
-    ],
-  },
-  {
-    heading: "Bakery & Bread",
-    items: [
-      "Shop All",
-      "New in Bakery",
-      "Sliced Bread",
-      "Celebrate Salad Month",
-      "Healthy Living",
-      "Fresh Flowers",
-      "Chilled Dressing",
-      "Fresh Fruit",
-    ],
+    heading: "Trang sức cưới",
+    items: ["Cầu hôn", "Kết hôn", "Kỷ niệm", "Nhẫn", "Nhẫn cặp", "Bông tai"],
   },
 ];
 
 export default function Header() {
-  const navigate = useNavigate();
-
   const [isActive, setIsActive] = useState("");
   return (
     <header className="header fixed ">
@@ -107,9 +77,9 @@ export default function Header() {
                   isActive === item.title ? "navbar-link active" : "navbar-link"
                 }
               >
-                <a onClick={() => navigate(item.path)}>{item.title}</a>
+                <a>{item.title}</a>
                 <MdKeyboardArrowDown className="navbar-arrow" />
-                {isActive === item.title && isActive === "Product" ? (
+                {isActive === item.title && isActive === Navbar[1].title ? (
                   <div className="dropdown">
                     <div className="dropdown-inner">
                       <div className="top-menu">

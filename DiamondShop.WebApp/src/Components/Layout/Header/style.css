@@ -53,7 +53,7 @@
 
 .navbar .navbar-link {
   cursor: pointer;
-  height: 50px;
+  height: 60px;
   color: #1a162e;
   font-size: 15px;
   font-style: normal;
@@ -117,7 +117,7 @@
 }
 
 .top-act-avatar {
-  border: 3px solid #3b3939;
+  border: 3px solid #ccc;
   width: 7rem;
   aspect-ratio: 1/1;
   border-radius: 50%;
@@ -125,7 +125,7 @@
 }
 
 .dropdown {
-  padding-top: 22px;
+  padding-top: 28px;
   position: absolute;
   left: -200px;
   top: 30px;
@@ -147,6 +147,7 @@
   text-transform: none;
   color: #1a162e;
   text-shadow: none;
+  text-transform: capitalize;
 }
 
 .top-menu {

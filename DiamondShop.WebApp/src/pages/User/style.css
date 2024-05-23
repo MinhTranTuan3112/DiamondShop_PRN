@@ -14,8 +14,7 @@
 }
 
 .profile-user {
-  background-color: #85ffbd;
-  background-image: linear-gradient(45deg, #85ffbd 0%, #fffb7d 100%);
+  background-image: linear-gradient(45deg, #232222 0%, #fffb7d 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,10 +93,35 @@
   padding: 30px;
 }
 
+.profile-wrap {
+  display: flex;
+  align-items: center;
+}
+
 .profile-info-heading {
   font-size: 2.4rem;
   font-weight: 700;
   line-height: 141.667%;
+}
+
+.profile-edit-btn {
+  width: 130px;
+  height: 50px;
+  display: flex;
+  padding: 10px 20px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #ffb700;
+  margin-left: auto;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.profile-edit-btn:hover {
+  background: #ccc;
 }
 
 .profile-info-desc {
@@ -106,7 +130,14 @@
   line-height: 146.667%;
 }
 
+.account-inner {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép phần tử con wrap vào hàng mới */
+  gap: 20px; /* Khoảng cách giữa các phần tử */
+}
+
 .account-info {
+  flex: 1 calc(50% - 10px);
   border-radius: 10px;
   background: #f6f6f6;
   color: #1a162e;
