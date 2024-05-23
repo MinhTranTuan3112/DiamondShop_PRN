@@ -17,8 +17,8 @@ create table [Account]
 	Email nvarchar(100) unique,
 	[Password] nvarchar(max),
 	AvatarUrl nvarchar(max),
-	[TimeStamp] datetime,
-	[Role] nvarchar(10) not null,--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
+	[CreatedTime] datetime,
+	[Role] nvarchar(20) not null,	--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
 	[Status] nvarchar(20)
 );
 go
@@ -31,9 +31,7 @@ create table [Customer]
 	PhoneNumber nvarchar(15) unique,
 	Point int,
 
-	AccountId uniqueidentifier,
-
-	foreign key (AccountId) references [Account](Id),
+	AccountId uniqueidentifier foreign key references [Account](Id)
 );
 go
 
@@ -46,9 +44,7 @@ create table [StakeHolder]
 	Salary money,
 	DateHired date,
 
-	AccountId uniqueidentifier,
-
-	foreign key (AccountId) references [Account](Id),
+	AccountId uniqueidentifier foreign key references [Account](Id)
 );
 go
 
@@ -57,7 +53,7 @@ create table [Category]
 (
 	Id uniqueidentifier default newid() primary key,
 	[Name] nvarchar(50),
-	[TimeStamp] datetime,
+	[LastUpdate] datetime,			--for manage history
 	[Status] nvarchar(20)
 );
 go
@@ -67,15 +63,14 @@ create table [Product]
 	Id uniqueidentifier default newid() primary key,
 	Material nvarchar(100),
 	Gender bit,
-	Price money,--Diamond Price + Doing_Price
+	Price money,			--Diamond Price + Doing_Price
 	Point int,
 	Quantity int,
-	[TimeStamp] datetime,
+	WarrantyPeriod int,	--count as month (thoi han bao hanh)
+	[LastUpdate] datetime,			--for manage history
 	[Status] nvarchar(20),
 
-	CategoryId uniqueidentifier,
-
-	foreign key (CategoryId) references [Category](Id)
+	CategoryId uniqueidentifier foreign key references [Category](Id)
 );
 go
 
@@ -89,65 +84,66 @@ create table [Diamond]
 	Clarity nvarchar(20),
 	Cut nvarchar(20),
 	Price money,
-	Quantity int
+	Quantity int,
+	WarrantyPeriod int,	--count as month (thoi han bao hanh)
+	[LastUpdate] datetime,	--for manage history
+	[Status] nvarchar(20),
 );
 go
 
-create table [DiamondProduct]
+create table [ProductPart]
 (
 	Id uniqueidentifier default newid() primary key,--1 product has many same non-main diamond
 	IsMain bit,
 
-	ProductId uniqueidentifier,
-	DiamondId uniqueidentifier,
+	ProductId uniqueidentifier foreign key references [Product](Id),
+	DiamondId uniqueidentifier foreign key references [Diamond](Id)
+);
+go
 
-	foreign key (ProductId) references [Product](Id),
-	foreign key (DiamondId) references [Diamond](Id)
+
+create table [Order]
+(
+	Id uniqueidentifier default newid() primary key,
+	Code nvarchar(20),
+	OrderDate datetime,
+	Total money,
+	ShipDate datetime,
+	ShipAddress nvarchar(max),
+	Note nvarchar(max),
+	[Status] nvarchar(20),
+
+	CustomerId uniqueidentifier foreign key references [Customer](Id),
+	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
+	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
+);
+go
+
+create table [OrderDetail]
+(
+	Id uniqueidentifier default newid() primary key,
+	Quantity int,
+	SubTotal money,					--Product price * quantity
+
+	OrderId uniqueidentifier foreign key references [Order](Id),
+	ProductId uniqueidentifier foreign key references [Product](Id)
 );
 go
 
 create table [Warranty]
 (
 	Id uniqueidentifier default newid() primary key,
+	[ItemName] nvarchar(max),
+	[Type] nvarchar(50),
+	Privacy nvarchar(max),
+	Condition nvarchar(max),
+	IsProduct bit,					-- 1 = Product Warranty, 0 = Diamond Warranty
 	StartDate datetime,
 	EndDate datetime,
-	IsValid bit,--true when product not damaged
-	IsApply bit--true when payed
-);
-go
-
-create table [Order]
-(
-	Id uniqueidentifier default newid() primary key,
-	Code nvarchar(20),
-	Note nvarchar(max),
-	Total money,
-	[Date] datetime,
 	[Status] nvarchar(20),
+	[Reason] nvarchar(max),
 
-	CustomerId uniqueidentifier,
-	SalesStaffId uniqueidentifier,
-	DeliveryStaffId uniqueidentifier,
-
-	foreign key (CustomerId) references [Customer](Id),
-	foreign key (SalesStaffId) references [StakeHolder](Id),
-	foreign key (DeliveryStaffId) references [StakeHolder](Id),
-);
-go
-
-create table [OrderDetail]
-(
-	Quantity int,
-	SubTotal money,--Product price * quantity
-
-	OrderId uniqueidentifier,
-	ProductId uniqueidentifier,
-	WarrantyId uniqueidentifier,
-
-	primary key (OrderId, ProductId, WarrantyId),
-	foreign key (OrderId) references [Order](Id),
-	foreign key (ProductId) references [Product](Id),
-	foreign key (WarrantyId) references [Warranty](Id)
+	OrderDetailId uniqueidentifier foreign key references [OrderDetail](Id)
 );
 go
 
@@ -157,9 +153,7 @@ create table [Certification]
 	[Name] nvarchar(max),
 	UrlPath nvarchar(max),
 
-	DiamondId uniqueidentifier,
-
-	foreign key (DiamondId) references [Diamond](Id),
+	DiamondId uniqueidentifier foreign key references [Diamond](Id),
 );
 go
 
@@ -169,10 +163,11 @@ create table [Picture]
 	Id uniqueidentifier default newid() primary key,
 	UrlPath nvarchar(max),
 
-	DiamondId uniqueidentifier null,
-	ProductId uniqueidentifier null,
-
-	foreign key (DiamondId) references [Diamond](Id),
-	foreign key (ProductId) references [Product](Id),
+	DiamondId uniqueidentifier foreign key references [Diamond](Id),
+	ProductId uniqueidentifier foreign key references [Product](Id),
+	constraint CHK_Picture_ForeignKey check (
+        (ProductId IS NOT NULL AND DiamondId IS NULL) 
+        OR (ProductId IS NULL AND DiamondId IS NOT NULL)
+    )
 );
 go
