@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.Interfaces;
-using DiamondShop.DataAccess.Models;
 using DiamondShop.DataAccess.Repositories;
 
 namespace DiamondShop.DataAccess
