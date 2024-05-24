@@ -1,0 +1,115 @@
+.filter-toggle {
+  position: absolute;
+  z-index: 5;
+  width: 137px;
+  height: 38px;
+  padding: 0 0 0 8px;
+  margin: 0 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  cursor: pointer;
+  border: 1px solid #373737;
+  color: inherit;
+  background: #fff;
+  transition: opacity 0.3s ease-out;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.filter-toggle.static {
+  position: static;
+  z-index: 5;
+  transition: position 0.3 ease-in-out;
+}
+
+.filter-desk-btn {
+  min-width: 140px;
+  height: 38px;
+  padding: 0 0 0 8px;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+  cursor: pointer;
+  border: 1px solid #373737;
+  color: inherit;
+  background: #fff;
+  transition: opacity 0.3s ease-out;
+  font-size: 1.3rem;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.filter-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #000;
+  width: 56%;
+  padding: 10px 14px;
+}
+
+.filter-left:last-child {
+  border: none;
+  width: 100%;
+}
+
+.filter-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  width: 44%;
+}
+
+.filter-icon {
+  width: 18px;
+  height: 22px;
+}
+
+.filter-desk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-transform: uppercase;
+}
+
+.filter-desk-category {
+  min-width: 136px;
+  margin: 0 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+.filter-desk-category.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.filter-desk-option {
+  position: absolute;
+  top: 120%;
+  background: #fff;
+  border: 1px solid #373737;
+  border-radius: 4px;
+  padding: 16px;
+  width: 11.5%;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  align-content: center;
+  transition: all 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.filter-desk-option.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.filter-item {
+  margin: 10px 0px;
+}

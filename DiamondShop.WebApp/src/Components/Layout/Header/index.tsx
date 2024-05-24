@@ -58,7 +58,7 @@ const Product = [
 export default function Header() {
   const [isActive, setIsActive] = useState("");
   return (
-    <header className="header fixed ">
+    <header className="header fixed">
       <div className="top-bar">
         {/* Logo */}
         <Link to={"/"} className="logo">

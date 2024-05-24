@@ -1,6 +1,8 @@
 .header {
   height: 110px;
   background-color: #eee;
+  position: relative;
+  z-index: 10;
 }
 
 .header.fixed {
