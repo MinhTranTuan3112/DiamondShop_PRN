@@ -19,7 +19,7 @@ public partial class Account
 
     public string? Status { get; set; }
 
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+    public virtual Customer? Customer { get; set; }
 
-    public virtual ICollection<StakeHolder> StakeHolders { get; set; } = new List<StakeHolder>();
+    public virtual StakeHolder? StakeHolder { get; set; }
 }

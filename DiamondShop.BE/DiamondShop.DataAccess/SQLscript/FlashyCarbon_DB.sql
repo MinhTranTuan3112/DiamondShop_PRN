@@ -31,7 +31,7 @@ create table [Customer]
 	PhoneNumber nvarchar(15) unique,
 	Point int,
 
-	AccountId uniqueidentifier foreign key references [Account](Id)
+	AccountId uniqueidentifier unique foreign key references [Account](Id)
 );
 go
 
@@ -44,7 +44,7 @@ create table [StakeHolder]
 	Salary money,
 	DateHired date,
 
-	AccountId uniqueidentifier foreign key references [Account](Id)
+	AccountId uniqueidentifier unique foreign key references [Account](Id)
 );
 go
 
@@ -170,4 +170,3 @@ create table [Picture]
         OR (ProductId IS NULL AND DiamondId IS NOT NULL)
     )
 );
-go

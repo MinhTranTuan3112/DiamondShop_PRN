@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using DiamondShop.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
 
-using DiamondShop.DataAccess.Models;
 namespace DiamondShop.DataAccess;
 
 public partial class FlashyCarbonDbContext : DbContext
@@ -44,11 +44,11 @@ public partial class FlashyCarbonDbContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Account__3214EC076901E56E");
+            entity.HasKey(e => e.Id).HasName("PK__Account__3214EC0776296C97");
 
             entity.ToTable("Account");
 
-            entity.HasIndex(e => e.Email, "UQ__Account__A9D10534FE9AF048").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Account__A9D105341ED52EEA").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedTime).HasColumnType("datetime");
@@ -59,7 +59,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Category>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07208CA718");
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07E76311D3");
 
             entity.ToTable("Category");
 
@@ -71,7 +71,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Certification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Certific__3214EC076E2DE8E3");
+            entity.HasKey(e => e.Id).HasName("PK__Certific__3214EC07D82A9965");
 
             entity.ToTable("Certification");
 
@@ -79,29 +79,31 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.Certifications)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__Certifica__Diamo__628FA481");
+                .HasConstraintName("FK__Certifica__Diamo__6477ECF3");
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC07388D4D93");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC075DB46CE5");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__Customer__85FB4E3830A06FE0").IsUnique();
+            entity.HasIndex(e => e.AccountId, "UQ__Customer__349DA5A70440014A").IsUnique();
+
+            entity.HasIndex(e => e.PhoneNumber, "UQ__Customer__85FB4E38DC6FF66A").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Fullname).HasMaxLength(100);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
 
-            entity.HasOne(d => d.Account).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__Customer__Accoun__3D5E1FD2");
+            entity.HasOne(d => d.Account).WithOne(p => p.Customer)
+                .HasForeignKey<Customer>(d => d.AccountId)
+                .HasConstraintName("FK__Customer__Accoun__3E52440B");
         });
 
         modelBuilder.Entity<Diamond>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Diamond__3214EC07C9036B45");
+            entity.HasKey(e => e.Id).HasName("PK__Diamond__3214EC0734EC91B7");
 
             entity.ToTable("Diamond");
 
@@ -118,7 +120,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC07DB968E00");
+            entity.HasKey(e => e.Id).HasName("PK__Order__3214EC0771036395");
 
             entity.ToTable("Order");
 
@@ -131,20 +133,20 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__Order__CustomerI__5441852A");
+                .HasConstraintName("FK__Order__CustomerI__5629CD9C");
 
             entity.HasOne(d => d.DeliveryStaff).WithMany(p => p.OrderDeliveryStaffs)
                 .HasForeignKey(d => d.DeliveryStaffId)
-                .HasConstraintName("FK__Order__DeliveryS__5629CD9C");
+                .HasConstraintName("FK__Order__DeliveryS__5812160E");
 
             entity.HasOne(d => d.SalesStaff).WithMany(p => p.OrderSalesStaffs)
                 .HasForeignKey(d => d.SalesStaffId)
-                .HasConstraintName("FK__Order__SalesStaf__5535A963");
+                .HasConstraintName("FK__Order__SalesStaf__571DF1D5");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC07BF58405B");
+            entity.HasKey(e => e.Id).HasName("PK__OrderDet__3214EC074349130A");
 
             entity.ToTable("OrderDetail");
 
@@ -153,16 +155,16 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK__OrderDeta__Order__59FA5E80");
+                .HasConstraintName("FK__OrderDeta__Order__5BE2A6F2");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__OrderDeta__Produ__5AEE82B9");
+                .HasConstraintName("FK__OrderDeta__Produ__5CD6CB2B");
         });
 
         modelBuilder.Entity<Picture>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Picture__3214EC073B53EDC8");
+            entity.HasKey(e => e.Id).HasName("PK__Picture__3214EC0783EB7B51");
 
             entity.ToTable("Picture");
 
@@ -170,16 +172,16 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.Pictures)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__Picture__Diamond__66603565");
+                .HasConstraintName("FK__Picture__Diamond__68487DD7");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Pictures)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__Picture__Product__6754599E");
+                .HasConstraintName("FK__Picture__Product__693CA210");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC07CC965340");
+            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC077EEDD9BF");
 
             entity.ToTable("Product");
 
@@ -191,12 +193,12 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Product__Categor__48CFD27E");
+                .HasConstraintName("FK__Product__Categor__4AB81AF0");
         });
 
         modelBuilder.Entity<ProductPart>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ProductP__3214EC0718A9055A");
+            entity.HasKey(e => e.Id).HasName("PK__ProductP__3214EC0789D3F19D");
 
             entity.ToTable("ProductPart");
 
@@ -204,34 +206,36 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.ProductParts)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__ProductPa__Diamo__5070F446");
+                .HasConstraintName("FK__ProductPa__Diamo__52593CB8");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductParts)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__ProductPa__Produ__4F7CD00D");
+                .HasConstraintName("FK__ProductPa__Produ__5165187F");
         });
 
         modelBuilder.Entity<StakeHolder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__StakeHol__3214EC07F5518414");
+            entity.HasKey(e => e.Id).HasName("PK__StakeHol__3214EC0727E884B7");
 
             entity.ToTable("StakeHolder");
 
-            entity.HasIndex(e => e.PhoneNumber, "UQ__StakeHol__85FB4E38980515D9").IsUnique();
+            entity.HasIndex(e => e.AccountId, "UQ__StakeHol__349DA5A7F7CE9F0D").IsUnique();
+
+            entity.HasIndex(e => e.PhoneNumber, "UQ__StakeHol__85FB4E38BEE5C9BA").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Fullname).HasMaxLength(100);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
             entity.Property(e => e.Salary).HasColumnType("money");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.StakeHolders)
-                .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__StakeHold__Accou__4222D4EF");
+            entity.HasOne(d => d.Account).WithOne(p => p.StakeHolder)
+                .HasForeignKey<StakeHolder>(d => d.AccountId)
+                .HasConstraintName("FK__StakeHold__Accou__440B1D61");
         });
 
         modelBuilder.Entity<Warranty>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Warranty__3214EC0762BFC1F0");
+            entity.HasKey(e => e.Id).HasName("PK__Warranty__3214EC07CD2D8778");
 
             entity.ToTable("Warranty");
 
@@ -243,7 +247,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.OrderDetail).WithMany(p => p.Warranties)
                 .HasForeignKey(d => d.OrderDetailId)
-                .HasConstraintName("FK__Warranty__OrderD__5EBF139D");
+                .HasConstraintName("FK__Warranty__OrderD__60A75C0F");
         });
 
         OnModelCreatingPartial(modelBuilder);
