@@ -13,7 +13,7 @@ public partial class Account
 
     public string? AvatarUrl { get; set; }
 
-    public DateTime? TimeStamp { get; set; }
+    public DateTime? CreatedTime { get; set; }
 
     public string Role { get; set; } = null!;
 

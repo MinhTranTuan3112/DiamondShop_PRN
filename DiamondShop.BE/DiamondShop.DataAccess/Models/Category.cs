@@ -9,7 +9,7 @@ public partial class Category
 
     public string? Name { get; set; }
 
-    public DateTime? TimeStamp { get; set; }
+    public DateTime? LastUpdate { get; set; }
 
     public string? Status { get; set; }
 

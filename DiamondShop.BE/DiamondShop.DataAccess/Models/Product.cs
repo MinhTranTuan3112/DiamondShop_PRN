@@ -17,7 +17,9 @@ public partial class Product
 
     public int? Quantity { get; set; }
 
-    public DateTime? TimeStamp { get; set; }
+    public int? WarrantyPeriod { get; set; }
+
+    public DateTime? LastUpdate { get; set; }
 
     public string? Status { get; set; }
 
@@ -25,9 +27,9 @@ public partial class Product
 
     public virtual Category? Category { get; set; }
 
-    public virtual ICollection<DiamondProduct> DiamondProducts { get; set; } = new List<DiamondProduct>();
-
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();
+
+    public virtual ICollection<ProductPart> ProductParts { get; set; } = new List<ProductPart>();
 }

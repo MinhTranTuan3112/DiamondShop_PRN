@@ -9,11 +9,15 @@ public partial class Order
 
     public string? Code { get; set; }
 
-    public string? Note { get; set; }
+    public DateTime? OrderDate { get; set; }
 
     public decimal? Total { get; set; }
 
-    public DateTime? Date { get; set; }
+    public DateTime? ShipDate { get; set; }
+
+    public string? ShipAddress { get; set; }
+
+    public string? Note { get; set; }
 
     public string? Status { get; set; }
 
