@@ -7,7 +7,7 @@ public partial class Warranty
 {
     public Guid Id { get; set; }
 
-    public string? ItemName { get; set; }
+    public string ItemName { get; set; } = null!;
 
     public string? Type { get; set; }
 
@@ -25,7 +25,7 @@ public partial class Warranty
 
     public string? Reason { get; set; }
 
-    public Guid? OrderDetailId { get; set; }
+    public Guid OrderDetailId { get; set; }
 
-    public virtual OrderDetail? OrderDetail { get; set; }
+    public virtual OrderDetail OrderDetail { get; set; } = null!;
 }

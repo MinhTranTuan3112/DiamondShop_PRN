@@ -7,7 +7,7 @@ public partial class Customer
 {
     public Guid Id { get; set; }
 
-    public string? Fullname { get; set; }
+    public string Fullname { get; set; } = null!;
 
     public string? Address { get; set; }
 
@@ -15,9 +15,9 @@ public partial class Customer
 
     public int? Point { get; set; }
 
-    public Guid? AccountId { get; set; }
+    public Guid AccountId { get; set; }
 
-    public virtual Account? Account { get; set; }
+    public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

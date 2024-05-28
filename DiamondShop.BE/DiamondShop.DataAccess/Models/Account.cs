@@ -9,7 +9,7 @@ public partial class Account
 
     public string? Email { get; set; }
 
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
     public string? AvatarUrl { get; set; }
 
@@ -17,9 +17,9 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public virtual Customer? Customer { get; set; }
 
-    public virtual StakeHolder? StakeHolder { get; set; }
+    public virtual ICollection<StakeHolder> StakeHolders { get; set; } = new List<StakeHolder>();
 }

@@ -21,17 +21,17 @@ public partial class Order
 
     public string? Status { get; set; }
 
-    public Guid? CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
 
-    public Guid? SalesStaffId { get; set; }
+    public Guid SalesStaffId { get; set; }
 
-    public Guid? DeliveryStaffId { get; set; }
+    public Guid DeliveryStaffId { get; set; }
 
-    public virtual Customer? Customer { get; set; }
+    public virtual Customer Customer { get; set; } = null!;
 
-    public virtual StakeHolder? DeliveryStaff { get; set; }
+    public virtual StakeHolder DeliveryStaff { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-    public virtual StakeHolder? SalesStaff { get; set; }
+    public virtual StakeHolder SalesStaff { get; set; } = null!;
 }

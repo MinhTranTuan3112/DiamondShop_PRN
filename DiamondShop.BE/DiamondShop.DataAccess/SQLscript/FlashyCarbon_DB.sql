@@ -15,23 +15,23 @@ create table [Account]
 (
 	Id uniqueidentifier default newid() primary key,
 	Email nvarchar(100) unique,
-	[Password] nvarchar(max),
+	[Password] nvarchar(max) not null,
 	AvatarUrl nvarchar(max),
 	[CreatedTime] datetime,
 	[Role] nvarchar(20) not null,	--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
-	[Status] nvarchar(20)
+	[Status] nvarchar(20) not null
 );
 go
 
 create table [Customer]
 (
 	Id uniqueidentifier default newid() primary key,
-	Fullname nvarchar(100),
+	Fullname nvarchar(100) not null,
 	[Address] nvarchar(max),
 	PhoneNumber nvarchar(15) unique,
 	Point int,
 
-	AccountId uniqueidentifier unique foreign key references [Account](Id)
+	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
 );
 go
 
@@ -44,7 +44,7 @@ create table [StakeHolder]
 	Salary money,
 	DateHired date,
 
-	AccountId uniqueidentifier unique foreign key references [Account](Id)
+	AccountId uniqueidentifier not null foreign key references [Account](Id)
 );
 go
 
@@ -52,7 +52,7 @@ go
 create table [Category]
 (
 	Id uniqueidentifier default newid() primary key,
-	[Name] nvarchar(50),
+	[Name] nvarchar(50) not null,
 	[LastUpdate] datetime,			--for manage history
 	[Status] nvarchar(20)
 );
@@ -64,13 +64,13 @@ create table [Product]
 	Material nvarchar(100),
 	Gender bit,
 	Price money,			--Diamond Price + Doing_Price
-	Point int,
+	[Point] int,
 	Quantity int,
 	WarrantyPeriod int,	--count as month (thoi han bao hanh)
 	[LastUpdate] datetime,			--for manage history
 	[Status] nvarchar(20),
 
-	CategoryId uniqueidentifier foreign key references [Category](Id)
+	CategoryId uniqueidentifier not null foreign key references [Category](Id)
 );
 go
 
@@ -96,8 +96,8 @@ create table [ProductPart]
 	Id uniqueidentifier default newid() primary key,--1 product has many same non-main diamond
 	IsMain bit,
 
-	ProductId uniqueidentifier foreign key references [Product](Id),
-	DiamondId uniqueidentifier foreign key references [Diamond](Id)
+	ProductId uniqueidentifier not null foreign key references [Product](Id),
+	DiamondId uniqueidentifier not null foreign key references [Diamond](Id)
 );
 go
 
@@ -106,34 +106,34 @@ create table [Order]
 (
 	Id uniqueidentifier default newid() primary key,
 	Code nvarchar(20),
-	OrderDate datetime,
+	OrderDate datetime default GETDATE(),
 	Total money,
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
 	Note nvarchar(max),
 	[Status] nvarchar(20),
 
-	CustomerId uniqueidentifier foreign key references [Customer](Id),
-	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
-	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
+	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
+	SalesStaffId uniqueidentifier not null foreign key references [StakeHolder](Id),
+	DeliveryStaffId uniqueidentifier not null foreign key references [StakeHolder](Id)
 );
 go
 
 create table [OrderDetail]
 (
 	Id uniqueidentifier default newid() primary key,
-	Quantity int,
-	SubTotal money,					--Product price * quantity
+	Quantity int not null,
+	SubTotal money not null,					--Product price * quantity
 
-	OrderId uniqueidentifier foreign key references [Order](Id),
-	ProductId uniqueidentifier foreign key references [Product](Id)
+	OrderId uniqueidentifier not null foreign key references [Order](Id),
+	ProductId uniqueidentifier not null foreign key references [Product](Id)
 );
 go
 
 create table [Warranty]
 (
 	Id uniqueidentifier default newid() primary key,
-	[ItemName] nvarchar(max),
+	[ItemName] nvarchar(max) not null,
 	[Type] nvarchar(50),
 	Privacy nvarchar(max),
 	Condition nvarchar(max),
@@ -143,17 +143,17 @@ create table [Warranty]
 	[Status] nvarchar(20),
 	[Reason] nvarchar(max),
 
-	OrderDetailId uniqueidentifier foreign key references [OrderDetail](Id)
+	OrderDetailId uniqueidentifier not null foreign key references [OrderDetail](Id)
 );
 go
 
 create table [Certification]
 (
 	Id uniqueidentifier default newid() primary key,
-	[Name] nvarchar(max),
+	[Name] nvarchar(max) not null,
 	UrlPath nvarchar(max),
 
-	DiamondId uniqueidentifier foreign key references [Diamond](Id),
+	DiamondId uniqueidentifier not null foreign key references [Diamond](Id),
 );
 go
 

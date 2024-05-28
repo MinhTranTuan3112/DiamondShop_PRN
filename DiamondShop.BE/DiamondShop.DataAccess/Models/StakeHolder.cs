@@ -17,9 +17,9 @@ public partial class StakeHolder
 
     public DateOnly? DateHired { get; set; }
 
-    public Guid? AccountId { get; set; }
+    public Guid AccountId { get; set; }
 
-    public virtual Account? Account { get; set; }
+    public virtual Account Account { get; set; } = null!;
 
     public virtual ICollection<Order> OrderDeliveryStaffs { get; set; } = new List<Order>();
 

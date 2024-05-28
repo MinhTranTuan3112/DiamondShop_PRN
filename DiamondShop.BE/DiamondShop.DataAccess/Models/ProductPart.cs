@@ -9,11 +9,11 @@ public partial class ProductPart
 
     public bool? IsMain { get; set; }
 
-    public Guid? ProductId { get; set; }
+    public Guid ProductId { get; set; }
 
-    public Guid? DiamondId { get; set; }
+    public Guid DiamondId { get; set; }
 
-    public virtual Diamond? Diamond { get; set; }
+    public virtual Diamond Diamond { get; set; } = null!;
 
-    public virtual Product? Product { get; set; }
+    public virtual Product Product { get; set; } = null!;
 }
