@@ -16,7 +16,7 @@ namespace DiamondShop.BusinessLogic
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
-            _productService = new Lazy<IProductService>(() => new ProductService());
+            _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork));
         }
 
         public IAuthService GetAuthService()

@@ -21,9 +21,9 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<GetProductWithCategoryDto>>> GetPagedProducts()
+        public async Task<ActionResult<PagedResult<GetProductWithCategoryDto>>> GetPagedProducts([FromQuery] QueryProductDto queryProductDto)
         {
-            return Ok();
-        }   
+            return await _serviceFactory.GetProductService().GetPagedProducts(queryProductDto);
+        }
     }
 }
