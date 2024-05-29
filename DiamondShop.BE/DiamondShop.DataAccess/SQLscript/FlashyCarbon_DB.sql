@@ -10,6 +10,7 @@ go
 use FlashyCarbon_DB;
 go
 
+--dotnet ef dbcontext scaffold "Server=(local);database=FlashyCarbon_DB;uid=sa;pwd=12345;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --force
 --=====================================================================
 create table [Account]
 (
@@ -17,9 +18,9 @@ create table [Account]
 	Email nvarchar(100) unique,
 	[Password] nvarchar(max) not null,
 	AvatarUrl nvarchar(max),
-	[CreatedTime] datetime,
-	[Role] nvarchar(20) not null,	--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
-	[Status] nvarchar(20) not null
+	[CreatedTime] datetime default CURRENT_TIMESTAMP,
+	[Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
+	[Status] nvarchar(20) default 'available'	--available   |   working   |   deleted
 );
 go
 
@@ -42,9 +43,9 @@ create table [StakeHolder]
 	[Address] nvarchar(max),
 	PhoneNumber nvarchar(15) unique,
 	Salary money,
-	DateHired date,
+	DateHired date default CURRENT_TIMESTAMP,
 
-	AccountId uniqueidentifier not null foreign key references [Account](Id)
+	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
 );
 go
 
@@ -53,22 +54,23 @@ create table [Category]
 (
 	Id uniqueidentifier default newid() primary key,
 	[Name] nvarchar(50) not null,
-	[LastUpdate] datetime,			--for manage history
-	[Status] nvarchar(20)
+	[LastUpdate] datetime default CURRENT_TIMESTAMP,			--for manage history
+	[Status] nvarchar(20) default 'available'	--available   |   stop-sale   |   deleted
 );
 go
 
 create table [Product]
 (
 	Id uniqueidentifier default newid() primary key,
+	[Type] nvarchar(50),
 	Material nvarchar(100),
 	Gender bit,
 	Price money,			--Diamond Price + Doing_Price
 	[Point] int,
 	Quantity int,
 	WarrantyPeriod int,	--count as month (thoi han bao hanh)
-	[LastUpdate] datetime,			--for manage history
-	[Status] nvarchar(20),
+	[LastUpdate] datetime default CURRENT_TIMESTAMP,			--for manage history
+	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
 
 	CategoryId uniqueidentifier not null foreign key references [Category](Id)
 );
@@ -86,8 +88,8 @@ create table [Diamond]
 	Price money,
 	Quantity int,
 	WarrantyPeriod int,	--count as month (thoi han bao hanh)
-	[LastUpdate] datetime,	--for manage history
-	[Status] nvarchar(20),
+	[LastUpdate] datetime default CURRENT_TIMESTAMP,	--for manage history
+	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
 );
 go
 
@@ -106,16 +108,16 @@ create table [Order]
 (
 	Id uniqueidentifier default newid() primary key,
 	Code nvarchar(20),
-	OrderDate datetime default GETDATE(),
+	OrderDate datetime default CURRENT_TIMESTAMP,
 	Total money,
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
-	Note nvarchar(max),
-	[Status] nvarchar(20),
+	Note nvarchar(max) default 'nothing here',
+	[Status] nvarchar(20) default 'created',	--create   |   confirmed   |   pay   |   deliveried   |   deleted
 
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
 	SalesStaffId uniqueidentifier not null foreign key references [StakeHolder](Id),
-	DeliveryStaffId uniqueidentifier not null foreign key references [StakeHolder](Id)
+	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
 );
 go
 
@@ -140,8 +142,8 @@ create table [Warranty]
 	IsProduct bit,					-- 1 = Product Warranty, 0 = Diamond Warranty
 	StartDate datetime,
 	EndDate datetime,
-	[Status] nvarchar(20),
 	[Reason] nvarchar(max),
+	[Status] nvarchar(20) default 'available',	--available   |   not-available   |   deleted
 
 	OrderDetailId uniqueidentifier not null foreign key references [OrderDetail](Id)
 );
