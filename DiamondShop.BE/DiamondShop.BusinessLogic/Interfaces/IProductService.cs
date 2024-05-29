@@ -9,6 +9,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
 {
     public interface IProductService
     {
-        Task<PagedResult<GetProductWithCategoryDto>> GetPagedProducts(QueryProductDto queryProductDto);
+        Task<PagedResult<GetProductInPagedResultDto>> GetPagedProducts(QueryProductDto queryProductDto);
     }
 }

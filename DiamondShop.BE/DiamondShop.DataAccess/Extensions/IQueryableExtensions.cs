@@ -26,7 +26,11 @@ namespace DiamondShop.DataAccess.Extensions
 
         public static IQueryable<Product> ApplyProductsFilter(this IQueryable<Product> query, QueryProductDto queryProductDto)
         {
-            var (_, startPrice, endPrice, categoryIds, material, diamondIds) = queryProductDto;
+            decimal startPrice = queryProductDto.StartPrice;
+            decimal endPrice = queryProductDto.EndPrice;
+            var categoryIds = queryProductDto.CategoryIds;
+            var material = queryProductDto.Material;
+            var diamondIds = queryProductDto.DiamondIds;
 
             if (startPrice < endPrice)
             {

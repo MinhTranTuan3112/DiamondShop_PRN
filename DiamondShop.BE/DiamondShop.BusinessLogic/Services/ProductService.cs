@@ -20,14 +20,14 @@ namespace DiamondShop.BusinessLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<PagedResult<GetProductWithCategoryDto>> GetPagedProducts(QueryProductDto queryProductDto)
+        public async Task<PagedResult<GetProductInPagedResultDto>> GetPagedProducts(QueryProductDto queryProductDto)
         {
             if (queryProductDto.StartPrice > queryProductDto.EndPrice)
             {
                 throw new BadRequestException("Start price must be less than end price");
             }
 
-            return (await _unitOfWork.GetProductRepository().GetPagedProducts(queryProductDto)).Adapt<PagedResult<GetProductWithCategoryDto>>();
+            return (await _unitOfWork.GetProductRepository().GetPagedProducts(queryProductDto)).Adapt<PagedResult<GetProductInPagedResultDto>>();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
+using DiamondShop.DataAccess.Models;
 namespace DiamondShop.DataAccess;
 
 public partial class FlashyCarbonDbContext : DbContext
