@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiamondShop.DataAccess.DTOs.ProductPart
 {
-    public class ProductPartDTO
+    public class GetProductPartDTO
     {
         public Guid Id { get; set; }
 

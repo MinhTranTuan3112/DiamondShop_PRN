@@ -32,7 +32,7 @@ namespace DiamondShop.DataAccess.DTOs.Product
 
         public GetCategoryDto? Category { get; set; }
 
-        public List<GetPictureDto>? Pictures { get; set; }
-        public List<ProductPartDTO>? ProductParts { get; set; }
+        public ICollection<GetPictureDto>? Pictures { get; set; } = [];
+        public ICollection<GetProductPartDTO>? ProductParts { get; set; } = [];
     }
 }

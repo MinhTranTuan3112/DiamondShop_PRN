@@ -22,8 +22,6 @@ namespace DiamondShop.DataAccess.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IPictureRepository, PictureRepository>();
-            services.AddScoped<IProductPartRepository, ProductPartRepository>();
             return services;
         }
     }

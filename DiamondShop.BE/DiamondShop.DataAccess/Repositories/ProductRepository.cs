@@ -15,20 +15,21 @@ namespace DiamondShop.DataAccess.Repositories
     public class ProductRepository : GenericRepository<Product>, IProductRepository
 
     {
-        private readonly FlashyCarbonDbContext _dbContext;
+        private readonly FlashyCarbonDbContext _context;
 
         public ProductRepository(FlashyCarbonDbContext context) : base(context)
         {
-            this._dbContext = context;
+            this._context = context;
         }
 
-        public async Task<Product> GetProductById(Guid id)
+        public async Task<Product?> GetProductDetailById(Guid id)
         {
-            var product = await _dbContext.Products.Include("Category").FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
-            {
-               return null!;
-            }
+            var product = await _context.Products
+                                .Include(p => p.Category)
+                                .Include(p => p.ProductParts)
+                                .ThenInclude(pp => pp.Diamond)
+                                .Include(p => p.Pictures)
+                                .FirstOrDefaultAsync(x => x.Id == id);
             return product;
         }
          public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
@@ -40,6 +41,7 @@ namespace DiamondShop.DataAccess.Repositories
                                         .Include(p => p.Pictures)
                                         .Include(p => p.Category)
                                         .Include(p => p.ProductParts)
+                                        
                                         .AsSplitQuery()
                                         .AsQueryable();
 
