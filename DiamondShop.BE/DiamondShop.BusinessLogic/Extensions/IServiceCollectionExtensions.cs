@@ -29,6 +29,7 @@ namespace DiamondShop.BusinessLogic.Extensions
         {
             services.AddScoped<IServiceFactory, ServiceFactory>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IProductService, ProductService>();
             return services;
         }
     }
