@@ -109,201 +109,163 @@ insert into [Category]([Name]) values
 	('Lapis Lazuli Jewelry');
 go
 
-insert into [Product]([Type], Material, Gender, Price, Point, WarrantyPeriod, CategoryId) values
 -- Ring
-    ('Ring', 'Gold', 0, 1500.00, 450, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Ring', 'Gold', 1, 1800.00, 540, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Ring', 'Gold', 0, 800.00, 240, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Ring', 'Gold', 1, 950.00, 285, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+insert into [Product]([Name], [Type], Material, Gender, Price, Point, WarrantyPeriod, CategoryId) values
+	--Female
+	('Female Ring Gold 14K Clavia 3CT', 'Ring', 'White Gold', 0, 5000.00, 5000, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Clavia 2CT', 'Ring', 'White Gold', 0, 4950.00, 4950, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 18K Caste N 1.5CT', 'Ring', 'White Gold', 0, 4900.00, 4900, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Caste N 1.5CT', 'Ring', 'White Gold', 0, 4800.00, 4800, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Flourishing 3CT', 'Ring', 'White Gold', 0, 4800.00, 4800, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Flourishing 2CT', 'Ring', 'White Gold', 0, 4700.00, 4700, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 18K Flourishing 1CT', 'Ring', 'White Gold', 0, 4750.00, 4750, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Bellamy N 1CT', 'Ring', 'White Gold', 0, 4600.00, 4600, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Bellamy N 5C', 'Ring', 'White Gold', 0, 4700.00, 4600, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Arternos 2CT', 'Ring', 'White Gold', 0, 4650.00, 4650, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Arternos 1CT', 'Ring', 'White Gold', 0, 4500.00, 4500, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Grandeur 5C', 'Ring', 'White Gold', 0, 4650.00, 4650, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Grandeur 1CT', 'Ring', 'White Gold', 0, 4000.00, 4000, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Amalia N 5C', 'Ring', 'White Gold', 0, 3800.00, 3800, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Amalia N 1CT', 'Ring', 'White Gold', 0, 3000.00, 3000, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Abby DN 5C', 'Ring', 'White Gold', 0, 2600.00, 2600, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Abby DN 3C', 'Ring', 'White Gold', 0, 2000.00, 2000, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Abby DN 2C', 'Ring', 'White Gold', 0, 1800.00, 1800, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Adivity 5C', 'Ring', 'White Gold', 0, 1500.00, 1500, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Adivity 1CT', 'Ring', 'White Gold', 0, 1000.00, 1000, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 
--- Earring
-    ('Earring', 'Gold', 0, 500.00, 150, 6, (select Id from [Category] where [Name] = 'Diamond Jewelry')), 
-    ('Earring', 'Gold', 1, 600.00, 180, 6, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Earring', 'Gold', 0, 400.00, 120, 6, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Earring', 'Gold', 1, 450.00, 135, 6, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-
--- Pendant
-    ('Pendant', 'Gold', 0, 750.00, 225, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Pendant', 'Gold', 1, 900.00, 270, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Pendant', 'Gold', 0, 600.00, 180, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Pendant', 'Gold', 1, 700.00, 210, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-
--- Bangles
-    ('Bangles', 'Gold', 0, 1200.00, 360, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bangles', 'Gold', 1, 1350.00, 405, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bangles', 'Gold', 0, 900.00, 270, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bangles', 'Gold', 1, 1000.00, 300, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-
--- Bracelet
-    ('Bracelet', 'Gold', 0, 750.00, 225, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bracelet', 'Gold', 1, 850.00, 255, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bracelet', 'Gold', 0, 600.00, 180, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-    ('Bracelet', 'Gold', 1, 700.00, 210, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
-go
-
-insert into [Product] ([Type], Material, Gender, Price, [Point], WarrantyPeriod, CategoryId) values
--- Amethyst Jewelry
-    ('Ring', 'Gold', 0, 900.00, 270, 12, (select Id from [Category] where [Name] = 'Amethyst Jewelry')),
-    ('Earring', 'Gold', 1, 550.00, 165, 6, (select Id from [Category] where [Name] = 'Amethyst Jewelry')),
-    ('Pendant', 'Gold', 0, 800.00, 240, 9, (select Id from [Category] where [Name] = 'Amethyst Jewelry')),
-    ('Bangles', 'Gold', 1, 1100.00, 330, 12, (select Id from [Category] where [Name] = 'Amethyst Jewelry')),
-    ('Bracelet', 'Gold', 0, 750.00, 225, 9, (select Id from [Category] where [Name] = 'Amethyst Jewelry')),
-
--- Ametrine Jewelry  
-    ('Ring', 'Gold', 1, 950.00, 285, 12, (select Id from [Category] where [Name] = 'Ametrine Jewelry')),
-    ('Earring', 'Gold', 0, 580.00, 174, 6, (select Id from [Category] where [Name] = 'Ametrine Jewelry')),
-    ('Pendant', 'Gold', 1, 850.00, 255, 9, (select Id from [Category] where [Name] = 'Ametrine Jewelry')),
-    ('Bangles', 'Gold', 0, 1150.00, 345, 12, (select Id from [Category] where [Name] = 'Ametrine Jewelry')),
-    ('Bracelet', 'Gold', 1, 780.00, 234, 9, (select Id from [Category] where [Name] = 'Ametrine Jewelry')),
-
--- Agate Jewelry
-    ('Ring', 'Gold', 0, 850.00, 255, 12, (select Id from [Category] where [Name] = 'Agate Jewelry')),
-    ('Earring', 'Gold', 1, 500.00, 150, 6, (select Id from [Category] where [Name] = 'Agate Jewelry')),
-    ('Pendant', 'Gold', 0, 750.00, 225, 9, (select Id from [Category] where [Name] = 'Agate Jewelry')),
-    ('Bangles', 'Gold', 1, 1050.00, 315, 12, (select Id from [Category] where [Name] = 'Agate Jewelry')),
-    ('Bracelet', 'Gold', 0, 650.00, 195, 9, (select Id from [Category] where [Name] = 'Agate Jewelry')),
-
--- Alexandrite Jewelry
-    ('Ring', 'Gold', 1, 1000.00, 300, 12, (select Id from [Category] where [Name] = 'Alexandrite Jewelry')),
-    ('Earring', 'Gold', 0, 620.00, 186, 6, (select Id from [Category] where [Name] = 'Alexandrite Jewelry')),
-    ('Pendant', 'Gold', 1, 900.00, 270, 9, (select Id from [Category] where [Name] = 'Alexandrite Jewelry')),
-    ('Bangles', 'Gold', 0, 1200.00, 360, 12, (select Id from [Category] where [Name] = 'Alexandrite Jewelry')),
-    ('Bracelet', 'Gold', 1, 800.00, 240, 9, (select Id from [Category] where [Name] = 'Alexandrite Jewelry')),
-
--- Andesine Jewelry
-    ('Ring', 'Gold', 0, 880.00, 264, 12, (select Id from [Category] where [Name] = 'Andesine Jewelry')),
-    ('Earring', 'Gold', 1, 530.00, 159, 6, (select Id from [Category] where [Name] = 'Andesine Jewelry')),
-    ('Pendant', 'Gold', 0, 780.00, 234, 9, (select Id from [Category] where [Name] = 'Andesine Jewelry')),
-    ('Bangles', 'Gold', 1, 1100.00, 330, 12, (select Id from [Category] where [Name] = 'Andesine Jewelry')),
-    ('Bracelet', 'Gold', 0, 680.00, 204, 9, (select Id from [Category] where [Name] = 'Andesine Jewelry')),
-
--- Aquamarine Jewelry
-	('Ring', 'Gold', 1, 920.00, 276, 12, (select Id from [Category] where [Name] = 'Aquamarine Jewelry')),
-	('Earring', 'Gold', 0, 570.00, 171, 6, (select Id from [Category] where [Name] = 'Aquamarine Jewelry')),
-	('Pendant', 'Gold', 1, 820.00, 246, 9, (select Id from [Category] where [Name] = 'Aquamarine Jewelry')),
-	('Bangles', 'Gold', 0, 1120.00, 336, 12, (select Id from [Category] where [Name] = 'Aquamarine Jewelry')),
-	('Bracelet', 'Gold', 1, 720.00, 216, 9, (select Id from [Category] where [Name] = 'Aquamarine Jewelry')),
-
--- Citrine Jewelry
-	('Ring', 'Gold', 0, 890.00, 267, 12, (select Id from [Category] where [Name] = 'Citrine Jewelry')),
-	('Earring', 'Gold', 1, 540.00, 162, 6, (select Id from [Category] where [Name] = 'Citrine Jewelry')),
-	('Pendant', 'Gold', 0, 790.00, 237, 9, (select Id from [Category] where [Name] = 'Citrine Jewelry')),
-	('Bangles', 'Gold', 1, 1090.00, 327, 12, (select Id from [Category] where [Name] = 'Citrine Jewelry')),
-	('Bracelet', 'Gold', 0, 690.00, 207, 9, (select Id from [Category] where [Name] = 'Citrine Jewelry')),
-
--- Emerald Jewelry
-	('Ring', 'Gold', 1, 980.00, 294, 12, (select Id from [Category] where [Name] = 'Emerald Jewelry')),
-	('Earring', 'Gold', 0, 610.00, 183, 6, (select Id from [Category] where [Name] = 'Emerald Jewelry')),
-	('Pendant', 'Gold', 1, 880.00, 264, 9, (select Id from [Category] where [Name] = 'Emerald Jewelry')),
-	('Bangles', 'Gold', 0, 1180.00, 354, 12, (select Id from [Category] where [Name] = 'Emerald Jewelry')),
-	('Bracelet', 'Gold', 1, 760.00, 228, 9, (select Id from [Category] where [Name] = 'Emerald Jewelry')),
-
--- Garnet Jewelry
-	('Ring', 'Gold', 0, 860.00, 258, 12, (select Id from [Category] where [Name] = 'Garnet Jewelry')),
-	('Earring', 'Gold', 1, 510.00, 153, 6, (select Id from [Category] where [Name] = 'Garnet Jewelry')),
-	('Pendant', 'Gold', 0, 760.00, 228, 9, (select Id from [Category] where [Name] = 'Garnet Jewelry')),
-	('Bangles', 'Gold', 1, 1060.00, 318, 12, (select Id from [Category] where [Name] = 'Garnet Jewelry')),
-	('Bracelet', 'Gold', 0, 660.00, 198, 9, (select Id from [Category] where [Name] = 'Garnet Jewelry')),
-
--- Cubic Zirconia Jewelry
-	('Ring', 'Gold', 1, 930.00, 279, 12, (select Id from [Category] where [Name] = 'Cubic Zirconia Jewelry')),
-	('Earring', 'Gold', 0, 580.00, 174, 6, (select Id from [Category] where [Name] = 'Cubic Zirconia Jewelry')),
-	('Pendant', 'Gold', 1, 830.00, 249, 9, (select Id from [Category] where [Name] = 'Cubic Zirconia Jewelry')),
-	('Bangles', 'Gold', 0, 1130.00, 339, 12, (select Id from [Category] where [Name] = 'Cubic Zirconia Jewelry')),
-	('Bracelet', 'Gold', 1, 730.00, 219, 9, (select Id from [Category] where [Name] = 'Cubic Zirconia Jewelry')),
-
--- Sapphire Jewelry
-	('Ring', 'Gold', 0, 940.00, 282, 12, (select Id from [Category] where [Name] = 'Sapphire Jewelry')),
-	('Earring', 'Gold', 1, 590.00, 177, 6, (select Id from [Category] where [Name] = 'Sapphire Jewelry')),
-	('Pendant', 'Gold', 0, 840.00, 252, 9, (select Id from [Category] where [Name] = 'Sapphire Jewelry')),
-	('Bangles', 'Gold', 1, 1140.00, 342, 12, (select Id from [Category] where [Name] = 'Sapphire Jewelry')),
-	('Bracelet', 'Gold', 0, 740.00, 222, 9, (select Id from [Category] where [Name] = 'Sapphire Jewelry'));
-go
+	--Male
+	(null, 'Ring', 'White Gold', 1, 1500.00, 450, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1800.00, 500, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1300.00, 400, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1700.00, 480, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1400.00, 420, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1600.00, 460, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1900.00, 520, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1200.00, 380, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1550.00, 440, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	(null, 'Ring', 'White Gold', 1, 1650.00, 470, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
+--In Working
 
 insert into [Diamond]([Name], Color, Origin, CaratWeight, Clarity, Cut, Price, WarrantyPeriod) values
-('GIA 1.25 VS1 Ideal', 'D', 'GIA', '1.25', 'VS1', 'Ideal', 12500.00, 24),
-('LUCKY STAR 0.75 SI2 Excellent', 'E', 'LUCKY STAR', '0.75', 'SI2', 'Excellent', 6800.00, 18),
-('GIA 2.00 IF Signature', 'F', 'GIA', '2.00', 'IF', 'Signature', 35000.00, 36), 
-('BRILLIANT EARTH 1.50 VVS2 Premium', 'G', 'BRILLIANT EARTH', '1.50', 'VVS2', 'Premium', 18900.00, 30),
-('GIA 0.90 SI1 Ideal', 'H', 'GIA', '0.90', 'SI1', 'Ideal', 8700.00, 24),
-('LUCKY STAR 1.10 VS2 Excellent', 'I', 'LUCKY STAR', '1.10', 'VS2', 'Excellent', 11500.00, 24),
-('GIA 1.75 IF Signature', 'J', 'GIA', '1.75', 'IF', 'Signature', 30000.00, 36),
-('BRILLIANT EARTH 1.00 VVS1 Premium', 'D', 'BRILLIANT EARTH', '1.00', 'VVS1', 'Premium', 14200.00, 30),
-('GIA 0.80 SI2 Ideal', 'E', 'GIA', '0.80', 'SI2', 'Ideal', 7500.00, 24),
-('LUCKY STAR 1.25 VS1 Excellent', 'F', 'LUCKY STAR', '1.25', 'VS1', 'Excellent', 13000.00, 24),
-('GIA 2.50 IF Signature', 'G', 'GIA', '2.50', 'IF', 'Signature', 45000.00, 36),
-('BRILLIANT EARTH 1.35 VVS2 Premium', 'H', 'BRILLIANT EARTH', '1.35', 'VVS2', 'Premium', 17500.00, 30),
-('GIA 0.95 SI1 Ideal', 'I', 'GIA', '0.95', 'SI1', 'Ideal', 9100.00, 24),
-('LUCKY STAR 1.15 VS2 Excellent', 'J', 'LUCKY STAR', '1.15', 'VS2', 'Excellent', 12000.00, 24),
-('GIA 1.65 IF Signature', 'D', 'GIA', '1.65', 'IF', 'Signature', 28000.00, 36),
-('BRILLIANT EARTH 0.90 VVS1 Premium', 'E', 'BRILLIANT EARTH', '0.90', 'VVS1', 'Premium', 13000.00, 30),
-('GIA 0.85 SI2 Ideal', 'F', 'GIA', '0.85', 'SI2', 'Ideal', 8000.00, 24),
-('LUCKY STAR 1.30 VS1 Excellent', 'G', 'LUCKY STAR', '1.30', 'VS1', 'Excellent', 13500.00, 24),
-('GIA 2.20 IF Signature', 'H', 'GIA', '2.20', 'IF', 'Signature', 40000.00, 36),
-('BRILLIANT EARTH 1.15 VVS2 Premium', 'I', 'BRILLIANT EARTH', '1.15', 'VVS2', 'Premium', 16000.00, 30),
-('GIA 1.00 SI1 Ideal', 'J', 'GIA', '1.00', 'SI1', 'Ideal', 9600.00, 24),
-('LUCKY STAR 1.20 VS2 Excellent', 'D', 'LUCKY STAR', '1.20', 'VS2', 'Excellent', 12500.00, 24),
-('GIA 1.55 IF Signature', 'E', 'GIA', '1.55', 'IF', 'Signature', 26000.00, 36),
-('BRILLIANT EARTH 1.05 VVS1 Premium', 'F', 'BRILLIANT EARTH', '1.05', 'VVS1', 'Premium', 15000.00, 30),
-('GIA 0.90 SI2 Ideal', 'G', 'GIA', '0.90', 'SI2', 'Ideal', 8300.00, 24),
-('LUCKY STAR 1.35 VS1 Excellent', 'H', 'LUCKY STAR', '1.35', 'VS1', 'Excellent', 14000.00, 24),
-('GIA 2.10 IF Signature', 'I', 'GIA', '2.10', 'IF', 'Signature', 38000.00, 36),
-('BRILLIANT EARTH 1.25 VVS2 Premium', 'J', 'BRILLIANT EARTH', '1.25', 'VVS2', 'Premium', 17000.00, 30),
-('GIA 1.2 Carat G VS1 Ideal', 'G', 'GIA', '1.2', 'VS1', 'Ideal', 8500.00, 24),
-('LUCKY STAR 0.8 Carat D IF Excellent', 'D', 'LUCKY STAR', '0.8', 'IF', 'Excellent', 12000.00, 36),
-('GIA 2.0 Carat F VVS2 Very Good', 'F', 'GIA', '2.0', 'VVS2', 'Very Good', 18000.00, 24),
-('WORLD GEM 1.5 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.5', 'SI1', 'Premium', 10000.00, 30),
-('GIA 0.9 Carat E VS2 Excellent', 'E', 'GIA', '0.9', 'VS2', 'Excellent', 7800.00, 24),
-('LUCKY STAR 1.1 Carat D IF Ideal', 'D', 'LUCKY STAR', '1.1', 'IF', 'Ideal', 14500.00, 36),
-('WORLD GEM 1.8 Carat J SI2 Very Good', 'J', 'WORLD GEM', '1.8', 'SI2', 'Very Good', 12500.00, 30),
-('GIA 1.4 Carat G VS1 Premium', 'G', 'GIA', '1.4', 'VS1', 'Premium', 10200.00, 24),
-('LUCKY STAR 0.7 Carat D FL Excellent', 'D', 'LUCKY STAR', '0.7', 'FL', 'Excellent', 16000.00, 36),
-('WORLD GEM 1.6 Carat H SI1 Ideal', 'H', 'WORLD GEM', '1.6', 'SI1', 'Ideal', 11000.00, 30),
-('GIA 1.1 Carat F VVS2 Very Good', 'F', 'GIA', '1.1', 'VVS2', 'Very Good', 13500.00, 24),
-('LUCKY STAR 1.3 Carat D IF Premium', 'D', 'LUCKY STAR', '1.3', 'IF', 'Premium', 18000.00, 36),
-('WORLD GEM 1.0 Carat J SI2 Excellent', 'J', 'WORLD GEM', '1.0', 'SI2', 'Excellent', 7000.00, 30),
-('GIA 0.6 Carat E VS1 Ideal', 'E', 'GIA', '0.6', 'VS1', 'Ideal', 5500.00, 24),
-('LUCKY STAR 1.7 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.7', 'FL', 'Excellent', 25000.00, 36),
-('GIA 1.8 Carat G VVS1 Premium', 'G', 'GIA', '1.8', 'VVS1', 'Premium', 16000.00, 24),
-('WORLD GEM 0.9 Carat H SI1 Ideal', 'H', 'WORLD GEM', '0.9', 'SI1', 'Ideal', 6800.00, 30),
-('LUCKY STAR 1.4 Carat D IF Excellent', 'D', 'LUCKY STAR', '1.4', 'IF', 'Excellent', 19500.00, 36),
-('GIA 1.2 Carat F VVS2 Very Good', 'F', 'GIA', '1.2', 'VVS2', 'Very Good', 14000.00, 24),
-('WORLD GEM 1.1 Carat J SI2 Premium', 'J', 'WORLD GEM', '1.1', 'SI2', 'Premium', 7500.00, 30),
-('GIA 0.8 Carat E VS1 Ideal', 'E', 'GIA', '0.8', 'VS1', 'Ideal', 6800.00, 24),
-('LUCKY STAR 1.6 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.6', 'FL', 'Excellent', 23000.00, 36),
-('WORLD GEM 1.3 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.3', 'SI1', 'Premium', 9000.00, 30),
-('GIA 1.0 Carat F VVS1 Ideal', 'F', 'GIA', '1.0', 'VVS1', 'Ideal', 12000.00, 24),
-('LUCKY STAR 1.5 Carat D IF Excellent', 'D', 'LUCKY STAR', '1.5', 'IF', 'Excellent', 21000.00, 36),
-('WORLD GEM 0.7 Carat J SI2 Very Good', 'J', 'WORLD GEM', '0.7', 'SI2', 'Very Good', 5000.00, 30),
-('GIA 1.4 Carat G VS1 Premium', 'G', 'GIA', '1.4', 'VS1', 'Premium', 10500.00, 24),
-('LUCKY STAR 1.1 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.1', 'FL', 'Excellent', 17000.00, 36),
-('WORLD GEM 1.6 Carat H SI1 Ideal', 'H', 'WORLD GEM', '1.6', 'SI1', 'Ideal', 11500.00, 30),
-('GIA 0.9 Carat F VVS2 Very Good', 'F', 'GIA', '0.9', 'VVS2', 'Very Good', 11000.00, 24),
-('LUCKY STAR 1.2 Carat D IF Premium', 'D', 'LUCKY STAR', '1.2', 'IF', 'Premium', 17000.00, 36),
-('WORLD GEM 1.0 Carat J SI2 Excellent', 'J', 'WORLD GEM', '1.0', 'SI2', 'Excellent', 7200.00, 30),
-('GIA 0.7 Carat E VS1 Ideal', 'E', 'GIA', '0.7', 'VS1', 'Ideal', 6000.00, 24),
-('LUCKY STAR 1.3 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.3', 'FL', 'Excellent', 18500.00, 36),
-('WORLD GEM 1.5 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.5', 'SI1', 'Premium', 10500.00, 30),
-('GIA 2.5ct VS1 Ideal', 'Colorless', 'GIA', '2.5', 'VS1', 'Ideal', 7500.00, 24),
-('LUCKY STAR 1.8ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '1.8', 'SI2', 'Good', 4200.00, 12),
-('AGS 3.1ct VVS2 Very Good', 'Colorless', 'AGS', '3.1', 'VVS2', 'Very Good', 9200.00, 36),
-('GIA 1.2ct SI1 Fair', 'Faint Yellow', 'GIA', '1.2', 'SI1', 'Fair', 3200.00, 6),
-('IGI 2.7ct VS2 Ideal', 'Colorless', 'IGI', '2.7', 'VS2', 'Ideal', 7800.00, 24),
-('LUCKY STAR 1.5ct SI1 Good', 'Near Colorless', 'LUCKY STAR', '1.5', 'SI1', 'Good', 3800.00, 12),
-('AGS 2.9ct VVS1 Very Good', 'Colorless', 'AGS', '2.9', 'VVS1', 'Very Good', 8900.00, 36),
-('GIA 1.0ct SI2 Fair', 'Faint Yellow', 'GIA', '1.0', 'SI2', 'Fair', 2800.00, 6),
-('IGI 2.3ct VS1 Ideal', 'Colorless', 'IGI', '2.3', 'VS1', 'Ideal', 7200.00, 24),
-('LUCKY STAR 1.3ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '1.3', 'SI2', 'Good', 3600.00, 12),
-('AGS 2.5ct VVS2 Very Good', 'Colorless', 'AGS', '2.5', 'VVS2', 'Very Good', 8000.00, 36),
-('GIA 0.8ct SI1 Fair', 'Faint Yellow', 'GIA', '0.8', 'SI1', 'Fair', 2600.00, 6),
-('IGI 2.0ct VS2 Ideal', 'Colorless', 'IGI', '2.0', 'VS2', 'Ideal', 7000.00, 24),
-('LUCKY STAR 1.0ct SI1 Good', 'Near Colorless', 'LUCKY STAR', '1.0', 'SI1', 'Good', 3400.00, 12),
-('AGS 2.3ct VVS1 Very Good', 'Colorless', 'AGS', '2.3', 'VVS1', 'Very Good', 8500.00, 36),
-('GIA 0.5ct SI2 Fair', 'Faint Yellow', 'GIA', '0.5', 'SI2', 'Fair', 2400.00, 6),
-('IGI 1.8ct VS1 Ideal', 'Colorless', 'IGI', '1.8', 'VS1', 'Ideal', 6800.00, 24),
-('LUCKY STAR 0.7ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '0.7', 'SI2', 'Good', 3200.00, 12),
-('AGS 2.0ct VVS2 Very Good', 'Colorless', 'AGS', '2.0', 'VVS2', 'Very Good', 7800.00, 36),
-('GIA 0.3ct SI1 Fair', 'Faint Yellow', 'GIA', '0.3', 'SI1', 'Fair', 2200.00, 6);
+	('GIA 0.6 Carat E VS1 Ideal', 'E', 'GIA', '0.6', 'VS1', 'Ideal', 5500.00, 24),
+	('GIA 0.7 Carat E VS1 Ideal', 'E', 'GIA', '0.7', 'VS1', 'Ideal', 6000.00, 24),
+	('GIA 0.8 Carat E VS1 Ideal', 'E', 'GIA', '0.8', 'VS1', 'Ideal', 6800.00, 24),
+	('GIA 0.80 SI2 Ideal', 'E', 'GIA', '0.80', 'SI2', 'Ideal', 7500.00, 24),
+	('GIA 0.85 SI2 Ideal', 'F', 'GIA', '0.85', 'SI2', 'Ideal', 8000.00, 24),
+	('GIA 0.9 Carat E VS2 Excellent', 'E', 'GIA', '0.9', 'VS2', 'Excellent', 7800.00, 24),
+	('GIA 0.90 SI2 Ideal', 'G', 'GIA', '0.90', 'SI2', 'Ideal', 8300.00, 24),
+	('GIA 0.90 SI1 Ideal', 'H', 'GIA', '0.90', 'SI1', 'Ideal', 8700.00, 24),
+	('GIA 0.95 SI1 Ideal', 'I', 'GIA', '0.95', 'SI1', 'Ideal', 9100.00, 24),
+	('GIA 0.9 Carat F VVS2 Very Good', 'F', 'GIA', '0.9', 'VVS2', 'Very Good', 11000.00, 24),
+	('GIA 1.0 Carat F VVS1 Ideal', 'F', 'GIA', '1.0', 'VVS1', 'Ideal', 12000.00, 24),
+	('GIA 1.00 SI1 Ideal', 'J', 'GIA', '1.00', 'SI1', 'Ideal', 9600.00, 24),
+	('GIA 1.1 Carat F VVS2 Very Good', 'F', 'GIA', '1.1', 'VVS2', 'Very Good', 13500.00, 24),
+	('GIA 1.2 Carat F VVS2 Very Good', 'F', 'GIA', '1.2', 'VVS2', 'Very Good', 14000.00, 24),
+	('GIA 1.2 Carat G VS1 Ideal', 'G', 'GIA', '1.2', 'VS1', 'Ideal', 8500.00, 24),
+	('GIA 1.25 VS1 Ideal', 'D', 'GIA', '1.25', 'VS1', 'Ideal', 12500.00, 24),
+	('GIA 1.4 Carat G VS1 Premium', 'G', 'GIA', '1.4', 'VS1', 'Premium', 10500.00, 24),
+	('GIA 1.4 Carat G VS1 Premium', 'G', 'GIA', '1.4', 'VS1', 'Premium', 10200.00, 24),
+	('GIA 1.55 IF Signature', 'E', 'GIA', '1.55', 'IF', 'Signature', 26000.00, 36),
+	('GIA 1.65 IF Signature', 'D', 'GIA', '1.65', 'IF', 'Signature', 28000.00, 36),
+	('GIA 1.75 IF Signature', 'J', 'GIA', '1.75', 'IF', 'Signature', 30000.00, 36),
+	('GIA 1.8 Carat G VVS1 Premium', 'G', 'GIA', '1.8', 'VVS1', 'Premium', 16000.00, 24),
+	('GIA 2.00 IF Signature', 'F', 'GIA', '2.00', 'IF', 'Signature', 35000.00, 36),
+	('GIA 2.20 IF Signature', 'H', 'GIA', '2.20', 'IF', 'Signature', 40000.00, 36),
+	('GIA 2.50 IF Signature', 'G', 'GIA', '2.50', 'IF', 'Signature', 45000.00, 36),
+	('GIA 2.10 IF Signature', 'I', 'GIA', '2.10', 'IF', 'Signature', 38000.00, 36),
+	('GIA 2.0 Carat F VVS2 Very Good', 'F', 'GIA', '2.0', 'VVS2', 'Very Good', 18000.00, 24),
+	('GIA 0.3ct SI1 Fair', 'Faint Yellow', 'GIA', '0.3', 'SI1', 'Fair', 2200.00, 6),
+	('GIA 0.5ct SI2 Fair', 'Faint Yellow', 'GIA', '0.5', 'SI2', 'Fair', 2400.00, 6),
+	('GIA 0.8ct SI1 Fair', 'Faint Yellow', 'GIA', '0.8', 'SI1', 'Fair', 2600.00, 6),
+	('GIA 1.0ct SI2 Fair', 'Faint Yellow', 'GIA', '1.0', 'SI2', 'Fair', 2800.00, 6),
+	('GIA 1.2ct SI1 Fair', 'Faint Yellow', 'GIA', '1.2', 'SI1', 'Fair', 3200.00, 6),
+	('GIA 2.5ct VS1 Ideal', 'Colorless', 'GIA', '2.5', 'VS1', 'Ideal', 7500.00, 24),
+	('LUCKY STAR 1.7 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.7', 'FL', 'Excellent', 25000.00, 36),
+	('LUCKY STAR 0.7 Carat D FL Excellent', 'D', 'LUCKY STAR', '0.7', 'FL', 'Excellent', 16000.00, 36),
+	('LUCKY STAR 1.4 Carat D IF Excellent', 'D', 'LUCKY STAR', '1.4', 'IF', 'Excellent', 19500.00, 36),
+	('LUCKY STAR 1.1 Carat D IF Ideal', 'D', 'LUCKY STAR', '1.1', 'IF', 'Ideal', 14500.00, 36),
+	('LUCKY STAR 1.3 Carat D IF Premium', 'D', 'LUCKY STAR', '1.3', 'IF', 'Premium', 18000.00, 36),
+	('LUCKY STAR 1.10 VS2 Excellent', 'I', 'LUCKY STAR', '1.10', 'VS2', 'Excellent', 11500.00, 24),
+	('LUCKY STAR 1.25 VS1 Excellent', 'F', 'LUCKY STAR', '1.25', 'VS1', 'Excellent', 13000.00, 24),
+	('LUCKY STAR 0.75 SI2 Excellent', 'E', 'LUCKY STAR', '0.75', 'SI2', 'Excellent', 6800.00, 18),
+	('LUCKY STAR 1.30 VS1 Excellent', 'G', 'LUCKY STAR', '1.30', 'VS1', 'Excellent', 13500.00, 24),
+	('LUCKY STAR 1.15 VS2 Excellent', 'J', 'LUCKY STAR', '1.15', 'VS2', 'Excellent', 12000.00, 24),
+	('LUCKY STAR 1.20 VS2 Excellent', 'D', 'LUCKY STAR', '1.20', 'VS2', 'Excellent', 12500.00, 24),
+	('LUCKY STAR 1.35 VS1 Excellent', 'H', 'LUCKY STAR', '1.35', 'VS1', 'Excellent', 14000.00, 24),
+	('LUCKY STAR 0.8 Carat D IF Excellent', 'D', 'LUCKY STAR', '0.8', 'IF', 'Excellent', 12000.00, 36),
+	('LUCKY STAR 1.6 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.6', 'FL', 'Excellent', 23000.00, 36),
+	('LUCKY STAR 1.5 Carat D IF Excellent', 'D', 'LUCKY STAR', '1.5', 'IF', 'Excellent', 21000.00, 36),
+	('LUCKY STAR 1.1 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.1', 'FL', 'Excellent', 17000.00, 36),
+	('LUCKY STAR 1.2 Carat D IF Premium', 'D', 'LUCKY STAR', '1.2', 'IF', 'Premium', 17000.00, 36),
+	('LUCKY STAR 1.3 Carat D FL Excellent', 'D', 'LUCKY STAR', '1.3', 'FL', 'Excellent', 18500.00, 36),
+	('LUCKY STAR 1.8ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '1.8', 'SI2', 'Good', 4200.00, 12),
+	('LUCKY STAR 1.5ct SI1 Good', 'Near Colorless', 'LUCKY STAR', '1.5', 'SI1', 'Good', 3800.00, 12),
+	('LUCKY STAR 1.3ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '1.3', 'SI2', 'Good', 3600.00, 12),
+	('LUCKY STAR 1.0ct SI1 Good', 'Near Colorless', 'LUCKY STAR', '1.0', 'SI1', 'Good', 3400.00, 12),
+	('LUCKY STAR 0.7ct SI2 Good', 'Near Colorless', 'LUCKY STAR', '0.7', 'SI2', 'Good', 3200.00, 12),
+	('BRILLIANT EARTH 1.50 VVS2 Premium', 'G', 'BRILLIANT EARTH', '1.50', 'VVS2', 'Premium', 18900.00, 30),
+	('BRILLIANT EARTH 1.00 VVS1 Premium', 'D', 'BRILLIANT EARTH', '1.00', 'VVS1', 'Premium', 14200.00, 30),
+	('BRILLIANT EARTH 1.35 VVS2 Premium', 'H', 'BRILLIANT EARTH', '1.35', 'VVS2', 'Premium', 17500.00, 30),
+	('BRILLIANT EARTH 0.90 VVS1 Premium', 'E', 'BRILLIANT EARTH', '0.90', 'VVS1', 'Premium', 13000.00, 30),
+	('BRILLIANT EARTH 1.05 VVS1 Premium', 'F', 'BRILLIANT EARTH', '1.05', 'VVS1', 'Premium', 15000.00, 30),
+	('BRILLIANT EARTH 1.15 VVS2 Premium', 'I', 'BRILLIANT EARTH', '1.15', 'VVS2', 'Premium', 16000.00, 30),
+	('BRILLIANT EARTH 1.25 VVS2 Premium', 'J', 'BRILLIANT EARTH', '1.25', 'VVS2', 'Premium', 17000.00, 30),
+	('WORLD GEM 1.5 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.5', 'SI1', 'Premium', 10000.00, 30),
+	('WORLD GEM 1.8 Carat J SI2 Very Good', 'J', 'WORLD GEM', '1.8', 'SI2', 'Very Good', 12500.00, 30),
+	('WORLD GEM 1.6 Carat H SI1 Ideal', 'H', 'WORLD GEM', '1.6', 'SI1', 'Ideal', 11000.00, 30),
+	('WORLD GEM 1.0 Carat J SI2 Excellent', 'J', 'WORLD GEM', '1.0', 'SI2', 'Excellent', 7000.00, 30),
+	('WORLD GEM 0.9 Carat H SI1 Ideal', 'H', 'WORLD GEM', '0.9', 'SI1', 'Ideal', 6800.00, 30),
+	('WORLD GEM 1.1 Carat J SI2 Premium', 'J', 'WORLD GEM', '1.1', 'SI2', 'Premium', 7500.00, 30),
+	('WORLD GEM 1.3 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.3', 'SI1', 'Premium', 9000.00, 30),
+	('WORLD GEM 0.7 Carat J SI2 Very Good', 'J', 'WORLD GEM', '0.7', 'SI2', 'Very Good', 5000.00, 30),
+	('WORLD GEM 1.6 Carat H SI1 Ideal', 'H', 'WORLD GEM', '1.6', 'SI1', 'Ideal', 11500.00, 30),
+	('WORLD GEM 1.0 Carat J SI2 Excellent', 'J', 'WORLD GEM', '1.0', 'SI2', 'Excellent', 7200.00, 30),
+	('WORLD GEM 1.5 Carat H SI1 Premium', 'H', 'WORLD GEM', '1.5', 'SI1', 'Premium', 10500.00, 30),
+	('IGI 2.7ct VS2 Ideal', 'Colorless', 'IGI', '2.7', 'VS2', 'Ideal', 7800.00, 24),
+	('IGI 2.3ct VS1 Ideal', 'Colorless', 'IGI', '2.3', 'VS1', 'Ideal', 7200.00, 24),
+	('IGI 1.8ct VS1 Ideal', 'Colorless', 'IGI', '1.8', 'VS1', 'Ideal', 6800.00, 24),
+	('IGI 2.0ct VS2 Ideal', 'Colorless', 'IGI', '2.0', 'VS2', 'Ideal', 7000.00, 24),
+	('AGS 3.1ct VVS2 Very Good', 'Colorless', 'AGS', '3.1', 'VVS2', 'Very Good', 9200.00, 36),
+	('AGS 2.9ct VVS1 Very Good', 'Colorless', 'AGS', '2.9', 'VVS1', 'Very Good', 8900.00, 36),
+	('AGS 2.5ct VVS2 Very Good', 'Colorless', 'AGS', '2.5', 'VVS2', 'Very Good', 8000.00, 36),
+	('AGS 2.3ct VVS1 Very Good', 'Colorless', 'AGS', '2.3', 'VVS1', 'Very Good', 8500.00, 36),
+	('AGS 2.0ct VVS2 Very Good', 'Colorless', 'AGS', '2.0', 'VVS2', 'Very Good', 7800.00, 36);
 go
 
+--Diamond Pictures
+insert into [Picture] (UrlPath, DiamondId, ProductId)
+	select 'imgs/Diamonds/PreviewDiamond.png', [Diamond].Id, null
+	from [Diamond];
+go
+
+insert into [Picture] (UrlPath, DiamondId, ProductId)
+	select 'imgs/Diamonds/OverViewDiamond.png', [Diamond].Id, null
+	from [Diamond];
+go
+
+insert into [Picture] (UrlPath, DiamondId, ProductId)
+	select 'imgs/Diamonds/SideViewDiamond.png', [Diamond].Id, null
+	from [Diamond];
+go
+
+--Clavia Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
+go
+
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
+go
+
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
+go
+
+--Coler Gem
 use master;
