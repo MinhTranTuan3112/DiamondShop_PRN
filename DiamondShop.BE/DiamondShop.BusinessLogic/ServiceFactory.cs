@@ -12,7 +12,7 @@ namespace DiamondShop.BusinessLogic
     public class ServiceFactory : IServiceFactory
     {
         private readonly Lazy<IAuthService> _authService;
-        private readonly Lazy<IProductService> _productService; 
+        private readonly Lazy<IProductService> _productService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));

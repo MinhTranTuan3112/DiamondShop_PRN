@@ -8,6 +8,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
     public interface IServiceFactory
     {
         IAuthService GetAuthService();
+
         IProductService GetProductService();
     }
 }

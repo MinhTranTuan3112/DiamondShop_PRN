@@ -14,7 +14,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-
+using DiamondShop.DataAccess.DTOs.Query;
 namespace DiamondShop.BusinessLogic.Services
 {
     public class ProductService : IProductService
@@ -54,5 +54,18 @@ namespace DiamondShop.BusinessLogic.Services
             }
             return productDetail;
         }
+    
+
+
+        public async Task<PagedResult<GetProductInPagedResultDto>> GetPagedProducts(QueryProductDto queryProductDto)
+        {
+            if (queryProductDto.StartPrice > queryProductDto.EndPrice)
+            {
+                throw new BadRequestException("Start price must be less than end price");
+            }
+
+            return (await _unitOfWork.GetProductRepository().GetPagedProducts(queryProductDto)).Adapt<PagedResult<GetProductInPagedResultDto>>();
+        }
     }
-}
+}    
+
