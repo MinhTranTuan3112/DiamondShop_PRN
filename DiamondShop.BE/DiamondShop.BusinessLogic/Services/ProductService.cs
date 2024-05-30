@@ -1,12 +1,17 @@
 ﻿using DiamondShop.BusinessLogic.Interfaces;
+using DiamondShop.DataAccess.DTOs.Picture;
 using DiamondShop.DataAccess.DTOs.Product;
+using DiamondShop.DataAccess.DTOs.ProductPart;
 using DiamondShop.DataAccess.Interfaces;
+using DiamondShop.DataAccess.Models;
+using DiamondShop.Shared.Exceptions;
 using Mapster;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,38 +25,34 @@ namespace DiamondShop.BusinessLogic.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<ServiceResponse<ViewProductDTO>> GetProductAsync(Guid id)
+        public async Task<GetProductDetailDto> GetProductAsync(Guid id)
         {
-            var _response = new ServiceResponse<ViewProductDTO>();
-            try
+        
+            var product = await _unitOfWork.GetProductRepository().GetProductById(id);
+            if (product == null)
             {
-                var product = await _unitOfWork.GetProductRepository().GetProductById(id);
-                if (product != null)
-                {
-                    _response.Success = true;
-                    _response.Message = "Product retrieved successfully";
-                    _response.Data = product.Adapt<ViewProductDTO>();
-                }
-                else
-                {
-                    _response.Success = true;
-                    _response.Message = "Product not found";
-                }
+               throw new NotFoundException("Products are empty");
             }
-            catch (DbException e)
+            var productDetail = product.Adapt<GetProductDetailDto>();
+            productDetail.Pictures = new List<GetPictureDto>();
+            productDetail.ProductParts = new List<ProductPartDTO>();
+
+            Expression<Func<Picture, bool>> expression = p => p.ProductId == id;
+            var pictures = await _unitOfWork.GetPictureRepository().FindAsync(expression);
+            var productParts = await _unitOfWork.GetProductPartRepository().GetProductPartByProductId(id);
+            if (pictures is null)
+                pictures = new List<Picture>();
+            if (productParts is null)
+                productParts = new List<ProductPart>();
+            foreach (var picture in pictures)
             {
-                _response.Success = false;
-                _response.Message = "Database error occured";
-                _response.ErrorMessages = new List<string> { e.Message };
+                productDetail.Pictures.Add(picture.Adapt<GetPictureDto>());
             }
-            catch (Exception e)
+            foreach (var part in productParts)
             {
-                _response.Success = false;
-                _response.Data = null;
-                _response.Message = "Error";
-                _response.ErrorMessages = new List<string> { e.Message };
+                productDetail.ProductParts.Add(part.Adapt<ProductPartDTO>());
             }
-            return _response;
+            return productDetail;
         }
     }
 }

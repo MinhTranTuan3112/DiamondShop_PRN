@@ -9,6 +9,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
 {
     public interface IProductService
     {
-        Task<ServiceResponse<ViewProductDTO>> GetProductAsync(Guid id);
+        Task<GetProductDetailDto> GetProductAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiamondShop.DataAccess.DTOs.Category
 {
-    public class CategoryDTO
+    public class GetCategoryDto
     {
         public Guid Id { get; set; }
 

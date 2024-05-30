@@ -9,6 +9,8 @@ namespace DiamondShop.DataAccess.Interfaces
     {
         IAccountRepository GetAccountRepository();
         IProductRepository GetProductRepository();
+        IPictureRepository GetPictureRepository();
+        IProductPartRepository GetProductPartRepository();
         Task<int> SaveChangesAsync();
     }
 }
