@@ -23,7 +23,6 @@ namespace DiamondShop.BusinessLogic
         {
             return _authService.Value;
         }
-
         public IProductService GetProductService()
         {
             return _productService.Value;

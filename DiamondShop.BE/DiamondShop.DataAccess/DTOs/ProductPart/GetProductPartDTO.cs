@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiamondShop.DataAccess.DTOs.Picture
+namespace DiamondShop.DataAccess.DTOs.ProductPart
 {
-    public class GetPictureDto
+    public class GetProductPartDTO
     {
         public Guid Id { get; set; }
 
-        public string? UrlPath { get; set; }
+        public bool? IsMain { get; set; }
 
-
+        public GetDiamondDto? Diamond { get; set; }
     }
 }

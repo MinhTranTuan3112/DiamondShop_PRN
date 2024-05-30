@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DiamondShop.BusinessLogic.Interfaces;
+﻿using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Product;
-using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
-
+using DiamondShop.DataAccess.DTOs.Query;
 namespace DiamondShop.BusinessLogic.Services
 {
     public class ProductService : IProductService
@@ -19,6 +14,18 @@ namespace DiamondShop.BusinessLogic.Services
         {
             _unitOfWork = unitOfWork;
         }
+        public async Task<GetProductDetailDto> GetProductDetailById(Guid id)
+        {
+        
+            var product = await _unitOfWork.GetProductRepository().GetProductDetailById(id);
+            if (product is null)
+            {
+               throw new NotFoundException("Product not found");
+            }
+            return product.Adapt<GetProductDetailDto>();
+        }
+    
+
 
         public async Task<PagedResult<GetProductInPagedResultDto>> GetPagedProducts(QueryProductDto queryProductDto)
         {
@@ -30,4 +37,5 @@ namespace DiamondShop.BusinessLogic.Services
             return (await _unitOfWork.GetProductRepository().GetPagedProducts(queryProductDto)).Adapt<PagedResult<GetProductInPagedResultDto>>();
         }
     }
-}
+}    
+
