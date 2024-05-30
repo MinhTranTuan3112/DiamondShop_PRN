@@ -69,6 +69,6 @@
     }
 }
 
-.search_bar > input::placeholder {
+.search_bar > input::placeholder, .start_price::placeholder, .end_price::placeholder {
     color: rgb(75, 74, 74);
 }
