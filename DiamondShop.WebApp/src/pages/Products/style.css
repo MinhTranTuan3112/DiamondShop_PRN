@@ -68,3 +68,7 @@
         text-decoration: line-through;
     }
 }
+
+.search_bar > input::placeholder {
+    color: rgb(75, 74, 74);
+}
