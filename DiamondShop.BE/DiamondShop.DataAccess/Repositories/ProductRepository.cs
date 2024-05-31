@@ -63,6 +63,12 @@ namespace DiamondShop.DataAccess.Repositories
                 _ => product => product.Id
             };
         }
+
+        public async Task<Product?> GetProductWithCategoryById(Guid id)
+        {
+            return await _context.Products.Include(p => p.Category)
+                                          .SingleOrDefaultAsync(x => x.Id == id);
+        }
     }
 
        
