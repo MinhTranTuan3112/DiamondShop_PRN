@@ -25,6 +25,7 @@ namespace DiamondShop.Api.Controllers
         {
             return await _serviceFactory.GetProductService().GetPagedProducts(queryProductDto);
         }
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<GetProductDetailDto>> GetProducDetailtById(Guid id)
         {
