@@ -63,7 +63,7 @@ create table [Product]
 (
 	Id uniqueidentifier default newid() primary key,
 	[Name] nvarchar(50),
-	[Type] nvarchar(50),
+	[Type] nvarchar(50),		--Ring | Earring | Pendant | Bracelet | Bangles
 	Material nvarchar(100),
 	Gender bit,				--0:Female		1:Male
 	Price money not null,	--Diamond Price + Doing_Price
@@ -125,10 +125,10 @@ go
 create table [OrderDetail]
 (
 	Id uniqueidentifier default newid() primary key,
-	Quantity int not null,
-	RingSize decimal(5,2) default 0 not null,
-	RingSizePrice money default 0 not null,
-	SubTotal money not null,					--Subtotal=(Product price * quantity)+NiPrice
+	Quantity int default 0 not null,
+	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
+	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
+	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
 
 	OrderId uniqueidentifier not null foreign key references [Order](Id),
 	ProductId uniqueidentifier not null foreign key references [Product](Id)
