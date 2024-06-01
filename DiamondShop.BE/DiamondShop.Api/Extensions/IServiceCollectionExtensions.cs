@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace DiamondShop.Api.Extensions
@@ -16,6 +18,12 @@ namespace DiamondShop.Api.Extensions
     {
         public static IServiceCollection AddApiDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            //Config newtonsoftjson camel case
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            
             services.AddControllersWithConfigurations()
                     .AddAuthenticationServicesConfigurations(configuration)
                     .AddSwaggerConfigurations()
@@ -23,7 +31,6 @@ namespace DiamondShop.Api.Extensions
                     .AddCorsConfigurations();
             return services;
         }
-
 
         private static IServiceCollection AddControllersWithConfigurations(this IServiceCollection services)
         {

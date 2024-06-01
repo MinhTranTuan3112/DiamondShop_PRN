@@ -20,10 +20,10 @@ namespace DiamondShop.DataAccess.Repositories
 
         public IQueryable<T> Entities => _context.Set<T>();
 
-        public Task AddAsync(T TEntity)
+        public Task<T> AddAsync(T TEntity)
         {
             _context.Add(TEntity);
-            return Task.CompletedTask;
+            return Task.FromResult(TEntity);
         }
 
         public Task DeleteAsync(T TEntity)
@@ -48,7 +48,7 @@ namespace DiamondShop.DataAccess.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
