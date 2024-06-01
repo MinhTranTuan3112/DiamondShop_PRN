@@ -15,7 +15,7 @@ namespace DiamondShop.DataAccess
         private readonly Lazy<IOrderRepository> _orderRepository;
         private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IOrderDetailRepository> _orderDetailRepository;
-
+        private readonly Lazy<IDiamondRepository> _diamondRepository;
         public UnitOfWork(FlashyCarbonDbContext context)
         {
             _context = context;
@@ -24,6 +24,7 @@ namespace DiamondShop.DataAccess
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
             _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
             _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(context));
+            _diamondRepository = new Lazy<IDiamondRepository>(() => new DiamondRepository(context));
         }
 
         public IAccountRepository GetAccountRepository()
@@ -34,6 +35,11 @@ namespace DiamondShop.DataAccess
         public ICustomerRepository GetCustomerRepository()
         {
             return _customerRepository.Value;
+        }
+
+        public IDiamondRepository GetDiamondRepository()
+        {
+            return  _diamondRepository.Value;
         }
 
         public IOrderDetailRepository GetOrderDetailRepository()
