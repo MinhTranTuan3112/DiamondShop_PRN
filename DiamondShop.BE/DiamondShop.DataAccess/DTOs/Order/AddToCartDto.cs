@@ -15,9 +15,9 @@ namespace DiamondShop.DataAccess.DTOs.Order
         [Required]
         public required Guid ProductId { get; set; }
 
-        public decimal RingSize { get; set; } = 0;
+        public int? RingSize { get; set; }
 
-        public decimal RingSizePrice { get; set; }= 0;
+        public decimal SumSizePrice { get; set; } = 0;
 
     }
 }

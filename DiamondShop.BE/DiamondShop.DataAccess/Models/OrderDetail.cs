@@ -9,9 +9,9 @@ public partial class OrderDetail
 
     public int Quantity { get; set; }
 
-    public decimal RingSize { get; set; }
+    public string? RingSize { get; set; }
 
-    public decimal RingSizePrice { get; set; }
+    public decimal SumSizePrice { get; set; }
 
     public decimal SubTotal { get; set; }
 
