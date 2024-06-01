@@ -132,20 +132,59 @@ insert into [Product]([Name], [Type], Material, Gender, Price, Point, WarrantyPe
 	('Female Ring Gold 14K Abby DN 2C', 'Ring', 'White Gold', 0, 1800.00, 1800, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Adivity 5C', 'Ring', 'White Gold', 0, 1500.00, 1500, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Adivity 1CT', 'Ring', 'White Gold', 0, 1000.00, 1000, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-
+	
 	--Male
-	(null, 'Ring', 'White Gold', 1, 1500.00, 450, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1800.00, 500, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1300.00, 400, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1700.00, 480, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1400.00, 420, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1600.00, 460, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1900.00, 520, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1200.00, 380, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1550.00, 440, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	(null, 'Ring', 'White Gold', 1, 1650.00, 470, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
---In Working
+	('Male Ring Gold 14K A8 5C Y', 'Ring', 'White Gold', 1, 4800.00, 4800, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K A8 3CT Y', 'Ring', 'White Gold', 1, 4700.00, 4700, 14, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K A8 N 2CT Y', 'Ring', 'White Gold', 1, 4500.00, 4500, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K A8 1.5CT Y', 'Ring', 'White Gold', 1, 4300.00, 4300, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Aventador D 5C W', 'Ring', 'White Gold', 1, 4000.00, 4000, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Aventador D 1CT W', 'Ring', 'White Gold', 1, 3700.00, 3700, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Platinum 14K Authentic 5C WY', 'Ring', 'Platinum', 1, 3650.00, 3650, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Authentic 3C WY', 'Ring', 'White Gold', 1, 3500.00, 3500, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Authentic 1CT WY', 'Ring', 'White Gold', 1, 33000.00, 33000, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Caddie 5C W', 'Ring', 'White Gold', 1, 3250.00, 3250, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Caddie 3CT W', 'Ring', 'White Gold', 1, 3000.00, 3000, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Caddie 2CT W', 'Ring', 'White Gold', 1, 2600.00, 2600, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Caddie 1CT W', 'Ring', 'White Gold', 1, 2230.00, 2230, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Candid N 5C W', 'Ring', 'White Gold', 1, 3100.00, 3100, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Candid N 3C W', 'Ring', 'White Gold', 1, 2800.00, 2800, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Candid N 2CT W', 'Ring', 'White Gold', 1, 2400.00, 2400, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 14K Candid N 1CT W', 'Ring', 'White Gold', 1, 1900.00, 1900, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 10K Pinnacle N 3C W', 'Ring', 'White Gold', 1, 1650.00, 1650, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 10K Pinnacle N 2C W', 'Ring', 'White Gold', 1, 1550.00, 1550, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Male Ring Gold 10K Pinnacle 2C W', 'Ring', 'White Gold', 1, 1200.00, 1200, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
+go
 
+-- Earring
+insert into [Product]([Name], [Type], Material, Price, Point, WarrantyPeriod, CategoryId) values
+	('Earring Platinum 950 Basque S 5C', 'Earring', 'Platinum', 3000.00, 3000, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Platinum 950 Canzon 2C', 'Earring', 'Platinum', 2900.00, 2900, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Platinum 950 Jasmine S 3C', 'Earring', 'Platinum', 2600.00, 2600, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Platinum 950 Jasmine S 2C', 'Earring', 'Platinum', 2500.00, 2500, 9, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Platinum 950 Ratline 3C', 'Earring', 'Platinum', 2500.00, 2500, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Gold 14K Flowery 5C', 'Earring', 'White Gold', 4799.00, 4799, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Earring Gold 14K Flowery 3C', 'Earring', 'White Gold', 4600.00, 4600, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
+go
+
+-- Pendant
+insert into [Product]([Name], [Type], Material, Price, Point, WarrantyPeriod, CategoryId) values
+	('Pendant Gold 14K Flowery 5C', 'Pendant', 'White Gold', 6000.00, 6000, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Pendant Gold 14K Gerberas 1CT', 'Pendant', 'White Gold', 5800.00, 5800, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Pendant Gold 14K Benicia N 5C', 'Pendant', 'White Gold', 5600.00, 5600, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+
+-- Bangles
+	('Bangles Gold 14K Bambina', 'Bangles', 'White Gold', 4000.00, 4000, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Bangles Gold 14K Gratify 2C', 'Bangles', 'White Gold', 3950.00, 3950, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Bangles Gold 14K Hilarial 3C', 'Bangles', 'White Gold', 3800.00, 3800, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Bangles Gold 14K Naiya 3C', 'Bangles', 'White Gold',3500.00, 3500, 8, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+
+-- Bracelets
+	('Bracelet Gold 14K Dacing S 1CT', 'Bracelet', 'White Gold', 4100.00, 4100, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Bracelet Gold 14K Lucky U S 2C', 'Bracelet', 'White Gold', 3900.00, 3900, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
+go
+
+--Diamonds
 insert into [Diamond]([Name], Color, Origin, CaratWeight, Clarity, Cut, Price, WarrantyPeriod) values
 	('GIA 0.6 Carat E VS1 Ideal', 'E', 'GIA', '0.6', 'VS1', 'Ideal', 5500.00, 24),
 	('GIA 0.7 Carat E VS1 Ideal', 'E', 'GIA', '0.7', 'VS1', 'Ideal', 6000.00, 24),
@@ -232,21 +271,21 @@ insert into [Diamond]([Name], Color, Origin, CaratWeight, Clarity, Cut, Price, W
 	('AGS 2.0ct VVS2 Very Good', 'Colorless', 'AGS', '2.0', 'VVS2', 'Very Good', 7800.00, 36);
 go
 
---Diamond Pictures
+--=================[PICTURES]=================
+--Diamond
 insert into [Picture] (UrlPath, DiamondId, ProductId)
 	select 'imgs/Diamonds/PreviewDiamond.png', [Diamond].Id, null
 	from [Diamond];
 go
-
 insert into [Picture] (UrlPath, DiamondId, ProductId)
 	select 'imgs/Diamonds/OverViewDiamond.png', [Diamond].Id, null
 	from [Diamond];
 go
-
 insert into [Picture] (UrlPath, DiamondId, ProductId)
 	select 'imgs/Diamonds/SideViewDiamond.png', [Diamond].Id, null
 	from [Diamond];
 go
+
 
 --Clavia Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
@@ -254,18 +293,384 @@ insert into [Picture](UrlPath, DiamondId, ProductId)
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
-
 insert into [Picture](UrlPath, DiamondId, ProductId)
 	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Stand.png', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
-
 insert into [Picture](UrlPath, DiamondId, ProductId)
 	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Lay.png', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
 
---Coler Gem
+
+--Caste Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Caste_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Caste_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Caste_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+go
+
+
+--Flourishing Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+go
+
+
+--Bellamy Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+go
+
+
+--Amalia Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+go
+
+
+--Arternos Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+go
+
+
+--Abby Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+go
+
+
+--Grandeur Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+go
+
+
+--Adivity Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+go
+
+--A8 Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/A8_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/A8_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/A8_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+go
+
+
+--Aventador Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+go
+
+--Authentic Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+go
+
+--Caddie Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+go
+
+
+--Candid Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Candid_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Candid_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Candid_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+go
+
+
+--Pinnacle Rings
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+go
+
+--Basque Earring
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Earrings/Basque_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Earring' and [Product].[Name] like '%Basque%';
+go
+
+--Canzon Earring
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Earrings/Canzon_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Earring' and [Product].[Name] like '%Canzon%';
+go
+
+--Jasmine Earring
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Earrings/Jasmine_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Earring' and [Product].[Name] like '%Jasmine%';
+go
+
+--Flowery Earring
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Earrings/Flowery_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Earring' and [Product].[Name] like '%Flowery%';
+go
+
+--Ratline Earring
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Earrings/Ratline_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Earring' and [Product].[Name] like '%Ratline%';
+go
+
+--Flowery Pendant
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Pendants/Flowery.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Pendant' and [Product].[Name] like '%Flowery%';
+go
+
+--Gerberas Pendant
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Pendants/Gerberas.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Pendant' and [Product].[Name] like '%Gerberas%';
+go
+
+--Benicia Pendant
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Pendants/Benicia.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Pendant' and [Product].[Name] like '%Benicia%';
+go
+
+--Dacing Bracelet
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bracelets/Dacing_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bracelets/Dacing_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bracelet/Dacing_Lay.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+go
+
+--Lucky Bracelet
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bracelets/Lucky_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
+go
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bracelets/Lucky_Stand.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
+go
+
+--Bambina Bangles
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bangles/Bambina.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bangles' and [Product].[Name] like '%Bambina%';
+go
+
+--Gratify Bangles
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bangles/Gratify.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bangles' and [Product].[Name] like '%Gratify%';
+go
+
+--Naiya Bangles
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bangles/Naiya.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bangles' and [Product].[Name] like '%Naiya%';
+go
+
+--Hilarial Bangles
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bangles/Hilarial_Open.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
+go
+
+--Hilarial Bangles
+insert into [Picture](UrlPath, DiamondId, ProductId)
+	select 'imgs/DiamondJewelry/Bangles/Hilarial_Preview.png', null, [Product].Id
+	from [Product]
+	where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
+go
+
 use master;
