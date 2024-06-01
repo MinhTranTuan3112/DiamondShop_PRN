@@ -8,6 +8,5 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface IOrderDetailRepository : IGenericRepository<OrderDetail>
     {
-
     }
 }

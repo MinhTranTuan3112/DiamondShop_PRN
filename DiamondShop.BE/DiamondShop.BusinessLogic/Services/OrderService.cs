@@ -10,6 +10,7 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -45,9 +46,10 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 throw new BadRequestException("No customer found");
             }
-            
 
-            var order = await _unitOfWork.GetOrderRepository().FindOneAsync(o => o.CustomerId == customer.Id && o.Status == OrderStatus.InCart.ToString());
+
+            var order = await _unitOfWork.GetOrderRepository().GetOrderWithOrderDetails(o => o.CustomerId == customer.Id 
+            && o.Status == OrderStatus.InCart.ToString());
 
             if (order is null)
             {
@@ -60,20 +62,33 @@ namespace DiamondShop.BusinessLogic.Services
                 await _unitOfWork.SaveChangesAsync();
             }
 
-            decimal subTotal = product.Price * addToCartDto.Quantity + addToCartDto.RingSizePrice;
+            var orderDetail = order.OrderDetails.FirstOrDefault(od => od.ProductId == addToCartDto.ProductId
+            && od.RingSize == addToCartDto.RingSize);
 
-            await _unitOfWork.GetOrderDetailRepository().AddAsync(new OrderDetail
+            if (orderDetail is null)
             {
-                OrderId = order.Id,
-                ProductId = product.Id,
-                Quantity = addToCartDto.Quantity,
-                RingSize = addToCartDto.RingSize,
-                RingSizePrice = addToCartDto.RingSizePrice,
-                SubTotal = subTotal
-            });
+                decimal subTotal = product.Price * addToCartDto.Quantity + addToCartDto.RingSizePrice;
 
-            order.Total += subTotal;
-            
+                await _unitOfWork.GetOrderDetailRepository().AddAsync(new OrderDetail
+                {
+                    OrderId = order.Id,
+                    ProductId = product.Id,
+                    Quantity = addToCartDto.Quantity,
+                    RingSize = addToCartDto.RingSize,
+                    RingSizePrice = addToCartDto.RingSizePrice,
+                    SubTotal = subTotal
+                });
+
+                order.Total += subTotal;
+            }
+            else
+            {
+                orderDetail.Quantity += addToCartDto.Quantity;
+                orderDetail.SubTotal = orderDetail.Quantity * product.Price + orderDetail.RingSizePrice;
+                order.Total += orderDetail.SubTotal;
+            }
+
+
             await _unitOfWork.SaveChangesAsync();
 
         }
