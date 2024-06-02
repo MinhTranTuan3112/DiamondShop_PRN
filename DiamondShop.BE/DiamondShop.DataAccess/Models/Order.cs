@@ -11,7 +11,7 @@ public partial class Order
 
     public DateTime? OrderDate { get; set; }
 
-    public decimal? Total { get; set; }
+    public decimal Total { get; set; }
 
     public DateTime? ShipDate { get; set; }
 
@@ -23,15 +23,15 @@ public partial class Order
 
     public Guid CustomerId { get; set; }
 
-    public Guid SalesStaffId { get; set; }
+    public Guid? SalesStaffId { get; set; }
 
-    public Guid DeliveryStaffId { get; set; }
+    public Guid? DeliveryStaffId { get; set; }
 
     public virtual Customer Customer { get; set; } = null!;
 
-    public virtual StakeHolder DeliveryStaff { get; set; } = null!;
+    public virtual StakeHolder? DeliveryStaff { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-    public virtual StakeHolder SalesStaff { get; set; } = null!;
+    public virtual StakeHolder? SalesStaff { get; set; }
 }

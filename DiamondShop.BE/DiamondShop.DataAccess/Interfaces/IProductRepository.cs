@@ -10,6 +10,9 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
+        Task<Product?> GetProductDetailById(Guid id);
         Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto);
+
+        Task<Product?> GetProductWithCategoryById(Guid id);
     }
 }

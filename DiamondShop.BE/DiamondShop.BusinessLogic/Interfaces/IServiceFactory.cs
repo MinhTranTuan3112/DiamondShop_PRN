@@ -10,5 +10,9 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IAuthService GetAuthService();
 
         IProductService GetProductService();
+
+        IOrderService GetOrderService();
+
+        IDiamondService GetDiamondService();
     }
 }

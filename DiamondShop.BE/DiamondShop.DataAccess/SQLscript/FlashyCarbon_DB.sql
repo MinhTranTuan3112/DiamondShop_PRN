@@ -30,7 +30,7 @@ create table [Customer]
 	Fullname nvarchar(100) not null,
 	[Address] nvarchar(max),
 	PhoneNumber nvarchar(15) unique,
-	Point int,
+	Point int default 0 not null,
 
 	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
 );
@@ -42,7 +42,7 @@ create table [StakeHolder]
 	Fullname nvarchar(100),
 	[Address] nvarchar(max),
 	PhoneNumber nvarchar(15) unique,
-	Salary money,
+	Salary money default 0 not null,
 	DateHired date default CURRENT_TIMESTAMP,
 
 	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
@@ -62,13 +62,14 @@ go
 create table [Product]
 (
 	Id uniqueidentifier default newid() primary key,
-	[Type] nvarchar(50),
+	[Name] nvarchar(50),
+	[Type] nvarchar(50),		--Ring | Earring | Pendant | Bracelet | Bangles
 	Material nvarchar(100),
-	Gender bit,
-	Price money,			--Diamond Price + Doing_Price
-	[Point] int,
-	Quantity int,
-	WarrantyPeriod int,	--count as month (thoi han bao hanh)
+	Gender bit,				--0:Female		1:Male
+	Price money not null,	--Diamond Price + Doing_Price
+	[Point] int default 0 not null,
+	Quantity int default 0 not null,
+	WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
 	[LastUpdate] datetime default CURRENT_TIMESTAMP,			--for manage history
 	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
 
@@ -85,9 +86,9 @@ create table [Diamond]
 	CaratWeight nvarchar(20),
 	Clarity nvarchar(20),
 	Cut nvarchar(20),
-	Price money,
-	Quantity int,
-	WarrantyPeriod int,	--count as month (thoi han bao hanh)
+	Price money default 0 not null,
+	Quantity int default 0 not null,
+	WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
 	[LastUpdate] datetime default CURRENT_TIMESTAMP,	--for manage history
 	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
 );
@@ -109,14 +110,14 @@ create table [Order]
 	Id uniqueidentifier default newid() primary key,
 	Code nvarchar(20),
 	OrderDate datetime default CURRENT_TIMESTAMP,
-	Total money,
+	Total money default 0 not null,
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
 	Note nvarchar(max) default 'nothing here',
 	[Status] nvarchar(20) default 'created',	--create   |   confirmed   |   pay   |   deliveried   |   deleted
 
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
-	SalesStaffId uniqueidentifier not null foreign key references [StakeHolder](Id),
+	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
 	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
 );
 go
@@ -124,8 +125,10 @@ go
 create table [OrderDetail]
 (
 	Id uniqueidentifier default newid() primary key,
-	Quantity int not null,
-	SubTotal money not null,					--Product price * quantity
+	Quantity int default 0 not null,
+	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
+	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
+	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
 
 	OrderId uniqueidentifier not null foreign key references [Order](Id),
 	ProductId uniqueidentifier not null foreign key references [Product](Id)

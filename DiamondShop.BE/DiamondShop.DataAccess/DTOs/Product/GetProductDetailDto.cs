@@ -1,12 +1,16 @@
+﻿using DiamondShop.DataAccess.DTOs.Category;
+using DiamondShop.DataAccess.DTOs.Picture;
+using DiamondShop.DataAccess.DTOs.ProductPart;
+using DiamondShop.DataAccess.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using DiamondShop.DataAccess.DTOs.Category;
 
 namespace DiamondShop.DataAccess.DTOs.Product
 {
-    public class GetProductWithCategoryDto
+    public class GetProductDetailDto
     {
         public Guid Id { get; set; }
 
@@ -26,8 +30,10 @@ namespace DiamondShop.DataAccess.DTOs.Product
 
         public string? Status { get; set; }
 
-        public Guid CategoryId { get; set; }
+        public GetCategoryDto? Category { get; set; }
 
-        public GetCategoryDto Category { get; set; } = null!;
+        public ICollection<GetPictureDto> Pictures { get; set; } = [];
+        
+        public ICollection<GetProductPartDto> ProductParts { get; set; } = [];
     }
 }

@@ -15,11 +15,11 @@ namespace DiamondShop.DataAccess.Interfaces
 
         Task<T?> FindOneAsync(Expression<Func<T, bool>> expression, bool hasTrackings = true);
 
-        Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(Guid id);
 
         Task<List<T>> GetAllAsync();
 
-        Task AddAsync(T TEntity);
+        Task<T> AddAsync(T TEntity);
 
         Task UpdateAsync(T TEntity);
 

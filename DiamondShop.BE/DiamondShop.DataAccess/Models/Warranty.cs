@@ -21,9 +21,9 @@ public partial class Warranty
 
     public DateTime? EndDate { get; set; }
 
-    public string? Status { get; set; }
-
     public string? Reason { get; set; }
+
+    public string? Status { get; set; }
 
     public Guid OrderDetailId { get; set; }
 

@@ -12,17 +12,44 @@ namespace DiamondShop.DataAccess
         private readonly FlashyCarbonDbContext _context;
         private readonly Lazy<IAccountRepository> _accountRepository;
         private readonly Lazy<IProductRepository> _productRepository;
-
+        private readonly Lazy<IOrderRepository> _orderRepository;
+        private readonly Lazy<ICustomerRepository> _customerRepository;
+        private readonly Lazy<IOrderDetailRepository> _orderDetailRepository;
+        private readonly Lazy<IDiamondRepository> _diamondRepository;
         public UnitOfWork(FlashyCarbonDbContext context)
         {
             _context = context;
             _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
+            _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
+            _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
+            _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(context));
+            _diamondRepository = new Lazy<IDiamondRepository>(() => new DiamondRepository(context));
         }
 
         public IAccountRepository GetAccountRepository()
         {
             return _accountRepository.Value;
+        }
+
+        public ICustomerRepository GetCustomerRepository()
+        {
+            return _customerRepository.Value;
+        }
+
+        public IDiamondRepository GetDiamondRepository()
+        {
+            return  _diamondRepository.Value;
+        }
+
+        public IOrderDetailRepository GetOrderDetailRepository()
+        {
+            return _orderDetailRepository.Value;
+        }
+
+        public IOrderRepository GetOrderRepository()
+        {
+            return _orderRepository.Value;
         }
 
         public IProductRepository GetProductRepository()

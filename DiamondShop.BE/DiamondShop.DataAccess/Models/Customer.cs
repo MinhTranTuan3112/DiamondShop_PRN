@@ -13,7 +13,7 @@ public partial class Customer
 
     public string? PhoneNumber { get; set; }
 
-    public int? Point { get; set; }
+    public int Point { get; set; }
 
     public Guid AccountId { get; set; }
 

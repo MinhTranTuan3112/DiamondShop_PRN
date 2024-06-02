@@ -13,7 +13,7 @@ public partial class StakeHolder
 
     public string? PhoneNumber { get; set; }
 
-    public decimal? Salary { get; set; }
+    public decimal Salary { get; set; }
 
     public DateOnly? DateHired { get; set; }
 

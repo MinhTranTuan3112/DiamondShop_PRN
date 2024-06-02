@@ -13,14 +13,26 @@ using Microsoft.EntityFrameworkCore;
 namespace DiamondShop.DataAccess.Repositories
 {
     public class ProductRepository : GenericRepository<Product>, IProductRepository
+
     {
         private readonly FlashyCarbonDbContext _context;
+
         public ProductRepository(FlashyCarbonDbContext context) : base(context)
         {
-            _context = context;
+            this._context = context;
         }
 
-        public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
+        public async Task<Product?> GetProductDetailById(Guid id)
+        {
+            var product = await _context.Products
+                                .Include(p => p.Category)
+                                .Include(p => p.ProductParts)
+                                .ThenInclude(pp => pp.Diamond)
+                                .Include(p => p.Pictures)
+                                .FirstOrDefaultAsync(x => x.Id == id);
+            return product;
+        }
+         public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
         {
 
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryProductDto.QueryDto;
@@ -29,6 +41,7 @@ namespace DiamondShop.DataAccess.Repositories
                                         .Include(p => p.Pictures)
                                         .Include(p => p.Category)
                                         .Include(p => p.ProductParts)
+                                        
                                         .AsSplitQuery()
                                         .AsQueryable();
 
@@ -51,9 +64,12 @@ namespace DiamondShop.DataAccess.Repositories
             };
         }
 
-
-
-
-
+        public async Task<Product?> GetProductWithCategoryById(Guid id)
+        {
+            return await _context.Products.Include(p => p.Category)
+                                          .SingleOrDefaultAsync(x => x.Id == id);
+        }
     }
+
+       
 }

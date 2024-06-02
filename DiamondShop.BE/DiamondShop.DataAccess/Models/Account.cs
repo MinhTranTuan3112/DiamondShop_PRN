@@ -17,9 +17,9 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
-    public string Status { get; set; } = null!;
+    public string? Status { get; set; }
 
     public virtual Customer? Customer { get; set; }
 
-    public virtual ICollection<StakeHolder> StakeHolders { get; set; } = new List<StakeHolder>();
+    public virtual StakeHolder? StakeHolder { get; set; }
 }
