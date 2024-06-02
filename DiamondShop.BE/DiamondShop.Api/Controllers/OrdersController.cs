@@ -27,6 +27,13 @@ namespace DiamondShop.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("{orderId:guid}")]
+        [Authorize(Roles = "Customer, customer")]
+        public async Task<ActionResult> ConfirmOrder(Guid orderId)
+        {
+            await _serviceFactory.GetOrderService().ConfirmOrder(orderId, HttpContext.User);
+            return Ok();
+        }
 
     }
 }

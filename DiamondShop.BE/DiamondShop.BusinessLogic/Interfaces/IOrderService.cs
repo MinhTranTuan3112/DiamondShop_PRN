@@ -10,5 +10,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
     public interface IOrderService
     {
         Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims);
+        Task ConfirmOrder(Guid orderId, ClaimsPrincipal claims);
     }
 }

@@ -8,6 +8,6 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface ICustomerRepository : IGenericRepository<Customer>
     {
-
+        Task<Customer?> GetCustomerWithOrdersInfo(Guid accountId);
     }
 }

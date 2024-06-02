@@ -12,6 +12,7 @@ using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Newtonsoft.Json;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -94,6 +95,39 @@ namespace DiamondShop.BusinessLogic.Services
 
             await _unitOfWork.SaveChangesAsync();
 
+        }
+
+        public async Task ConfirmOrder(Guid orderId, ClaimsPrincipal claims)
+        {
+            var order = await _unitOfWork.GetOrderRepository().FindOneAsync(o => o.Id == orderId);
+            if (order is null)
+            {
+                throw new NotFoundException($"Can't find any orders with id {orderId}");
+            }
+
+            if (order.Status != OrderStatus.InCart.ToString())
+            {
+                throw new BadRequestException("Invalid order status");
+            }
+
+            var accountId = claims.GetAccountId();
+            var customer = await _unitOfWork.GetCustomerRepository().GetCustomerWithOrdersInfo(accountId);
+
+            if (customer is null)
+            {
+                throw new BadRequestException("No customer found");
+            }
+
+            if (!customer.Orders.Any(o => o.Id == orderId))
+            {
+                throw new BadRequestException("This order does not belong to this customer");
+            }
+
+            order.Status = OrderStatus.Pending.ToString();
+            order.OrderDate = DateTime.Now;
+            order.Note = "Vui lòng chờ nhân viên liên hệ để xác nhận đơn hàng";
+            
+            await _unitOfWork.SaveChangesAsync();
         }
 
         private async Task<Order> GetOrCreateCustomerOrderWithOrderStatus(Customer customer, OrderStatus orderStatus)

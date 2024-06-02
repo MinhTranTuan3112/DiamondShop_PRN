@@ -104,7 +104,7 @@ namespace DiamondShop.BusinessLogic.Services
         {
             var account = registerDto.Adapt<Account>();
             account.Password = HashPassword(registerDto.Password);
-            await _unitOfWork.GetAccountRepository().AddAsync(account);
+            await _unitOfWork.GetAccountRepository().AddAsync(account); 
             await _unitOfWork.SaveChangesAsync();
         }
     }
