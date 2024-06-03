@@ -62,7 +62,8 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             updateDiamondDto.Adapt(diamond);
-
+            diamond.LastUpdate = DateTime.Now;
+            
             await _unitOfWork.SaveChangesAsync();
         }
     }
