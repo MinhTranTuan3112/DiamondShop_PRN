@@ -3,6 +3,7 @@ using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Interfaces;
+using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
 using System;
@@ -21,6 +22,15 @@ namespace DiamondShop.BusinessLogic.Services
         {
             _unitOfWork = unitOfWork;
         }
+
+        public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
+        {
+            var diamond = await _unitOfWork.GetDiamondRepository().AddAsync(createDiamondDto.Adapt<Diamond>());
+            await _unitOfWork.SaveChangesAsync();
+
+            return new GetDiamondIdDto { Id = diamond.Id };
+        }
+
         public async Task<PagedResult<GetDiamondInPageResultDto>> GetPageDiamonds(QueryDiamondDto queryDiamondDto)
         {
             if (queryDiamondDto.StartPrice > queryDiamondDto.EndPrice)
