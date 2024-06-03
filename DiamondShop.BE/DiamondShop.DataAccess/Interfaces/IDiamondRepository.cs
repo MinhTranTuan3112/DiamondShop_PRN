@@ -13,5 +13,6 @@ namespace DiamondShop.DataAccess.Interfaces
     public interface IDiamondRepository : IGenericRepository<Diamond>
     {
         Task<PagedResult<Diamond>> GetPagedDiamonds(QueryDiamondDto queryDiamondDto);
+        Task<Diamond?> GetDiamondDetailsById(Guid id);
     }
 }
