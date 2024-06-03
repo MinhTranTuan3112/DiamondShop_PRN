@@ -15,17 +15,24 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<IDiamondService> _diamondService;
+        private readonly Lazy<ICategoryService> _categoryService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork));
             _orderService = new Lazy<IOrderService>(() => new OrderService(unitOfWork));
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork));
+            _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
         }
 
         public IAuthService GetAuthService()
         {
             return _authService.Value;
+        }
+
+        public ICategoryService GetCategoryService()
+        {
+            return _categoryService.Value;
         }
 
         public IDiamondService GetDiamondService()

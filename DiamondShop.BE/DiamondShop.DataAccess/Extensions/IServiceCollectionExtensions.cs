@@ -26,6 +26,7 @@ namespace DiamondShop.DataAccess.Extensions
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IDiamondRepository, DiamondRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             return services;
         }
     }
