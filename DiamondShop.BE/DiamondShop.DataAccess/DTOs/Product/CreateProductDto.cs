@@ -1,4 +1,5 @@
 ﻿using DiamondShop.DataAccess.DTOs.ProductPart;
+using DiamondShop.DataAccess.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,7 @@ namespace DiamondShop.DataAccess.DTOs.Product
         public required string Name { get; set; }
         [MaxLength(255)]
         [Required]
+        [EnumDataType(typeof(ProductType))]
         public required string Type { get; set; }
         [MaxLength(255)]
         [Required]
