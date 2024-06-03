@@ -25,6 +25,12 @@ namespace DiamondShop.Api.Controllers
             return await _serviceFactory.GetDiamondService().GetPageDiamonds(queryDiamondDto);
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<GetDiamondDetailsDto>> GetDiamondDetailsById(Guid id)
+        {
+            return await _serviceFactory.GetDiamondService().GetDiamondDetailsById(id);
+        }
+
         [HttpPost]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
         public async Task<ActionResult<GetDiamondIdDto>> CreateDiamond([FromBody] CreateDiamondDto createDiamondDto)

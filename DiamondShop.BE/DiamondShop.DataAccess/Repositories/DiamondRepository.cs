@@ -22,6 +22,17 @@ namespace DiamondShop.DataAccess.Repositories
         {
             this._context = context;
         }
+
+        public async Task<Diamond?> GetDiamondDetailsById(Guid id)
+        {
+            return await _context.Diamonds.AsNoTracking()
+                                         .Include(d => d.Pictures)
+                                         .Include(d => d.Certifications)
+                                         .Include(d => d.ProductParts)
+                                         .AsSplitQuery()
+                                         .SingleOrDefaultAsync(d => d.Id == id);
+        }
+
         public async Task<PagedResult<Diamond>> GetPagedDiamonds(QueryDiamondDto queryDiamondDto)
         {
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDto.QueryDto;
