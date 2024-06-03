@@ -10,7 +10,9 @@ namespace DiamondShop.DataAccess.Interfaces
     public interface IGenericRepository<T> where T : class
     {
         IQueryable<T> Entities { get; }
-
+        Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
+        Task<int> CountAsync(Expression<Func<T, bool>> expression);
+        Task AddRangeAsync(IEnumerable<T> Tentities);
         Task<List<T>> FindAsync(Expression<Func<T, bool>> expression);
 
         Task<T?> FindOneAsync(Expression<Func<T, bool>> expression, bool hasTrackings = true);
