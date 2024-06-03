@@ -13,6 +13,9 @@ namespace DiamondShop.DataAccess.DTOs.Product
     public class GetProductDetailDto
     {
         public Guid Id { get; set; }
+        public string? Name { get; set; }
+
+        public string? Type { get; set; }
 
         public string? Material { get; set; }
 
