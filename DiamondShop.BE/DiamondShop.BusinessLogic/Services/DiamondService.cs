@@ -40,5 +40,18 @@ namespace DiamondShop.BusinessLogic.Services
 
             return (await _unitOfWork.GetDiamondRepository().GetPagedDiamonds(queryDiamondDto)).Adapt<PagedResult<GetDiamondInPageResultDto>>();
         }
+
+        public async Task UpdateDiamond(Guid id, UpdateDiamondDto updateDiamondDto)
+        {
+            var diamond = await _unitOfWork.GetDiamondRepository().FindOneAsync(d => d.Id == id);
+            if (diamond is null)
+            {
+                throw new NotFoundException($"Can't find any diamonds with id {id}");
+            }
+
+            updateDiamondDto.Adapt(diamond);
+
+            await _unitOfWork.SaveChangesAsync();
+        }
     }
 }

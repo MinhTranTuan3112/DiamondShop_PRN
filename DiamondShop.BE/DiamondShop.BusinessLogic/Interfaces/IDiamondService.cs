@@ -15,5 +15,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
 
         Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto);
 
+        Task UpdateDiamond(Guid id, UpdateDiamondDto updateDiamondDto);
+
     }
 }
