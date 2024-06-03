@@ -31,6 +31,18 @@ namespace DiamondShop.BusinessLogic.Services
             return new GetDiamondIdDto { Id = diamond.Id };
         }
 
+        public async Task<GetDiamondDetailsDto> GetDiamondDetailsById(Guid id)
+        {
+            var diamond = await _unitOfWork.GetDiamondRepository().GetDiamondDetailsById(id);
+
+            if (diamond is null)
+            {
+                throw new NotFoundException($"Can't find any diamonds with id {id}");
+            }
+
+            return diamond.Adapt<GetDiamondDetailsDto>();
+        }
+
         public async Task<PagedResult<GetDiamondInPageResultDto>> GetPageDiamonds(QueryDiamondDto queryDiamondDto)
         {
             if (queryDiamondDto.StartPrice > queryDiamondDto.EndPrice)
