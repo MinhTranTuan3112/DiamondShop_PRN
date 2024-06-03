@@ -14,5 +14,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IOrderService GetOrderService();
 
         IDiamondService GetDiamondService();
+
+        ICategoryService GetCategoryService();
     }
 }
