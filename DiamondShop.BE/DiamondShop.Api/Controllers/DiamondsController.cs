@@ -31,5 +31,13 @@ namespace DiamondShop.Api.Controllers
         {
             return Created(nameof(CreateDiamond), await _serviceFactory.GetDiamondService().CreateDiamond(createDiamondDto));
         }
+
+        [HttpPut("{id:guid}")]
+        // [Authorize(Roles = "SalesStaff, sales-staff")]
+        public async Task<ActionResult> UpdateDiamond(Guid id, [FromBody] UpdateDiamondDto updateDiamondDto)
+        {
+            await _serviceFactory.GetDiamondService().UpdateDiamond(id, updateDiamondDto);
+            return NoContent();
+        }
     }
 }
