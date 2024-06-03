@@ -13,5 +13,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
     {
         Task<PagedResult<GetDiamondInPageResultDto>> GetPageDiamonds(QueryDiamondDto queryDiamondDto);
 
+        Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto);
+
     }
 }
