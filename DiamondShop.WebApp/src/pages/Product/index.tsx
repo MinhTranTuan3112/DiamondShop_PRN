@@ -4,9 +4,8 @@ import Footer from "../../Components/Layout/Footer";
 import Header from "../../Components/Layout/Header";
 import "./style.css";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { Button, TextField } from "@mui/material";
+import { Button, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { CiShoppingCart } from "react-icons/ci";
-
 const productFunc = {
   id: "",
   name: "",
@@ -37,19 +36,52 @@ const initialAddToCart = {
   quantity: "1",
   productId: "",
   ringSize: "1",
+  diamondId: "",
   sumSizePrice: "",
 };
 
+const initDiamond = {
+  id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  name: "string",
+  color: "string",
+  origin: "string",
+  caratWeight: "string",
+  clarity: "string",
+  cut: "string",
+  price: 0,
+  quantity: 0,
+  warrantyPeriod: 0,
+  lastUpdate: "2024-06-04T09:26:28.155Z",
+  status: "string",
+  pictures: [
+    {
+      id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      urlPath: "string",
+    },
+  ],
+};
+
 function Product() {
-  //localStorage.setItem('account',"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIxIiwiYWlkIjoiOGQyOWJiMWUtZDc5OS00ZDkwLWJhNjQtYjE3OTVmN2EzYWU2IiwiZXhwIjoxNzE4MDcxOTM3LCJpc3MiOiJEaWFtb25kU2hvcF9BUEkiLCJhdWQiOiJEaWFtb25kU2hvcF9DbGllbnQifQ.C7Tdd83Ek1Nk1h_5lTYeXGLQfqY9LaRnlWOfSD12R5Y")
+  
   const [searchParams] = useSearchParams();
   const productid = searchParams.get("id");
   const [product, setProduct] = useState(productFunc);
   const [pictureIndex, setPictureIndex] = useState(0);
+  const [diamond, setDiamond] = useState([initDiamond]);
   const [addToCart, setAddToCart] = useState(initialAddToCart);
-  //console.log(localStorage.getItem('account'));
-  
+  console.log(localStorage.getItem('account'));
+
   useEffect(() => {
+    const fetchDiamond = async () => {
+      const response = await fetch(`https://localhost:7054/api/Diamonds`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setDiamond(data.results);
+    };
+
     const fetchProduct = async () => {
       try {
         const response = await fetch(
@@ -72,6 +104,7 @@ function Product() {
 
     if (productid) {
       fetchProduct();
+      fetchDiamond();
     }
   }, [productid]);
 
@@ -104,8 +137,10 @@ function Product() {
   };
 
   const handleSubmit = async () => {
-    console.log(addToCart);
-    
+    //console.log(addToCart);
+    if(localStorage.getItem('account') === null){
+      window.location.href = "/login"
+    }
     const response = await fetch(
       "https://localhost:7054/api/Orders/add-to-cart",
       {
@@ -189,7 +224,26 @@ function Product() {
               InputLabelProps={{ style: { fontSize: 16 } }}
             />
           </div>
-          <div className="product-right-item"></div>
+          <div className="product-right-item">
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              onChange={(e) => {
+                setAddToCart({
+                  ...addToCart,
+                  diamondId: (e.target as HTMLInputElement).value,
+                });
+              }}
+            >
+              {diamond.map((dia, key) => (
+                <MenuItem key={key} value={dia.id}>
+                  {dia.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
           <Button variant="contained" color="info" onClick={handleSubmit}>
             <CiShoppingCart className="top-act-img" />
             <span style={{ fontSize: "10px" }}>Add to cart</span>
