@@ -19,21 +19,16 @@ namespace DiamondShop.BusinessLogic.Services
     public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceFactory _serviceFactory;
 
-        public OrderService(IUnitOfWork unitOfWork)
+        public OrderService(IUnitOfWork unitOfWork, IServiceFactory serviceFactory)
         {
             _unitOfWork = unitOfWork;
+            _serviceFactory = serviceFactory;
         }
 
         public async Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims)
         {
-            var product = await _unitOfWork.GetProductRepository().FindOneAsync(p => p.Id == addToCartDto.ProductId);
-
-            if (product is null)
-            {
-                throw new NotFoundException($"Can't find any products with id {addToCartDto.ProductId}");
-            }
-
             var accountId = claims.GetAccountId();
             var customer = await _unitOfWork.GetCustomerRepository().FindOneAsync(c => c.AccountId == accountId);
 
@@ -44,55 +39,25 @@ namespace DiamondShop.BusinessLogic.Services
 
             var order = await GetOrCreateCustomerOrderWithOrderStatus(customer, OrderStatus.InCart);
 
+            if (addToCartDto is { ProductId: not null, DiamondId: not null })
+            {
+                throw new BadRequestException("Can't have both ProductId and DiamondId in the same request.");
+            }
+
             //TODO: Order detail logic here
-            var orderDetail = order.OrderDetails.FirstOrDefault(od => od.ProductId == addToCartDto.ProductId);
-
-            if (orderDetail is null)
+            if (addToCartDto is { ProductId: not null })
             {
-                orderDetail = await _unitOfWork.GetOrderDetailRepository().AddAsync(new OrderDetail
-                {
-                    OrderId = order.Id,
-                    ProductId = product.Id
-                });
-
-                await _unitOfWork.SaveChangesAsync();
+                await _serviceFactory.GetOrderDetailService().HandleAddProductToCart(order, addToCartDto);
+                return;
             }
 
-            if (product.Type == ProductType.Ring.ToString())
+            if (addToCartDto is { DiamondId: not null })
             {
-                var ringSizes = (orderDetail.RingSize is null)
-                                ? []
-                                : JsonConvert.DeserializeObject<List<RingSizeDto>>(orderDetail.RingSize);
-
-                var ringSize = ringSizes?.FirstOrDefault(rs => rs.Size == addToCartDto.RingSize);
-                if (ringSize is null)
-                {
-                    ringSizes?.Add(new RingSizeDto
-                    {
-                        Size = addToCartDto.RingSize is null ? 0 : Convert.ToInt32(addToCartDto.RingSize),
-                        Quantity = addToCartDto.Quantity
-                    });
-                }
-                else
-                {
-                    ringSize.Quantity += addToCartDto.Quantity;
-                }
-
-                orderDetail.RingSize = JsonConvert.SerializeObject(ringSizes);
-                orderDetail.SumSizePrice += addToCartDto.SumSizePrice;
-            }
-            else
-            {
-                orderDetail.RingSize = null;
-                orderDetail.SumSizePrice = 0;
+                await _serviceFactory.GetOrderDetailService().HandleAddDiamondToCart(order, addToCartDto);
+                return;
             }
 
-
-            orderDetail.Quantity += addToCartDto.Quantity;
-            orderDetail.SubTotal += product.Price * orderDetail.Quantity + orderDetail.SumSizePrice;
-            order.Total += orderDetail.SubTotal;
-
-            await _unitOfWork.SaveChangesAsync();
+            throw new BadRequestException("Either ProductId or DiamondId must be provided.");
 
         }
 
