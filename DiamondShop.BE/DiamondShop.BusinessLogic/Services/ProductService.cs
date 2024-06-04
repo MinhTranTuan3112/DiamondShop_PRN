@@ -23,9 +23,9 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 throw new NotFoundException("Can't find any category with this id");
             }
-            var inputDiamondIds = createProductDto.CreateProductPartDto.Select(p => p.DiamondId).ToList();
+            var inputDiamondIds = createProductDto.CreateProductPartDto.Select(p => p.DiamondId);
             var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
-            if (validDiamondCount != inputDiamondIds.Count)
+            if (validDiamondCount != inputDiamondIds.Count())
             {
                 throw new NotFoundException("One or more Diamonds are invalid.");
             }
