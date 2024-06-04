@@ -51,6 +51,7 @@ namespace DiamondShop.BusinessLogic.Services
             orderDetail.SubTotal += diamond.Price * orderDetail.Quantity;
             order.Total += orderDetail.SubTotal;
 
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task HandleAddProductToCart(Order order, AddToCartDto addToCartDto)
