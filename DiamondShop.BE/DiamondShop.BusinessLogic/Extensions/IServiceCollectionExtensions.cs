@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
+using DiamondShop.DataAccess.DTOs.Category;
+using DiamondShop.DataAccess.DTOs.Diamond;
+using DiamondShop.DataAccess.Models;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +24,8 @@ namespace DiamondShop.BusinessLogic.Extensions
         private static IServiceCollection AddMapsterConfigurations(this IServiceCollection services)
         {
             services.AddMapster();
+            TypeAdapterConfig<UpdateDiamondDto, Diamond>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<UpdateCategoryDto, Category>.NewConfig().IgnoreNullValues(true);
             return services;
         }
 
@@ -31,6 +36,7 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
     }

@@ -131,7 +131,12 @@ create table [OrderDetail]
 	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
 
 	OrderId uniqueidentifier not null foreign key references [Order](Id),
-	ProductId uniqueidentifier not null foreign key references [Product](Id)
+	ProductId uniqueidentifier foreign key references [Product](Id),
+	DiamondId uniqueidentifier foreign key references [Diamond](Id),
+	constraint CHK_ProductOrDiamond_ForeignKey check (
+        (ProductId is not null and DiamondId is null) 
+        or (ProductId is null and DiamondId is not null)
+    )
 );
 go
 
@@ -170,7 +175,7 @@ create table [Picture]
 
 	DiamondId uniqueidentifier foreign key references [Diamond](Id),
 	ProductId uniqueidentifier foreign key references [Product](Id),
-	constraint CHK_Picture_ForeignKey check (
+	constraint CHK_PictureOf_ForeignKey check (
         (ProductId IS NOT NULL AND DiamondId IS NULL) 
         OR (ProductId IS NULL AND DiamondId IS NOT NULL)
     )

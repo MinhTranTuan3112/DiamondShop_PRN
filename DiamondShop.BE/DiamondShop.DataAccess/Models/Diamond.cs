@@ -31,6 +31,8 @@ public partial class Diamond
 
     public virtual ICollection<Certification> Certifications { get; set; } = new List<Certification>();
 
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+
     public virtual ICollection<Picture> Pictures { get; set; } = new List<Picture>();
 
     public virtual ICollection<ProductPart> ProductParts { get; set; } = new List<ProductPart>();
