@@ -12,8 +12,9 @@ namespace DiamondShop.DataAccess.DTOs.Order
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
         public required int Quantity { get; set; }
 
-        [Required]
-        public required Guid ProductId { get; set; }
+        public Guid? ProductId { get; set; }
+
+        public Guid? DiamondId { get; set; }
 
         public int? RingSize { get; set; }
 

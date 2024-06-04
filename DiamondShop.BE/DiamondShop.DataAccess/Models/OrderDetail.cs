@@ -17,11 +17,15 @@ public partial class OrderDetail
 
     public Guid OrderId { get; set; }
 
-    public Guid ProductId { get; set; }
+    public Guid? ProductId { get; set; }
+
+    public Guid? DiamondId { get; set; }
+
+    public virtual Diamond? Diamond { get; set; }
 
     public virtual Order Order { get; set; } = null!;
 
-    public virtual Product Product { get; set; } = null!;
+    public virtual Product? Product { get; set; }
 
     public virtual ICollection<Warranty> Warranties { get; set; } = new List<Warranty>();
 }
