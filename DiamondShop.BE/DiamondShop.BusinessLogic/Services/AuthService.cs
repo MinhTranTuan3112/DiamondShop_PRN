@@ -103,9 +103,8 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task Register(RegisterDto registerDto)
         {
-            var account = registerDto.Adapt<Account>();
-            account.Password = HashPassword(registerDto.Password);
-            await _unitOfWork.GetAccountRepository().AddAsync(account);
+            registerDto.Password = HashPassword(registerDto.Password);
+            var account = await _unitOfWork.GetAccountRepository().AddAsync(registerDto.Adapt<Account>());
             await _unitOfWork.SaveChangesAsync();
 
             switch (account.Role)
@@ -113,9 +112,10 @@ namespace DiamondShop.BusinessLogic.Services
                 case var role when role == Role.Customer.ToString():
                     await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
                     {
-                        AccountId = account.Id
+                        AccountId = account.Id,
+                        Fullname = string.Empty
                     });
-                    
+
                     await _unitOfWork.SaveChangesAsync();
                     break;
                 default:
