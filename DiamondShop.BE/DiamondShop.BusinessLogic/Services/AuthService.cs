@@ -9,6 +9,7 @@ using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Account;
 using DiamondShop.DataAccess.DTOs.Auth;
+using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
@@ -106,6 +107,21 @@ namespace DiamondShop.BusinessLogic.Services
             account.Password = HashPassword(registerDto.Password);
             await _unitOfWork.GetAccountRepository().AddAsync(account);
             await _unitOfWork.SaveChangesAsync();
+
+            switch (account.Role)
+            {
+                case var role when role == Role.Customer.ToString():
+                    await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
+                    {
+                        AccountId = account.Id
+                    });
+                    
+                    await _unitOfWork.SaveChangesAsync();
+                    break;
+                default:
+                    throw new BadRequestException("Invalid role or this role is not supported yet.");
+
+            }
         }
     }
 }
