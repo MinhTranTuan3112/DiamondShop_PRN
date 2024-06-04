@@ -14,6 +14,7 @@ namespace DiamondShop.DataAccess.Interfaces
         IOrderDetailRepository GetOrderDetailRepository();
         IDiamondRepository GetDiamondRepository(); 
         ICategoryRepository GetCategoryRepository();
+        IProductPartRepository GetProductPartRepository();
         Task<int> SaveChangesAsync();
     }
 }

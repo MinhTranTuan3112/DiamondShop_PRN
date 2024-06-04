@@ -19,7 +19,12 @@ namespace DiamondShop.Api.Controllers
         {
             _serviceFactory = serviceFactory;
         }
-
+        [HttpPost]
+        // [Authorize(Roles = "SalesStaff, sales-staff")]
+        public async Task<ActionResult<GetProductIdDto>> CreateDiamond([FromBody] CreateProductDto createProductDto)
+        {
+            return Created(nameof(CreateDiamond), await _serviceFactory.GetProductService().CreateProduct(createProductDto));
+        }
         [HttpGet]
         public async Task<ActionResult<PagedResult<GetProductInPagedResultDto>>> GetPagedProducts([FromQuery] QueryProductDto queryProductDto)
         {

@@ -11,6 +11,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
     {
         Task<GetProductDetailDto> GetProductDetailById(Guid id);
         Task<PagedResult<GetProductInPagedResultDto>> GetPagedProducts(QueryProductDto queryProductDto);
+        Task<GetProductIdDto> CreateProduct(CreateProductDto createProductDto);
     }
 }
         
