@@ -112,5 +112,15 @@ namespace DiamondShop.BusinessLogic.Services
 
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<List<OrderDetail>> GetListByOrderId(Guid orderid)
+        {
+            var list = await _unitOfWork.GetOrderDetailRepository().FindAsync(od => od.OrderId==orderid);
+            if (list.Count==0)
+            {
+                return null;
+            }
+            return list;
+        }
     }
 }

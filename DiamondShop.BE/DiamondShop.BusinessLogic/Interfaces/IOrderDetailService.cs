@@ -11,5 +11,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
     {
         Task HandleAddProductToCart(Order order, AddToCartDto addToCartDto);
         Task HandleAddDiamondToCart(Order order, AddToCartDto addToCartDto);
+        public Task<List<OrderDetail>> GetListByOrderId(Guid orderid);
     }
 }
