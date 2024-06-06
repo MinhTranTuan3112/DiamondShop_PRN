@@ -12,6 +12,7 @@ using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -78,6 +79,34 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             return order;
+        }
+
+        public async Task<bool> ChangeStaffOrStatus(ResponseStatusDto ord, string staffRole)
+        {
+            var currentOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(ord.OrderId);
+            if (currentOrder is null)
+            {
+                return false;
+            }
+
+            switch (staffRole)
+            {
+                case "SalesStaff":
+                    currentOrder.SalesStaffId = (ord.StakeholderId.ToString().IsNullOrEmpty()) ? Guid.Empty : ord.StakeholderId;
+                    break;
+                case "DeliveryStaff":
+                    currentOrder.DeliveryStaffId = (ord.StakeholderId.ToString().IsNullOrEmpty()) ? Guid.Empty : ord.StakeholderId;
+                    break;
+                default:
+                    return false;
+            }
+
+            if (!currentOrder.Status.Equals(ord.UpdatedStatus))
+            {
+                currentOrder.Status = ord.UpdatedStatus;
+            }
+            await _unitOfWork.GetOrderRepository().UpdateAsync(currentOrder);
+            return true;
         }
     }
 }

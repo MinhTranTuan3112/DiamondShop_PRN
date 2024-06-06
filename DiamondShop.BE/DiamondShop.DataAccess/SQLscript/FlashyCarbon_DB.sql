@@ -19,7 +19,7 @@ create table [Account]
 	[Password] nvarchar(max) not null,
 	AvatarUrl nvarchar(max),
 	[CreatedTime] datetime default CURRENT_TIMESTAMP,
-	[Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:Sales-Staff   4:Delivery-Staff   5:Customer
+	[Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:SalesStaff   4:DeliveryStaff   5:Customer
 	[Status] nvarchar(20) default 'available'	--available   |   working   |   deleted
 );
 go
@@ -114,7 +114,7 @@ create table [Order]
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
 	Note nvarchar(max) default 'nothing here',
-	[Status] nvarchar(20) default 'created',	--create   |   confirmed   |   pay   |   deliveried   |   deleted
+	[Status] nvarchar(20) default 'created',	--InCart   |   Pending   |   Received   |   Confirmed   |   Pay   |   Deliveried   |   Deleted
 
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
 	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
