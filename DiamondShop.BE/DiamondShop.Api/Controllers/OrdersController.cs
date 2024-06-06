@@ -41,14 +41,13 @@ namespace DiamondShop.Api.Controllers
         [HttpPost("receive-order"), Authorize(Roles = "SalesStaff, DeliveryStaff")]
         public async Task<IActionResult> ReceiveOrder(StaffReceiveDto order)
         {
-            var userClaims = User.Claims.ToList();
-            if (userClaims.Any())
+            string currentRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (currentRole.IsNullOrEmpty())
             {
-                string currentRole = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-                bool resultSuccess = await _serviceFactory.GetOrderService().ChangeStaffOrStatus(order, currentRole);
-                return resultSuccess ? Ok("Update Success") : BadRequest("Update Failed");
+                return Unauthorized();
             }
-            return Unauthorized();
+            bool resultSuccess = await _serviceFactory.GetOrderService().ChangeStaffOrStatus(order, currentRole);
+            return resultSuccess ? Ok("Update Success") : BadRequest("Update Failed");
         }
 
         [HttpDelete, Authorize(Roles = "Manager")]
