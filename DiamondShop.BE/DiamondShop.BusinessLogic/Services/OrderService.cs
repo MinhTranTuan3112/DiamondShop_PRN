@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.BusinessLogic.Interfaces;
@@ -81,10 +82,10 @@ namespace DiamondShop.BusinessLogic.Services
             return order;
         }
 
-        public async Task<bool> ChangeStaffOrStatus(ResponseStatusDto ord, string staffRole)
+        public async Task<bool> ChangeStaffOrStatus(StaffReceiveDto ord, string staffRole)
         {
             var currentOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(ord.OrderId);
-            if (currentOrder is null)
+            if (currentOrder is null || currentOrder.Status.Equals("Deleted") || ord.UpdatedStatus.IsNullOrEmpty())
             {
                 return false;
             }
@@ -101,10 +102,47 @@ namespace DiamondShop.BusinessLogic.Services
                     return false;
             }
 
-            if (!currentOrder.Status.Equals(ord.UpdatedStatus))
+            // Add ShipTime if order change from Pay to Deliveried      |else: remove ship time
+            if (!currentOrder.Status!.Equals("Deliveried") && ord.UpdatedStatus.Equals("Deliveried"))
             {
-                currentOrder.Status = ord.UpdatedStatus;
+                currentOrder.ShipDate = DateTime.Now;
             }
+            else { currentOrder.ShipDate = null; }
+
+            //Then change Status
+            currentOrder.Status = ord.UpdatedStatus;
+
+            //Save Change
+            await _unitOfWork.GetOrderRepository().UpdateAsync(currentOrder);
+            return true;
+        }
+
+        public async Task<bool> ChangeInfoOrStatus(CustomerSendDto ord)
+        {
+            var currentOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(ord.OrderId);
+            if (currentOrder is null || currentOrder.Status!.Equals("Deleted") || ord.Status.IsNullOrEmpty())
+            {
+                return false;
+            }
+            currentOrder.ShipAddress = ord.ShipAddress;
+            currentOrder.Note = ord.Note;
+            currentOrder.Status = ord.Status;
+
+            //Save Change
+            await _unitOfWork.GetOrderRepository().UpdateAsync(currentOrder);
+            return true;
+        }
+
+        public async Task<bool> DeleteOrder(Guid orderId)
+        {
+            var currentOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(orderId);
+            if (currentOrder is null || currentOrder.Status!.Equals("Deleted"))
+            {
+                return false;
+            }
+            currentOrder.Status = "Deleted";
+
+            //Save Change
             await _unitOfWork.GetOrderRepository().UpdateAsync(currentOrder);
             return true;
         }

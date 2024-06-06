@@ -10,6 +10,8 @@ namespace DiamondShop.BusinessLogic.Interfaces
     public interface IOrderService
     {
         Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims);
-        public Task<bool> ChangeStaffOrStatus(ResponseStatusDto ord, string staffRole);
+        public Task<bool> ChangeStaffOrStatus(StaffReceiveDto ord, string staffRole);
+        public Task<bool> ChangeInfoOrStatus(CustomerSendDto ord);
+        public Task<bool> DeleteOrder(Guid orderId);
     }
 }

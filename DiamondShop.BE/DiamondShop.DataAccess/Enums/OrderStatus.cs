@@ -6,6 +6,7 @@ namespace DiamondShop.DataAccess.Enums
         Pending,
         Confirmed,
         Deliveried,
+        Returned,
         Deleted
     }
 }
