@@ -29,7 +29,7 @@ export default function Paging() {
               fontWeight: "500",
             },
             "& .Mui-selected": {
-              backgroundColor: "#FFD700",
+              background: "#FFD700 !important",
               color: "white",
               fontSize: "1.5rem",
             },
