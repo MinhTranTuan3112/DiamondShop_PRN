@@ -10,7 +10,7 @@ type Props = {
     body?: any;
 }
 
-const customFetch = async ({
+export const customFetch = async ({
     endpointPath,
     options = {},
     baseUrl = 'http://localhost:5217/api',

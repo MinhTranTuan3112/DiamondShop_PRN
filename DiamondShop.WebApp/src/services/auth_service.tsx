@@ -1,3 +1,4 @@
+import { customFetch } from "./custom_fetch";
 
 export const fetchLogin = async (email: string, password: string) => {
 
