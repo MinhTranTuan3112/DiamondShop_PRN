@@ -55,14 +55,10 @@ namespace DiamondShop.BusinessLogic.Services
                 throw new UnauthorizedException("Wrong email or password");
             }
 
-            return new GetAuthTokenDto
-            {
-                AccessToken = GenerateAccessToken(account.Id, account.Role)
-            };
-
+            return GenerateAccessToken(account.Id, account.Role);
         }
 
-        private string GenerateAccessToken(Guid accountId, string role)
+        private GetAuthTokenDto GenerateAccessToken(Guid accountId, string role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtAuth:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -72,15 +68,21 @@ namespace DiamondShop.BusinessLogic.Services
                 new("aid", accountId.ToString())
             };
 
+            var expireTime = DateTime.Now.AddDays(7);
+
             var token = new JwtSecurityToken(
               issuer: _configuration["JwtAuth:Issuer"],
               audience: _configuration["JwtAuth:Audience"],
               claims: claims,
-              expires: DateTime.Now.AddDays(7),
+              expires: expireTime,
               signingCredentials: credentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new GetAuthTokenDto
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpireIn = expireTime
+            };
         }
 
         private string HashPassword(string password)
