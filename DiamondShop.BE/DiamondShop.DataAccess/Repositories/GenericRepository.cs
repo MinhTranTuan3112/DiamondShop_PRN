@@ -72,5 +72,11 @@ namespace DiamondShop.DataAccess.Repositories
         {
             return await _context.Set<T>().CountAsync(expression);
         }
+
+        public Task DeleteRangeAsync(IEnumerable<T> TEntities)
+        {
+            _context.Set<T>().RemoveRange(TEntities);
+            return Task.CompletedTask;
+        }
     }
 }
