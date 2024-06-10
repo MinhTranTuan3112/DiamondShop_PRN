@@ -11,10 +11,11 @@ namespace DiamondShop.BusinessLogic.Services
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public ProductService(IUnitOfWork unitOfWork)
+        private readonly IServiceFactory _serviceFactory;
+        public ProductService(IUnitOfWork unitOfWork, IServiceFactory serviceFactory)
         {
             _unitOfWork = unitOfWork;
+            _serviceFactory = serviceFactory;
         }
         public async Task<GetProductIdDto> CreateProduct(CreateProductDto createProductDto)
         {
@@ -34,6 +35,18 @@ namespace DiamondShop.BusinessLogic.Services
             product.LastUpdate = DateTime.Now;
             await _unitOfWork.GetProductRepository().AddAsync(product);
             await _unitOfWork.SaveChangesAsync();
+            var pictures = new List<Picture>();
+            foreach (var pictureDto in createProductDto.Pictures)
+            { 
+                var imageUrl = await _serviceFactory.GetFirebaseStorageService().UploadImageAsync(pictureDto);
+                var picture = new Picture
+                {
+                    UrlPath = imageUrl,
+                    ProductId = product.Id
+                };
+                pictures.Add(picture);
+            }
+            await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
             var productParts = createProductDto.CreateProductPartDto.Select(p =>
             {
                 var productPart = p.Adapt<ProductPart>();

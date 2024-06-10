@@ -23,7 +23,7 @@ namespace DiamondShop.BusinessLogic
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
-            _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork));
+            _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, this));
             _orderService = new Lazy<IOrderService>(() => new OrderService(unitOfWork, this));
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
