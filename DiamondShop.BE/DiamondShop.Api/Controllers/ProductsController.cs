@@ -21,7 +21,7 @@ namespace DiamondShop.Api.Controllers
         }
         [HttpPost]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
-        public async Task<ActionResult<GetProductIdDto>> CreateDiamond([FromBody] CreateProductDto createProductDto)
+        public async Task<ActionResult<GetProductIdDto>> CreateDiamond([FromForm] CreateProductDto createProductDto)
         {
             return Created(nameof(CreateDiamond), await _serviceFactory.GetProductService().CreateProduct(createProductDto));
         }
