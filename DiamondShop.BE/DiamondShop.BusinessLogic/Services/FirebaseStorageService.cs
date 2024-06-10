@@ -24,14 +24,35 @@ namespace DiamondShop.BusinessLogic.Services
             _bucketName = _configuration["Firebase:Bucket"]!;
         }
 
-        public async Task DeleteImageAsync(string imageName)
+        private string ExtractImageNameFromUrl(string imageUrl)
         {
-            await _storageClient.DeleteObjectAsync(_bucketName, imageName, cancellationToken: CancellationToken.None);
+            var uri = new Uri(imageUrl);
+            var segments = uri.Segments;
+            var escapedImageName = segments[segments.Length - 1];
+            var imageName = Uri.UnescapeDataString(escapedImageName);
+
+            return imageName;
+        }
+
+        public async Task DeleteImageAsync(string imageUrl)
+        {
+            await _storageClient.DeleteObjectAsync(_bucketName, ExtractImageNameFromUrl(imageUrl), cancellationToken: CancellationToken.None);
+        }
+
+        public async Task DeleteImagesAsync(List<string> imageUrls)
+        {
+            var deleteImageTasks = new List<Task>();
+
+            foreach (var imageUrl in imageUrls)
+            {
+                deleteImageTasks.Add(DeleteImageAsync(imageUrl));
+            }
+
+            await Task.WhenAll(deleteImageTasks);
         }
 
         public string GetImageUrl(string imageName)
         {
-
             string imageUrl = $"https://firebasestorage.googleapis.com/v0/b/{_bucketName}/o/{Uri.EscapeDataString(imageName)}?alt=media";
             return imageUrl;
         }
@@ -70,6 +91,23 @@ namespace DiamondShop.BusinessLogic.Services
 
             return GetImageUrl(imageFile.FileName);
 
+        }
+
+        public async Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles)
+        {
+
+            var uploadTasks = new List<Task<string>>();
+
+            for (int i = 0; i < imageFiles.Count; i++)
+            {
+                var imageFile = imageFiles[i];
+
+                uploadTasks.Add(UploadImageAsync(imageFile));
+            }
+
+            var imageUrls = await Task.WhenAll(uploadTasks);
+
+            return imageUrls;
         }
     }
 }

@@ -63,6 +63,11 @@ namespace DiamondShop.DataAccess
             return _orderRepository.Value;
         }
 
+        public IPictureRepository GetPictureRepository()
+        {
+            return _pictureRepository.Value;
+        }
+
         public IProductPartRepository GetProductPartRepository()
         {
             return _productPartRepository.Value;

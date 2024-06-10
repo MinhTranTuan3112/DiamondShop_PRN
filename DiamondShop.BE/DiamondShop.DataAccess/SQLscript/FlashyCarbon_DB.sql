@@ -171,7 +171,7 @@ go
 create table [Picture]
 (
 	Id uniqueidentifier default newid() primary key,
-	UrlPath nvarchar(max),
+	UrlPath nvarchar(max) not null,
 
 	DiamondId uniqueidentifier foreign key references [Diamond](Id),
 	ProductId uniqueidentifier foreign key references [Product](Id),

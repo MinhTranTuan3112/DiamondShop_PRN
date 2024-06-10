@@ -1,14 +1,16 @@
-﻿using DiamondShop.DataAccess.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 
-namespace DiamondShop.DataAccess.Repositories;
-
-public class PictureRepository : GenericRepository<Picture>, IPictureRepository
+namespace DiamondShop.DataAccess.Repositories
 {
-    private readonly FlashyCarbonDbContext _context;
-
-    public PictureRepository(FlashyCarbonDbContext context) : base(context)
+    public class PictureRepository : GenericRepository<Picture>, IPictureRepository
     {
-        this._context = context;
+        public PictureRepository(FlashyCarbonDbContext context) : base(context)
+        {
+        }
     }
 }
