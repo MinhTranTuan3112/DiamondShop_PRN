@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
 using DiamondShop.DataAccess.Interfaces;
+using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client.Extensions.Msal;
 
 namespace DiamondShop.BusinessLogic
 {
@@ -17,7 +19,8 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IDiamondService> _diamondService;
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IOrderDetailService> _orderDetailService;
-        public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
+        private readonly Lazy<IFirebaseStorageService> _firebaseStorageService;
+        public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork));
@@ -25,6 +28,7 @@ namespace DiamondShop.BusinessLogic
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
             _orderDetailService = new Lazy<IOrderDetailService>(() => new OrderDetailService(unitOfWork));
+            _firebaseStorageService = new Lazy<IFirebaseStorageService>(() => new FirebaseStorageService(storageClient, configuration));
         }
 
         public IAuthService GetAuthService()
@@ -40,6 +44,11 @@ namespace DiamondShop.BusinessLogic
         public IDiamondService GetDiamondService()
         {
             return _diamondService.Value;
+        }
+
+        public IFirebaseStorageService GetFirebaseStorageService()
+        {
+            return _firebaseStorageService.Value;
         }
 
         public IOrderDetailService GetOrderDetailService()
