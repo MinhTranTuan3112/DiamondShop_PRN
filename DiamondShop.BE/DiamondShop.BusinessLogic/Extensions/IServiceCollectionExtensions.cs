@@ -40,6 +40,7 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddSingleton(opt => StorageClient.Create());
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
+            services.AddScoped<IPictureService, PictureService>();
             return services;
         }
     }

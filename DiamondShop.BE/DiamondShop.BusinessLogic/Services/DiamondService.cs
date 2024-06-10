@@ -6,6 +6,7 @@ using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,26 @@ namespace DiamondShop.BusinessLogic.Services
     public class DiamondService : IDiamondService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceFactory _serviceFactory;
 
-        public DiamondService(IUnitOfWork unitOfWork)
+        public DiamondService(IUnitOfWork unitOfWork, IServiceFactory serviceFactory)
         {
             _unitOfWork = unitOfWork;
+            _serviceFactory = serviceFactory;
         }
 
         public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
         {
-            var diamond = await _unitOfWork.GetDiamondRepository().AddAsync(createDiamondDto.Adapt<Diamond>());
+            var diamond = createDiamondDto.Adapt<Diamond>();
+
+            await _unitOfWork.GetDiamondRepository().AddAsync(diamond);
             await _unitOfWork.SaveChangesAsync();
+
+            if (createDiamondDto.DiamondImages is not [])
+            {
+                await _serviceFactory.GetPictureService().UploadDiamondPictures(createDiamondDto.DiamondImages, diamond.Id);
+            }
+
 
             return new GetDiamondIdDto { Id = diamond.Id };
         }
@@ -63,7 +74,7 @@ namespace DiamondShop.BusinessLogic.Services
 
             updateDiamondDto.Adapt(diamond);
             diamond.LastUpdate = DateTime.Now;
-            
+
             await _unitOfWork.SaveChangesAsync();
         }
     }
