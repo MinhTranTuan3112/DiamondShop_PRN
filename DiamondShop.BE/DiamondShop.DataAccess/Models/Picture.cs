@@ -7,7 +7,7 @@ public partial class Picture
 {
     public Guid Id { get; set; }
 
-    public string? UrlPath { get; set; }
+    public string UrlPath { get; set; } = null!;
 
     public Guid? DiamondId { get; set; }
 

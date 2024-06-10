@@ -40,7 +40,7 @@ namespace DiamondShop.Api.Controllers
 
         [HttpPut("{id:guid}")]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
-        public async Task<ActionResult> UpdateDiamond(Guid id, [FromBody] UpdateDiamondDto updateDiamondDto)
+        public async Task<ActionResult> UpdateDiamond([FromRoute] Guid id, [FromForm] UpdateDiamondDto updateDiamondDto)
         {
             await _serviceFactory.GetDiamondService().UpdateDiamond(id, updateDiamondDto);
             return NoContent();

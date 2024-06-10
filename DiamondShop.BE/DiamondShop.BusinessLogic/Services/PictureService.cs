@@ -21,6 +21,17 @@ namespace DiamondShop.BusinessLogic.Services
             _serviceFactory = serviceFactory;
         }
 
+        public async Task DeletePictures(IEnumerable<Picture> pictures)
+        {
+            var pictureUrls = pictures.Select(p => p.UrlPath);
+
+            await _serviceFactory.GetFirebaseStorageService().DeleteImagesAsync(pictureUrls.ToList());
+
+            await _unitOfWork.GetPictureRepository().DeleteRangeAsync(pictures);
+
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task UploadDiamondPictures(List<IFormFile> pictureFiles, Guid diamondId)
         {
             if (pictureFiles is [])
