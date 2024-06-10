@@ -71,5 +71,22 @@ namespace DiamondShop.BusinessLogic.Services
             return GetImageUrl(imageFile.FileName);
 
         }
+
+        public async Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles)
+        {
+
+            var uploadTasks = new List<Task<string>>();
+
+            for (int i = 0; i < imageFiles.Count; i++)
+            {
+                var imageFile = imageFiles[i];
+
+                uploadTasks.Add(UploadImageAsync(imageFile));
+            }
+
+            var imageUrls = await Task.WhenAll(uploadTasks);
+
+            return imageUrls;
+        }
     }
 }

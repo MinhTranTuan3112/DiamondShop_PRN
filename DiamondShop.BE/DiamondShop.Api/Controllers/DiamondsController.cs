@@ -33,7 +33,7 @@ namespace DiamondShop.Api.Controllers
 
         [HttpPost]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
-        public async Task<ActionResult<GetDiamondIdDto>> CreateDiamond([FromBody] CreateDiamondDto createDiamondDto)
+        public async Task<ActionResult<GetDiamondIdDto>> CreateDiamond([FromForm] CreateDiamondDto createDiamondDto)
         {
             return Created(nameof(CreateDiamond), await _serviceFactory.GetDiamondService().CreateDiamond(createDiamondDto));
         }

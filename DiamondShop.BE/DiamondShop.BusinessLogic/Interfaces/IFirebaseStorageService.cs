@@ -15,5 +15,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task<string> UpdateImageAsync(IFormFile imageFile, string imageName);
 
         Task DeleteImageAsync(string imageName);
+
+        Task<string[]> UploadImagesAsync(List<IFormFile> imageFiles);
     }
 }
