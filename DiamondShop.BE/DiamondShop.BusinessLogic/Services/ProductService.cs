@@ -35,6 +35,7 @@ namespace DiamondShop.BusinessLogic.Services
                     .UploadImagesAsync(createProductDto.Pictures);
                 var pictures = imageUrl.Select(image => new Picture { UrlPath = image, ProductId = product.Id }).ToList();
                 await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
+                await _unitOfWork.SaveChangesAsync();
             }
             return new GetProductIdDto { Id = product.Id };
         }
