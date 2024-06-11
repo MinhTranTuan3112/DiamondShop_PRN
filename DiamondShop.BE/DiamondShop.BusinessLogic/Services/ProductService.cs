@@ -24,12 +24,6 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 throw new NotFoundException("Can't find any category with this id");
             }
-            var inputDiamondIds = createProductDto.CreateProductPartDto.Select(p => p.DiamondId);
-            var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
-            if (validDiamondCount != inputDiamondIds.Count())
-            {
-                throw new NotFoundException("One or more Diamonds are invalid.");
-            }
             var product = createProductDto.Adapt<Product>();
             product.Status = CategoryStatus.Available.ToString();
             product.LastUpdate = DateTime.Now;
@@ -42,15 +36,26 @@ namespace DiamondShop.BusinessLogic.Services
                 var pictures = imageUrl.Select(image => new Picture { UrlPath = image, ProductId = product.Id }).ToList();
                 await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
             }
-            var productParts = createProductDto.CreateProductPartDto.Select(p =>
-            {
-                var productPart = p.Adapt<ProductPart>();
-                productPart.ProductId = product.Id;
-                return productPart;
-            }).ToList();
-            await _unitOfWork.GetProductPartRepository().AddRangeAsync(productParts);
-            await _unitOfWork.SaveChangesAsync();
             return new GetProductIdDto { Id = product.Id };
+        }
+
+        public async Task<GetProductIdDto> CreateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetByIdAsync(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var inputDiamondIds = createProductPropertiesDto.CreateProductPartDtos.Select(p => p.DiamondId);
+            var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
+            if (validDiamondCount != inputDiamondIds.Count())
+            {
+                throw new NotFoundException("One or more Diamonds are invalid.");
+            }
+
+            await _serviceFactory.GetProductPartService()
+                .CreateProductPart(createProductPropertiesDto.CreateProductPartDtos, product.Id);
+            return new GetProductIdDto { Id = productId };
         }
 
 

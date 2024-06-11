@@ -36,6 +36,5 @@ namespace DiamondShop.DataAccess.DTOs.Product
         public Guid CategoryId { get; set; }
 
         public List<IFormFile> Pictures { get; set; } = [];
-        public List<CreateProductPartDto> CreateProductPartDto { get; set; } = new List<CreateProductPartDto>();
     }
 }

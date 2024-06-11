@@ -21,9 +21,15 @@ namespace DiamondShop.Api.Controllers
         }
         [HttpPost]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
-        public async Task<ActionResult<GetProductIdDto>> CreateDiamond([FromForm] CreateProductDto createProductDto)
+        public async Task<ActionResult<GetProductIdDto>> CreateProduct([FromForm] CreateProductDto createProductDto)
         {
-            return Created(nameof(CreateDiamond), await _serviceFactory.GetProductService().CreateProduct(createProductDto));
+            return Created(nameof(CreateProduct), await _serviceFactory.GetProductService().CreateProduct(createProductDto));
+        }
+        [HttpPost("{productId:guid}")]
+        // [Authorize(Roles = "SalesStaff, sales-staff")]
+        public async Task<ActionResult<GetProductIdDto>> CreateProductProperTies(Guid productId, [FromBody] CreateProductPropetiesDto createProductPropertiesDto)
+        {
+            return Created(nameof(CreateProduct), await _serviceFactory.GetProductService().CreateProductProperties(productId, createProductPropertiesDto));
         }
         [HttpGet]
         public async Task<ActionResult<PagedResult<GetProductInPagedResultDto>>> GetPagedProducts([FromQuery] QueryProductDto queryProductDto)
