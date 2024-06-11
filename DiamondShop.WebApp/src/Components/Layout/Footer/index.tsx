@@ -12,8 +12,7 @@ export default function Footer() {
           <div className="column">
             <img src={FooterIcon} alt="" className="footer-icon" />
             <p className="desc">
-              Discover your campus connection! Join our community of students.
-              Your match is just a click away!
+              Pure Perfection in Every Carat. Sparkle with Every Moment.
             </p>
             <div className="socials">
               <a

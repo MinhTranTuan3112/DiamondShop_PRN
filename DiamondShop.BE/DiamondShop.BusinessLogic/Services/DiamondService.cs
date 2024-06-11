@@ -6,6 +6,7 @@ using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,26 @@ namespace DiamondShop.BusinessLogic.Services
     public class DiamondService : IDiamondService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IServiceFactory _serviceFactory;
 
-        public DiamondService(IUnitOfWork unitOfWork)
+        public DiamondService(IUnitOfWork unitOfWork, IServiceFactory serviceFactory)
         {
             _unitOfWork = unitOfWork;
+            _serviceFactory = serviceFactory;
         }
 
         public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
         {
-            var diamond = await _unitOfWork.GetDiamondRepository().AddAsync(createDiamondDto.Adapt<Diamond>());
+            var diamond = createDiamondDto.Adapt<Diamond>();
+
+            await _unitOfWork.GetDiamondRepository().AddAsync(diamond);
             await _unitOfWork.SaveChangesAsync();
+
+            if (createDiamondDto.DiamondImages is not [])
+            {
+                await _serviceFactory.GetPictureService().UploadDiamondPictures(createDiamondDto.DiamondImages, diamond.Id);
+            }
+
 
             return new GetDiamondIdDto { Id = diamond.Id };
         }
@@ -55,16 +66,32 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task UpdateDiamond(Guid id, UpdateDiamondDto updateDiamondDto)
         {
-            var diamond = await _unitOfWork.GetDiamondRepository().FindOneAsync(d => d.Id == id);
+            var diamond = await _unitOfWork.GetDiamondRepository().GetDiamondWithPicturesById(id);
             if (diamond is null)
             {
                 throw new NotFoundException($"Can't find any diamonds with id {id}");
             }
 
             updateDiamondDto.Adapt(diamond);
+
             diamond.LastUpdate = DateTime.Now;
+
+            if (diamond.Pictures.Any())
+            {
+                await _serviceFactory.GetPictureService().DeletePictures(diamond.Pictures);
+
+                diamond.Pictures.Clear();
+            }
             
             await _unitOfWork.SaveChangesAsync();
+
+
+            if (updateDiamondDto.DiamondImages is not [])
+            {
+                await _serviceFactory.GetPictureService().UploadDiamondPictures(updateDiamondDto.DiamondImages, diamond.Id);
+            }
+
+
         }
     }
 }

@@ -1,22 +1,14 @@
 import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
 import Filter from "../../Components/Layout/Filter";
+import Collections from "./Collections";
 
 export default function Home() {
   return (
     <div className="">
       <Header />
-      <div
-        style={{
-          height: "500px",
-          background: "#ccc",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Filter />
-      </div>
+      <Filter />
+      <Collections />
       <Footer />
     </div>
   );

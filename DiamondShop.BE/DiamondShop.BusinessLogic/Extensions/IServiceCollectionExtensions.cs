@@ -7,6 +7,7 @@ using DiamondShop.BusinessLogic.Services;
 using DiamondShop.DataAccess.DTOs.Category;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.Models;
+using Google.Cloud.Storage.V1;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,6 +38,9 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddSingleton(opt => StorageClient.Create());
+            services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
+            services.AddScoped<IPictureService, PictureService>();
             return services;
         }
     }

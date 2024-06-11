@@ -1,6 +1,7 @@
 ﻿using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;

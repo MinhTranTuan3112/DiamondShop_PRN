@@ -26,5 +26,7 @@ namespace DiamondShop.DataAccess.Interfaces
         Task UpdateAsync(T TEntity);
 
         Task DeleteAsync(T TEntity);
+
+        Task DeleteRangeAsync(IEnumerable<T> TEntities);
     }
 }
