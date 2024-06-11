@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiamondShop.DataAccess", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiamondShop.BusinessLogic", "DiamondShop.BusinessLogic\DiamondShop.BusinessLogic.csproj", "{B4A810BB-2DB1-4AE8-B7B1-17266953FB00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiamondShop.Shared", "DiamondShop.Shared\DiamondShop.Shared.csproj", "{3A113A6F-946B-4066-AFB0-BDC2BE062C1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiamondShop.Shared", "DiamondShop.Shared\DiamondShop.Shared.csproj", "{3A113A6F-946B-4066-AFB0-BDC2BE062C1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiamondShop.WebApp", "DiamondShop.WebApp\DiamondShop.WebApp.csproj", "{447F70C3-5EAC-465A-B9A7-0D0D5873D898}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3A113A6F-946B-4066-AFB0-BDC2BE062C1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A113A6F-946B-4066-AFB0-BDC2BE062C1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A113A6F-946B-4066-AFB0-BDC2BE062C1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{447F70C3-5EAC-465A-B9A7-0D0D5873D898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{447F70C3-5EAC-465A-B9A7-0D0D5873D898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{447F70C3-5EAC-465A-B9A7-0D0D5873D898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{447F70C3-5EAC-465A-B9A7-0D0D5873D898}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
