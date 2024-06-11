@@ -21,16 +21,18 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IOrderDetailService> _orderDetailService;
         private readonly Lazy<IFirebaseStorageService> _firebaseStorageService;
         private readonly Lazy<IPictureService> _pictureService;
+        private readonly Lazy<IProductPartService> _productPartService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
-            _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork));
+            _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, this));
             _orderService = new Lazy<IOrderService>(() => new OrderService(unitOfWork, this));
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork, this));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
             _orderDetailService = new Lazy<IOrderDetailService>(() => new OrderDetailService(unitOfWork));
             _firebaseStorageService = new Lazy<IFirebaseStorageService>(() => new FirebaseStorageService(storageClient, configuration));
             _pictureService = new Lazy<IPictureService>(() => new PictureService(unitOfWork, this));
+            _productPartService = new Lazy<IProductPartService>(() => new ProductPartService(unitOfWork));
         }
 
         public IAuthService GetAuthService()
@@ -51,6 +53,11 @@ namespace DiamondShop.BusinessLogic
         public IFirebaseStorageService GetFirebaseStorageService()
         {
             return _firebaseStorageService.Value;
+        }
+
+        public IProductPartService GetProductPartService()
+        {
+            return _productPartService.Value;
         }
 
         public IOrderDetailService GetOrderDetailService()

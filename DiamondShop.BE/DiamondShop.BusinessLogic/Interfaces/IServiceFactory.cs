@@ -20,6 +20,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IOrderDetailService GetOrderDetailService();
 
         IFirebaseStorageService GetFirebaseStorageService();
+        IProductPartService GetProductPartService();
 
         IPictureService GetPictureService();
     }

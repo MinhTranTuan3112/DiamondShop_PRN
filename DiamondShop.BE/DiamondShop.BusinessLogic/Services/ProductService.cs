@@ -11,10 +11,11 @@ namespace DiamondShop.BusinessLogic.Services
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public ProductService(IUnitOfWork unitOfWork)
+        private readonly IServiceFactory _serviceFactory;
+        public ProductService(IUnitOfWork unitOfWork, IServiceFactory serviceFactory)
         {
             _unitOfWork = unitOfWork;
+            _serviceFactory = serviceFactory;
         }
         public async Task<GetProductIdDto> CreateProduct(CreateProductDto createProductDto)
         {
@@ -23,26 +24,38 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 throw new NotFoundException("Can't find any category with this id");
             }
-            var inputDiamondIds = createProductDto.CreateProductPartDto.Select(p => p.DiamondId);
-            var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
-            if (validDiamondCount != inputDiamondIds.Count())
-            {
-                throw new NotFoundException("One or more Diamonds are invalid.");
-            }
             var product = createProductDto.Adapt<Product>();
             product.Status = CategoryStatus.Available.ToString();
             product.LastUpdate = DateTime.Now;
             await _unitOfWork.GetProductRepository().AddAsync(product);
             await _unitOfWork.SaveChangesAsync();
-            var productParts = createProductDto.CreateProductPartDto.Select(p =>
+            if (createProductDto.Pictures is not [])
             {
-                var productPart = p.Adapt<ProductPart>();
-                productPart.ProductId = product.Id;
-                return productPart;
-            }).ToList();
-            await _unitOfWork.GetProductPartRepository().AddRangeAsync(productParts);
-            await _unitOfWork.SaveChangesAsync();
+                var imageUrl = await _serviceFactory.GetFirebaseStorageService()
+                    .UploadImagesAsync(createProductDto.Pictures);
+                var pictures = imageUrl.Select(image => new Picture { UrlPath = image, ProductId = product.Id }).ToList();
+                await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
+            }
             return new GetProductIdDto { Id = product.Id };
+        }
+
+        public async Task<GetProductIdDto> CreateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetByIdAsync(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var inputDiamondIds = createProductPropertiesDto.CreateProductPartDtos.Select(p => p.DiamondId);
+            var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
+            if (validDiamondCount != inputDiamondIds.Count())
+            {
+                throw new NotFoundException("One or more Diamonds are invalid.");
+            }
+
+            await _serviceFactory.GetProductPartService()
+                .CreateProductPart(createProductPropertiesDto.CreateProductPartDtos, product.Id);
+            return new GetProductIdDto { Id = productId };
         }
 
 

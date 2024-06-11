@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.DTOs.Picture;
+using Microsoft.AspNetCore.Http;
 
 namespace DiamondShop.DataAccess.DTOs.Product
 {
@@ -33,6 +35,6 @@ namespace DiamondShop.DataAccess.DTOs.Product
         [Required]
         public Guid CategoryId { get; set; }
 
-        public List<CreateProductPartDto> CreateProductPartDto { get; set; } = new List<CreateProductPartDto>();
+        public List<IFormFile> Pictures { get; set; } = [];
     }
 }
