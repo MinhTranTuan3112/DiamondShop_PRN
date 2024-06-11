@@ -1,7 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 /* CSS Base */
 * {
   box-sizing: border-box;
@@ -25,4 +24,11 @@ button {
   border: none;
   outline: none;
   background: transparent;
+}
+
+.inline-center {
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
