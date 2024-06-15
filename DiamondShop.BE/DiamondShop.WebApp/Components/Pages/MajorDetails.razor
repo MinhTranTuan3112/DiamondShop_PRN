@@ -1,0 +1,71 @@
+@page "/majors/{id}"
+@inject HttpClient client
+@rendermode InteractiveServer
+
+<EditForm Model="major" FormName="MajorForm" OnValidSubmit="async() => await PerformSubmit()">
+
+    <div>
+        <label for="@nameof(major.Name)">@nameof(major.Name)</label>
+        <InputText id="@nameof(major.Name)" @bind-Value="major.Name" />
+        <ValidationMessage For="@(() => major.Name)" />
+    </div>
+
+    <div>
+        <label for="@nameof(major.Code)">@nameof(major.Code)</label>
+        <InputText id="@nameof(major.Code)" @bind-Value="major.Code" />
+        <ValidationMessage For="@(() => major.Code)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    [SupplyParameterFromForm]
+    private Major? major { get; set; }
+
+    private async Task PerformSubmit()
+    {
+        Console.WriteLine("Submitting form");
+        var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(major), System.Text.Encoding.UTF8,
+        "application/json");
+        var response = await client.PutAsync($"https://destiny-match.azurewebsites.net/api/major/{id}",
+        jsonContent);
+
+        if (response.IsSuccessStatusCode)
+        {   
+            Console.WriteLine(response);
+            Console.WriteLine(response.StatusCode);
+            Console.WriteLine("Success");
+        }
+        else
+        {
+            Console.WriteLine(response.StatusCode);
+            Console.WriteLine("Failed");
+        }
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        major = new Major
+            {
+                Name = string.Empty,
+                Id = string.Empty,
+                Code = string.Empty
+            };
+        var data = await client.GetFromJsonAsync<Major>($"https://destiny-match.azurewebsites.net/api/major/{id}");
+        Console.WriteLine(data);
+        major = data;
+    }
+
+
+
+
+}

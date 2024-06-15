@@ -1,0 +1,53 @@
+@page "/test"
+@inject HttpClient client
+@inject NavigationManager navManager
+@rendermode InteractiveServer
+<PageTitle>Test</PageTitle>
+
+@if (Majors is [])
+{
+    <div>Loading...</div>
+}
+else
+{
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        @foreach (var major in Majors)
+        {
+            <tr >
+                <td>@major.Id</td>
+                <td>@major.Name</td>
+                <td>@major.Code</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="() => ViewMajorDetails(major.Id)">Details</button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+@code {
+    private List<Major> Majors = [];
+
+    private void ViewMajorDetails(string id) {
+        navManager.NavigateTo($"/majors/{id}");
+    }
+    protected override async Task OnInitializedAsync() //useEffect
+    {
+        var data = await client.GetFromJsonAsync<List<Major>>("https://destiny-match.azurewebsites.net/api/major");
+        Console.WriteLine(data);
+
+        Majors = data;
+    }
+}

@@ -1,5 +1,7 @@
 ﻿@page "/counter"
-@rendermode InteractiveServer
+@rendermode InteractiveServer 
+
+@*static server side rendering*@
 
 <PageTitle>Counter</PageTitle>
 
@@ -14,6 +16,8 @@
 
     private void IncrementCount()
     {
+
         currentCount++;
+        @* Console.WriteLine(currentCount); *@
     }
 }
