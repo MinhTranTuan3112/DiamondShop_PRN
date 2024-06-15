@@ -31,11 +31,7 @@ namespace DiamondShop.BusinessLogic.Services
             await _unitOfWork.SaveChangesAsync();
             if (createProductDto.Pictures is not [])
             {
-                var imageUrl = await _serviceFactory.GetFirebaseStorageService()
-                    .UploadImagesAsync(createProductDto.Pictures);
-                var pictures = imageUrl.Select(image => new Picture { UrlPath = image, ProductId = product.Id }).ToList();
-                await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
-                await _unitOfWork.SaveChangesAsync();
+                await _serviceFactory.GetPictureService().UploadProductPictures(createProductDto.Pictures, product.Id);
             }
             return new GetProductIdDto { Id = product.Id };
         }
