@@ -59,6 +59,28 @@ namespace DiamondShop.BusinessLogic.Services
             return new GetProductIdDto { Id = productId };
         }
 
+        public async Task UpdateProduct(Guid productId, UpdateProductDto updateProductDto)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetProductDetailById(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+
+            updateProductDto.Adapt(product);
+            product.LastUpdate = DateTime.Now;
+            if (product.Pictures.Any())
+            {
+                await _serviceFactory.GetPictureService().DeletePictures(product.Pictures);
+                product.Pictures.Clear();
+            }
+
+            if (updateProductDto.Pictures is not [])
+            {
+                //await _serviceFactory.GetPictureService()
+            }
+        }
+
 
         public async Task<GetProductDetailDto> GetProductDetailById(Guid id)
         {
