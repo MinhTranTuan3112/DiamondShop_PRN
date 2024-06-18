@@ -1,28 +1,60 @@
 @page "/products"
 @using DiamondShop.WebApp.Components.Pages.Products
 @using DiamondShop.WebApp.Components.Products
+@rendermode InteractiveServer
+@inject HttpClient _httpClient
 
 <PageTitle>MAPTH - Sản phẩm</PageTitle>
 
-<div class="product_cards" >
-    <ProductCard />
-    <ProductCard />
-    <ProductCard />
-    <ProductCard />
+<div class="" style="max-width: 40%;margin: 0 auto;">
+    <div class="input-group mb-3">
+        <span class="input-group-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg></span>
+        <input type="text" class="form-control" placeholder="Tìm kiếm..." />
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">Từ</span>
+        <InputNumber @bind-Value="queryProduct.StartPrice" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-default" placeholder="Giá khởi điểm"
+            @oninput="RefreshProductsData" />
+        <span class="input-group-text">Đến</span>
+        <InputNumber @oninput="RefreshProductsData" @bind-Value="queryProduct.EndPrice" class="form-control" placeholder="Giá kết thúc" name="" id=""/>
+    </div>
+</div>
 
-
+<div class="product_cards" style="margin-top: 5rem;">
+    @if (pagedResult?.Results is null or [])
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        @foreach (var product in pagedResult?.Results!)
+        {
+            <ProductCard Product="product" />
+        }
+    }
+@* 
+    <ProductCard />
+    <ProductCard />
+    <ProductCard />
+    <ProductCard /> *@
 </div>
 
 <nav aria-label="Page navigation example" class="center_inline" style="margin-top: 5rem">
-    <ul class="pagination" >
+    <ul class="pagination">
         <li class="page-item">
             <a class="page-link" href="" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="">1</a></li>
+        <li class="page-item"><a class="page-link" href="">2</a></li>
+        <li class="page-item"><a class="page-link" href="">3</a></li>
         <li class="page-item">
             <a class="page-link" href="" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -32,5 +64,33 @@
 </nav>
 
 @code {
+    private PagedResult<GetProductInPagedResultDto>? pagedResult;
 
+    private QueryProductDto queryProduct = null!;
+
+
+    private async Task RefreshProductsData() {
+        try
+        {
+            var pagedResultResponse = await _httpClient.GetFromJsonAsync<PagedResult<GetProductInPagedResultDto>>(
+            $"http://localhost:5217/api/products?startPrice={queryProduct.StartPrice}&endPrice={queryProduct.EndPrice}");
+            pagedResult = pagedResultResponse;
+
+            // Log the results
+            Console.WriteLine($"RefreshProductsData was called. pagedResult?.Results is {pagedResult?.Results}");
+
+        }
+        catch (Exception ex)
+        {
+            // Handle the exception
+            Console.WriteLine($"An error occurred when rendering products: {ex.Message}");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        pagedResult ??= new PagedResult<GetProductInPagedResultDto>();
+        queryProduct ??= new QueryProductDto();
+        await RefreshProductsData();
+    }
 }

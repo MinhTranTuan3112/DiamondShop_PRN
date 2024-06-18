@@ -1,10 +1,22 @@
-<div class="card">
+@using System.Globalization;
+<div class="card d-flex flex-column">
     <img src="https://product.hstatic.net/1000381168/product/upload_38d70f5554214f078e07f5dfc0b13120_master.jpg"
         class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.</p>
+    <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+            <h6 class="card-title" style="display: flex;flex-direction: column;justify-content: space-between;">
+                <div class="fw-bold mb-3">@Product?.Name</div>
+                <div class="price">@((Product?.Price ?? 0).ToString("N0", new CultureInfo("vi-VN"))) VNĐ</div>
+            </h6>
+            <p class="card-text">@Product?.Category.Name</p>
+        </div>
         <AddToCartButton />
     </div>
 </div>
+
+
+@code {
+    [Parameter]
+    public GetProductInPagedResultDto? Product { get; set; }
+
+}
