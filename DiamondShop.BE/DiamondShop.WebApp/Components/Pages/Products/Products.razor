@@ -3,81 +3,75 @@
 @using DiamondShop.WebApp.Components.Products
 @rendermode InteractiveServer
 @inject HttpClient _httpClient
+@using System.Globalization
+
 
 <PageTitle>MAPTH - Sản phẩm</PageTitle>
 
 <div class="" style="max-width: 40%;margin: 0 auto;">
+    <h1 class="text-center fw-bold">Bộ lọc</h1>
     <div class="input-group mb-3">
-        <span class="input-group-text">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                viewBox="0 0 16 16">
-                <path
-                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-            </svg></span>
-        <input type="text" class="form-control" placeholder="Tìm kiếm..." />
+        <MudTextField @bind-Value="@queryProduct.Material" Immediate="false" DebounceInterval="500"
+            OnDebounceIntervalElapsed="RefreshPageData" Label="Chất liệu" Variant="Variant.Outlined"
+            Margin="Margin.Dense"></MudTextField>
     </div>
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="inputGroup-sizing-default">Từ</span>
-        <InputNumber @bind-Value="queryProduct.StartPrice" class="form-control" aria-label="Sizing example input"
-            aria-describedby="inputGroup-sizing-default" placeholder="Giá khởi điểm"
-            @oninput="RefreshProductsData" />
-        <span class="input-group-text">Đến</span>
-        <InputNumber @oninput="RefreshProductsData" @bind-Value="queryProduct.EndPrice" class="form-control" placeholder="Giá kết thúc" name="" id=""/>
+    <div class="input-group mb-3" style="display: flex;gap: 2rem;">
+        <MudNumericField @bind-Value="queryProduct.StartPrice" Min="0" DebounceInterval="500" Culture="_vi"
+            OnDebounceIntervalElapsed="RefreshPageData" Format="N0" Immediate="false" class="form-control"
+            Placeholder="Giá khởi điểm" />
+        <MudNumericField @bind-Value="queryProduct.EndPrice" Min="0" Immediate="false" Culture="_vi"
+            DebounceInterval="500" Format="N0" OnDebounceIntervalElapsed="RefreshPageData" class="form-control"
+            Placeholder="Giá kết thúc" />
     </div>
+
+    @* <MudNumericField @bind-Value="pageSize" Min="1" Max="10" DebounceInterval="500" Placeholder="Hiển thị tối đa"
+        Immediate="false" OnDebounceIntervalElapsed="RefreshPageData" /> *@
 </div>
 
-<div class="product_cards" style="margin-top: 5rem;">
-    @if (pagedResult?.Results is null or [])
-    {
-        <p>Loading...</p>
-    }
-    else
-    {
-        @foreach (var product in pagedResult?.Results!)
+@if (pagedResult is null)
+{
+    <p>Loading...</p>
+}
+else if (pagedResult.Results is null or [])
+{
+    <h3 class="">Không tìm thấy sản phẩm nào</h3>
+}
+else
+{
+    <div class="product_cards" style="margin-top: 5rem;">
+        @foreach (var product in pagedResult.Results)
         {
             <ProductCard Product="product" />
         }
-    }
-@* 
-    <ProductCard />
-    <ProductCard />
-    <ProductCard />
-    <ProductCard /> *@
-</div>
+    </div>
 
-<nav aria-label="Page navigation example" class="center_inline" style="margin-top: 5rem">
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link" href="" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="">1</a></li>
-        <li class="page-item"><a class="page-link" href="">2</a></li>
-        <li class="page-item"><a class="page-link" href="">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    <MudPagination class="center_inline" Selected="currentPage" style="margin-top: 5rem" Color="Color.Primary"
+        Count="pagedResult.TotalPages" SelectedChanged="HandlePageChanged" />
+}
+
 
 @code {
     private PagedResult<GetProductInPagedResultDto>? pagedResult;
 
     private QueryProductDto queryProduct = null!;
 
+    private CultureInfo _vi = CultureInfo.GetCultureInfo("vi-VN");
 
-    private async Task RefreshProductsData() {
+    private int currentPage = 1;
+
+    private int pageSize = 10;
+
+    private async Task RefreshProductsData()
+    {
         try
         {
-            var pagedResultResponse = await _httpClient.GetFromJsonAsync<PagedResult<GetProductInPagedResultDto>>(
-            $"http://localhost:5217/api/products?startPrice={queryProduct.StartPrice}&endPrice={queryProduct.EndPrice}");
+            await Task.Delay(500);
+
+            string url =
+            $@"http://localhost:5217/api/products?QueryDto.PageNumber={currentPage}&QueryDto.PageSize={pageSize}&startPrice={queryProduct.StartPrice}&endPrice={queryProduct.EndPrice}&material={queryProduct.Material}";
+            var pagedResultResponse = await _httpClient.GetFromJsonAsync<PagedResult<GetProductInPagedResultDto>>(url);
             pagedResult = pagedResultResponse;
 
-            // Log the results
-            Console.WriteLine($"RefreshProductsData was called. pagedResult?.Results is {pagedResult?.Results}");
 
         }
         catch (Exception ex)
@@ -91,6 +85,20 @@
     {
         pagedResult ??= new PagedResult<GetProductInPagedResultDto>();
         queryProduct ??= new QueryProductDto();
+        await RefreshProductsData();
+    }
+
+    private async Task RefreshPageData()
+    {
+        Console.WriteLine("Call refresh page data");
+        currentPage = 1;
+        await RefreshProductsData();
+    }
+
+
+    private async Task HandlePageChanged(int newPage)
+    {
+        currentPage = newPage;
         await RefreshProductsData();
     }
 }
