@@ -13,6 +13,10 @@ body {
     transform: translateX(-50%);
 }
 
+.debug {
+    border: 1px solid red;
+}
+
 a,
 .btn-link {
     color: #006bb7;

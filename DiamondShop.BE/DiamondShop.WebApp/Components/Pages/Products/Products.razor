@@ -2,7 +2,7 @@
 @using DiamondShop.WebApp.Components.Pages.Products
 @using DiamondShop.WebApp.Components.Products
 @rendermode InteractiveServer
-@inject HttpClient _httpClient
+@inject IHttpClientFactory _httpClientFactory
 @using System.Globalization
 
 
@@ -16,29 +16,39 @@
             Margin="Margin.Dense"></MudTextField>
     </div>
     <div class="input-group mb-3" style="display: flex;gap: 2rem;">
-        <MudNumericField @bind-Value="queryProduct.StartPrice" Min="0" DebounceInterval="500" Culture="_vi"
+        <MudNumericField @bind-Value="queryProduct.StartPrice" HideSpinButtons="true" 
+            Min="0" DebounceInterval="500" Culture="_vi"
+            Variant="Variant.Text" 
             OnDebounceIntervalElapsed="RefreshPageData" Format="N0" Immediate="false" class="form-control"
-            Placeholder="Giá khởi điểm" />
+            Label="Giá khởi điểm" />
         <MudNumericField @bind-Value="queryProduct.EndPrice" Min="0" Immediate="false" Culture="_vi"
             DebounceInterval="500" Format="N0" OnDebounceIntervalElapsed="RefreshPageData" class="form-control"
-            Placeholder="Giá kết thúc" />
+            HideSpinButtons="true"
+            Label="Giá kết thúc" />
     </div>
 
+    <MudSelect Margin="Margin.Dense" Value="pageSize" ValueChanged="(int value) => HandlePageSizeChanged(value)" T="int"
+        Label="Hiển thị tối đa" AnchorOrigin="Origin.BottomCenter">
+        <MudSelectItem T="int" Value="5" />
+        <MudSelectItem T="int" Value="10" />
+        <MudSelectItem T="int" Value="15" />
+    </MudSelect>
+
     @* <MudNumericField @bind-Value="pageSize" Min="1" Max="10" DebounceInterval="500" Placeholder="Hiển thị tối đa"
-        Immediate="false" OnDebounceIntervalElapsed="RefreshPageData" /> *@
+    Immediate="false" OnDebounceIntervalElapsed="RefreshPageData" /> *@
 </div>
 
-@if (pagedResult is null)
+@if (pagedResult is null || pagedResult.Results is null)
 {
-    <p>Loading...</p>
+    <p class="text-center">Loading...</p>
 }
-else if (pagedResult.Results is null or [])
+else if (pagedResult.Results is []) 
 {
-    <h3 class="">Không tìm thấy sản phẩm nào</h3>
+    <h3 class="text-center">Không tìm thấy sản phẩm nào</h3>
 }
 else
 {
-    <div class="product_cards" style="margin-top: 5rem;">
+    <div class="product_cards" style="margin-top: 10rem;">
         @foreach (var product in pagedResult.Results)
         {
             <ProductCard Product="product" />
@@ -69,7 +79,8 @@ else
 
             string url =
             $@"http://localhost:5217/api/products?QueryDto.PageNumber={currentPage}&QueryDto.PageSize={pageSize}&startPrice={queryProduct.StartPrice}&endPrice={queryProduct.EndPrice}&material={queryProduct.Material}";
-            var pagedResultResponse = await _httpClient.GetFromJsonAsync<PagedResult<GetProductInPagedResultDto>>(url);
+            var client = _httpClientFactory.CreateClient();
+            var pagedResultResponse = await client.GetFromJsonAsync<PagedResult<GetProductInPagedResultDto>>(url);
             pagedResult = pagedResultResponse;
 
 
@@ -99,6 +110,13 @@ else
     private async Task HandlePageChanged(int newPage)
     {
         currentPage = newPage;
+        await RefreshProductsData();
+    }
+
+    private async Task HandlePageSizeChanged(int newPageSize)
+    {
+        Console.WriteLine("Call handle page size changed");
+        pageSize = newPageSize;
         await RefreshProductsData();
     }
 }

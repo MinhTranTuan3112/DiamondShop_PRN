@@ -24,12 +24,15 @@ An unhandled error has occurred.
 <a href="" class="reload">Reload</a>
 <a class="dismiss">🗙</a>
 </div> *@
-<MudThemeProvider/>
-<Navbar />
-
-<main style="padding-block: 10rem;">
-    @Body
-</main>
-
-
-<Footer />
+<div style="font-family: 'Be Vietnam Pro', sans-serif;">
+    <MudThemeProvider @rendermode="InteractiveServer"/>
+    
+    <Navbar />
+    
+    <main style="padding-bottom: 10rem;padding-top: 3rem">
+        @Body
+    </main>
+    
+    
+    <Footer />
+</div>
