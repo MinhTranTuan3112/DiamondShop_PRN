@@ -21,6 +21,29 @@ namespace DiamondShop.BusinessLogic.Services
             _serviceFactory = serviceFactory;
         }
 
+        public async Task UploadProductPictures(List<IFormFile> pictureFiles, Guid productId)
+        {
+            if (pictureFiles is [])
+            {
+                throw new BadRequestException("No picture files found");
+            }
+
+            var pictureUrls = await _serviceFactory.GetFirebaseStorageService().UploadImagesAsync(pictureFiles);
+
+            List<Picture> pictures = [];
+
+            foreach (var url in pictureUrls)
+            {
+                pictures.Add(new Picture
+                {
+                    ProductId = productId,
+                    UrlPath = url
+                });
+            }
+            await _unitOfWork.GetPictureRepository().AddRangeAsync(pictures);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task DeletePictures(IEnumerable<Picture> pictures)
         {
             var pictureUrls = pictures.Select(p => p.UrlPath);
