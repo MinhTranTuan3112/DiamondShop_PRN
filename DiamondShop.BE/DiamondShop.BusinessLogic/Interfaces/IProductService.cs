@@ -14,6 +14,9 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task<GetProductIdDto> CreateProduct(CreateProductDto createProductDto);
 
         Task<GetProductIdDto> CreateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto);
+
+        Task UpdateProduct(Guid productId, UpdateProductDto updateProductDto);
+        Task UpdateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto);
     }
 }
         

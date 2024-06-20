@@ -55,6 +55,55 @@ namespace DiamondShop.BusinessLogic.Services
             return new GetProductIdDto { Id = productId };
         }
 
+        public async Task UpdateProduct(Guid productId, UpdateProductDto updateProductDto)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetProductDetailById(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+
+            updateProductDto.Adapt(product);
+            product.LastUpdate = DateTime.Now;
+            if (product.Pictures.Any())
+            {
+                await _serviceFactory.GetPictureService().DeletePictures(product.Pictures);
+                product.Pictures.Clear();
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            if (updateProductDto.ProductPicture is not [])
+            {
+                await _serviceFactory.GetPictureService()
+                    .UploadProductPictures(updateProductDto.ProductPicture, product.Id);
+            }
+        }
+
+        public async Task UpdateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetByIdAsync(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product is not existed");
+            }
+            var inputDiamondIds = createProductPropertiesDto.CreateProductPartDtos.Select(p => p.DiamondId);
+            var validDiamondCount = await _unitOfWork.GetDiamondRepository().CountAsync(d => inputDiamondIds.Contains(d.Id));
+            if (validDiamondCount != inputDiamondIds.Count())
+            {
+                throw new NotFoundException("One or more Diamonds are invalid.");
+            }
+
+            if (product.ProductParts.Any())
+            {
+                await _unitOfWork.GetProductPartRepository().DeleteRangeAsync(product.ProductParts);
+                product.ProductParts.Clear();
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            await _serviceFactory.GetProductPartService()
+                .CreateProductPart(createProductPropertiesDto.CreateProductPartDtos, product.Id);
+        }
+
 
         public async Task<GetProductDetailDto> GetProductDetailById(Guid id)
         {
