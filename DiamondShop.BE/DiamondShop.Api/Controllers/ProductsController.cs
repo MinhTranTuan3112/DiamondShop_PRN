@@ -31,6 +31,18 @@ namespace DiamondShop.Api.Controllers
         {
             return Created(nameof(CreateProductProperties), await _serviceFactory.GetProductService().CreateProductProperties(productId, createProductPropertiesDto));
         }
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateProduct([FromRoute] Guid id, [FromForm] UpdateProductDto updateProductDto)
+        {
+            await _serviceFactory.GetProductService().UpdateProduct(id, updateProductDto);
+            return NoContent();
+        }
+        [HttpPut("ProductProperties/{productId:guid}")]
+        public async Task<ActionResult> UpdateProductProperties([FromRoute] Guid productId, [FromBody] CreateProductPropetiesDto createProductPropertiesDto)
+        {
+            await _serviceFactory.GetProductService().UpdateProductProperties(productId, createProductPropertiesDto);
+            return NoContent();
+        }
         [HttpGet]
         public async Task<ActionResult<PagedResult<GetProductInPagedResultDto>>> GetPagedProducts([FromQuery] QueryProductDto queryProductDto)
         {

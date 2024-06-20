@@ -16,5 +16,5 @@ public class UpdateProductDto
     public int Quantity { get; set; }
     public int WarrantyPeriod { get; set; }
     public Guid CategoryId { get; set; } 
-    public List<IFormFile> Pictures { get; set; } = [];
+    public List<IFormFile> ProductPicture { get; set; } = [];
 }
