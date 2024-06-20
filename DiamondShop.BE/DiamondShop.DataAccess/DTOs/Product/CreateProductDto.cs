@@ -35,6 +35,6 @@ namespace DiamondShop.DataAccess.DTOs.Product
         [Required]
         public Guid CategoryId { get; set; }
 
-        public List<IFormFile> Pictures { get; set; } = [];
+        public List<IFormFile> ProductPicture { get; set; } = [];
     }
 }

@@ -29,9 +29,9 @@ namespace DiamondShop.BusinessLogic.Services
             product.LastUpdate = DateTime.Now;
             await _unitOfWork.GetProductRepository().AddAsync(product);
             await _unitOfWork.SaveChangesAsync();
-            if (createProductDto.Pictures is not [])
+            if (createProductDto.ProductPicture is not [])
             {
-                await _serviceFactory.GetPictureService().UploadProductPictures(createProductDto.Pictures, product.Id);
+                await _serviceFactory.GetPictureService().UploadProductPictures(createProductDto.ProductPicture, product.Id);
             }
             return new GetProductIdDto { Id = product.Id };
         }
