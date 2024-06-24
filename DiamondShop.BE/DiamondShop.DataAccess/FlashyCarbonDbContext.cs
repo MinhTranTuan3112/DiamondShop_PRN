@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace DiamondShop.DataAccess;
 
@@ -294,4 +295,15 @@ public partial class FlashyCarbonDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        if (!optionsBuilder.IsConfigured)
+        {
+            IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            string connectionString = config.GetConnectionString("DefaultConnection")!;
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
 }

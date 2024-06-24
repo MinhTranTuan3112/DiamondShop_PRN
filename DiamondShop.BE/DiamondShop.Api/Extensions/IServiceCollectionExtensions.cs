@@ -90,8 +90,7 @@ namespace DiamondShop.Api.Extensions
 
         private static IServiceCollection AddDbContextsWithConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection")!;
-            services.AddDbContext<FlashyCarbonDbContext>(option => option.UseSqlServer(connectionString));
+            
             return services;
         }
 
