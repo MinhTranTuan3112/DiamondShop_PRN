@@ -1,0 +1,193 @@
+.header {
+  height: 110px;
+  background-color: #eee;
+  position: relative;
+  z-index: 10;
+}
+
+.header.fixed {
+  position: sticky;
+  top: -10px;
+}
+
+.top-bar {
+  padding: 30px 50px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo .logo-img {
+  width: 50px;
+  border-radius: 5px;
+}
+
+.logo .logo-title {
+  color: #1a162e;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 145.455%;
+}
+
+.navbar {
+  text-transform: uppercase;
+  margin-right: auto;
+  margin-left: 144px;
+}
+
+.navbar a:hover,
+.navbar-link.active {
+  text-shadow: 1px 0 0 currentColor;
+  color: #171100;
+}
+
+.navbar .navbar-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar-link {
+  cursor: pointer;
+  height: 60px;
+  color: #1a162e;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 146.667% */
+  padding: 0 25px;
+}
+
+.navbar li {
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar-arrow {
+  color: #1a162e;
+}
+
+.top-act {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-act .top-act-group {
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 20px 60px 10px rgba(237, 237, 246, 0.2);
+  min-width: 50;
+  height: 60px;
+}
+
+.top-act .top-act-btn {
+  display: flex;
+  align-items: center;
+  padding: 13px 20px;
+  gap: 10px;
+}
+
+.top-act-search {
+  color: #141313;
+  border: none;
+  font-size: 1.8rem;
+  font-family: "Be Vietnam Pro", sans-serif;
+  height: 35px;
+  font-weight: 400;
+  width: 238px;
+  height: 38px;
+  outline: none;
+  border-bottom: 1px solid #141313;
+}
+.top-act-img {
+  font-size: 25px;
+}
+
+.top-act .top-act-seperate {
+  width: 1px;
+  height: 30px;
+  background: #3b3939;
+}
+
+.top-act-avatar {
+  border: 3px solid #ccc;
+  width: 7rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.dropdown {
+  padding-top: 28px;
+  position: absolute;
+  left: -200px;
+  top: 30px;
+  width: min(1240px, 100%);
+}
+
+.dropdown-inner {
+  height: min(400px, 100vh - 34px);
+  position: relative;
+  width: 1240px;
+  padding: 30px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 40px 90px 20px rgba(200, 200, 200, 0.4);
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  text-transform: none;
+  color: #1a162e;
+  text-shadow: none;
+  text-transform: capitalize;
+}
+
+.top-menu {
+  height: 100%;
+  align-items: center;
+  display: flex;
+}
+
+.top-menu-main {
+  margin-right: 47px;
+  height: 100%;
+  width: 292px;
+  border-right: 1px solid #d2d1d6;
+}
+
+.top-menu-main:last-child {
+  margin-right: 0;
+  border: none;
+}
+
+.menu-column {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.menu-column-heading {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 150%;
+}
+
+.menu-column-list {
+  margin-top: 19px;
+}
+
+.menu-column-link {
+  display: block;
+  padding: 7px 0;
+  font-size: 1.4rem;
+  line-height: 142.857%;
+}

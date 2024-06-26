@@ -1,0 +1,164 @@
+.profile-container {
+  background: #eee;
+  padding: 30px 50px;
+  display: flex;
+}
+
+.profile-sidebar {
+  width: 23%;
+  padding-bottom: 30px;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0px 20px 60px 10px rgba(237, 237, 246, 0.2);
+}
+
+.profile-user {
+  background-image: linear-gradient(45deg, #232222 0%, #fffb7d 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 245px;
+}
+
+.profile-user-avatar {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  border: 5px solid rgba(154, 147, 147, 0.2);
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.profile-user-name {
+  margin-top: 15px;
+  font-size: 1.8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 144.444%;
+}
+
+.profile-user-desc {
+  margin-top: 2px;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 146.667%;
+}
+
+.profile-menu {
+  margin-top: 30px;
+  padding: 0 30px;
+}
+
+.profile-menu-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 144%;
+}
+
+.profile-menu .menu-list {
+  margin-top: 10px;
+}
+
+.profile-menu-icon {
+  display: flex;
+  align-items: center;
+  width: 24px;
+}
+
+.profile-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  font-size: 1.5rem;
+  line-height: 146%;
+  font-weight: 300;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.profile-menu-link:hover {
+  background: #ebebeb;
+}
+
+.profile-info {
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 20px 60px 10px rgba(237, 237, 246, 0.2);
+  margin-left: 30px;
+  width: 80%;
+  padding: 30px;
+}
+
+.profile-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.profile-info-heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 141.667%;
+}
+
+.profile-edit-btn {
+  width: 130px;
+  height: 50px;
+  display: flex;
+  padding: 10px 20px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: #ffb700;
+  margin-left: auto;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 25px;
+}
+
+.profile-edit-btn:hover {
+  background: #ccc;
+}
+
+.profile-info-desc {
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 146.667%;
+}
+
+.account-inner {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép phần tử con wrap vào hàng mới */
+  gap: 20px; /* Khoảng cách giữa các phần tử */
+}
+
+.account-info {
+  flex: 1 calc(50% - 10px);
+  border-radius: 10px;
+  background: #f6f6f6;
+  color: #1a162e;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  width: 45%;
+}
+
+.account-info-icon {
+  padding: 15px;
+}
+
+.account-info-heading {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 146.667%;
+}
+
+.account-info-desc {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 142.857%;
+}
