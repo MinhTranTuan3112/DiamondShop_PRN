@@ -76,16 +76,15 @@ namespace DiamondShop.DataAccess.Extensions
 
             if (colors is not [])
             {
-                query = query.Where(p => colors.Any(c => !string.IsNullOrEmpty(p.Color) && c.ToLower() == p.Color.ToLower()));
-            }
-
-            if (cuts is not [])
-            {
-                query = query.Where(p => cuts.Any(c => !string.IsNullOrEmpty(p.Cut) && c.ToLower() == p.Cut.ToLower()));
+                query = query.Where(p => colors.Contains(p.Color!));
             }
             if (clarities is not [])
             {
-                query = query.Where(p => clarities.Any(c => !string.IsNullOrEmpty(p.Clarity) && c.ToLower() == p.Clarity.ToLower()));
+                query = query.Where(p => clarities.Contains(p.Clarity!));
+            }
+            if (cuts is not [])
+            {
+                query = query.Where(p => cuts.Contains(p.Cut!));
             }
             return query;
         }
