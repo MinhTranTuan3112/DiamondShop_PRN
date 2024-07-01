@@ -32,6 +32,7 @@ namespace DiamondShop.DataAccess.Repositories
                                 .FirstOrDefaultAsync(x => x.Id == id);
             return product;
         }
+        
          public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
         {
 

@@ -33,10 +33,16 @@ namespace DiamondShop.DataAccess.Repositories
                                          .SingleOrDefaultAsync(d => d.Id == id);
         }
 
+        public async Task<Diamond?> GetDiamondWithPicturesById(Guid id)
+        {
+            return await _context.Diamonds.Include(d => d.Pictures)
+                                         .SingleOrDefaultAsync(d => d.Id == id);
+        }
+
         public async Task<PagedResult<Diamond>> GetPagedDiamonds(QueryDiamondDto queryDiamondDto)
         {
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDto.QueryDto;
-            var query =  _context.Diamonds.AsNoTracking()
+            var query = _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
                                          .AsSplitQuery()
                                          .AsQueryable();
@@ -53,7 +59,7 @@ namespace DiamondShop.DataAccess.Repositories
                 "lastUpdate" => diamond => (diamond.LastUpdate == null) ? diamond.Id : diamond.LastUpdate,
                 "price" => diamond => diamond.Price,
                 "name" => diamond => diamond.Name!,
-                 _ => diamond => diamond.Id
+                _ => diamond => diamond.Id
             };
         }
     }

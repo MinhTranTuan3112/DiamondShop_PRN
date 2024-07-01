@@ -17,7 +17,7 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
-    public string? Status { get; set; }
+    public string? Status { get; set; } 
 
     public virtual Customer? Customer { get; set; }
 
