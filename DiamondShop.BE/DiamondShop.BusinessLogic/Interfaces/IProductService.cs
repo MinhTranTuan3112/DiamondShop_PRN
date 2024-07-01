@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 
 namespace DiamondShop.BusinessLogic.Interfaces
 {
@@ -17,6 +18,8 @@ namespace DiamondShop.BusinessLogic.Interfaces
 
         Task UpdateProduct(Guid productId, UpdateProductDto updateProductDto);
         Task UpdateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto);
+
+        Task DeleteProduct(Guid productId, ProductStatus status);
     }
 }
         
