@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginPage from "./pages/Auth/LoginPage";
 import AuthorizedRoute from "./Components/AuthorizedRoute";
 import TestPage from "./pages/TestPage";
+import ProductDetailsPage from "./pages/Product/details";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function App() {
           <Route element={<AuthorizedRoute role={"customer"} redirectPath={"/login"} />}>
             <Route element={<TestPage/>} path="/test"/>
           </Route>
+          <Route path="/products/:id" element={<ProductDetailsPage/>}></Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
