@@ -57,7 +57,7 @@ namespace DiamondShop.Api.Controllers
             return result;
         }
         [HttpPut("{productId}/{status}")]
-        public async Task<IActionResult> ChangeStatusProduct(Guid productId, ProductStatus status)
+        public async Task<ActionResult> ChangeStatusProduct(Guid productId, ProductStatus status)
         {
             await _serviceFactory.GetProductService().DeleteProduct(productId, status);
             return NoContent();
