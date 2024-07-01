@@ -1,9 +1,11 @@
 ﻿using DiamondShop.DataAccess.DTOs.Query;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.Enums;
 
 namespace DiamondShop.DataAccess.DTOs.Diamond
 {
@@ -13,11 +15,8 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public decimal StartPrice { get; set; }
         public decimal EndPrice { get; set; }
         public string? Name { get; set; }
-        public string? Color { get; set; }
-        public string? Origin { get; set; }
-        public string? CaratWeight { get; set; }
-        public string? Clarity { get; set; }
-        public string? Cut { get; set; }
-        
+        public List<string> Colors { get; set; } = [];
+        public List<string> Cuts { get; set; } = [];
+        public List<string> Clarities { get; set; } = [];
     }
 }
