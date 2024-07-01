@@ -29,7 +29,8 @@ namespace DiamondShop.BusinessLogic.Services
         public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
         {
             var diamond = createDiamondDto.Adapt<Diamond>();
-
+            diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
+                .UploadImageAsync(createDiamondDto.CertificationUrl);
             await _unitOfWork.GetDiamondRepository().AddAsync(diamond);
             await _unitOfWork.SaveChangesAsync();
 
@@ -73,7 +74,11 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             updateDiamondDto.Adapt(diamond);
-
+            if (updateDiamondDto.CertificationUrl is not null)
+            {
+                diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
+                    .UploadImageAsync(updateDiamondDto.CertificationUrl);
+            }
             diamond.LastUpdate = DateTime.Now;
 
             if (diamond.Pictures.Any())

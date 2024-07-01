@@ -19,6 +19,8 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public string? Origin { get; set; }
 
         public string? CaratWeight { get; set; }
+        
+        public string? CertificationUrl { get; set; }
 
         public string? Clarity { get; set; }
 
@@ -33,8 +35,6 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public DateTime? LastUpdate { get; set; }
 
         public string? Status { get; set; }
-
-        public ICollection<GetCertificationDto> Certifications { get; set; } = [];
 
         public ICollection<GetPictureDto> Pictures { get; set; } = [];
 
