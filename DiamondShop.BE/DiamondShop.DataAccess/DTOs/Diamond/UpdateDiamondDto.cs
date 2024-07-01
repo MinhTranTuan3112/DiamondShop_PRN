@@ -33,6 +33,7 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
 
         public string? Status { get; set; }
 
+        public IFormFile? CertificationUrl { get; set; }
         public List<IFormFile> DiamondImages { get; set; } = [];
     }
 }
