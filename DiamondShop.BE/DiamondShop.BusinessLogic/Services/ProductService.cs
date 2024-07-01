@@ -1,4 +1,5 @@
-﻿using DiamondShop.BusinessLogic.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.Shared.Exceptions;
@@ -102,6 +103,26 @@ namespace DiamondShop.BusinessLogic.Services
             await _unitOfWork.SaveChangesAsync();
             await _serviceFactory.GetProductPartService()
                 .CreateProductPart(createProductPropertiesDto.CreateProductPartDtos, product.Id);
+        }
+
+        public async Task DeleteProduct(Guid productId, ProductStatus status)
+        {
+            var product = await _unitOfWork.GetProductRepository().GetByIdAsync(productId);
+            if (product is null)
+            {
+                throw new NotFoundException("Product not found");
+            }
+
+            product.Status = status switch
+            {
+                ProductStatus.Available => ProductStatus.Available.ToString(),
+                ProductStatus.Unavailable => ProductStatus.Unavailable.ToString(),
+                ProductStatus.Deleted => ProductStatus.Deleted.ToString(),
+                _ => product.Status
+            };
+
+            product.LastUpdate = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync();
         }
 
 
