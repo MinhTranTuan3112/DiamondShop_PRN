@@ -4,5 +4,5 @@ public enum ProductStatus
 {
     Available,
     Unavailable,
-    Deleted,
+    Deleted
 }
