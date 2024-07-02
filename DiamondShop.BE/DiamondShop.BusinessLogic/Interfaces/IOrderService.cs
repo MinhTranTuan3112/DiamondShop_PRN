@@ -11,6 +11,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
     public interface IOrderService
     {
         public Task<Order> GetOrderById(Guid id, bool includeDetail);
+        public Task<IEnumerable<Order>?> GetList(QueryOrderDto query);
         Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims);
         public Task<bool> UpdateStatus(Guid ordId, string newStatus, string interacterRole);
         public Task<bool> UpdateOrder(OrderInfoDto order);

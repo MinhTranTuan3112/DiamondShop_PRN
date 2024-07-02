@@ -27,6 +27,12 @@ namespace DiamondShop.BusinessLogic.Services
                 ?? throw new NotFoundException("Not found this order");
             return foundOrder;
         }
+        public async Task<IEnumerable<Order>?> GetList(QueryOrderDto query)
+        {
+            var foundOrder = await _unitOfWork.GetOrderRepository().GetListAsync(query)
+                ??throw new NotFoundException("Not found available order");
+            return foundOrder;
+        }
         public async Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims)
         {
             var accountId = claims.GetAccountId();

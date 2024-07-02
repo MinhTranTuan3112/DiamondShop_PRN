@@ -10,6 +10,6 @@ namespace DiamondShop.DataAccess.DTOs.Order
     public class OrderStatusDto
     {
         [Required] public Guid Id { get; set; }
-        [Required] public string Status { get; set; }
+        [Required] public required string Status { get; set; }
     }
 }
