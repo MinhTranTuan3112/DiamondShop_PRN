@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiamondShop.DataAccess.Models;
+namespace DiamondShop.DataAccess;
 
 public partial class FlashyCarbonDbContext : DbContext
 {
@@ -36,7 +37,7 @@ public partial class FlashyCarbonDbContext : DbContext
 
     public virtual DbSet<Warranty> Warranties { get; set; }
 
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
