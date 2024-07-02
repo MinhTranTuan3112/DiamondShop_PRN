@@ -29,7 +29,7 @@ namespace DiamondShop.Api.Controllers
 
         [HttpPost("register")]
         public async Task<ActionResult> Register([FromBody] RegisterDto registerDto)
-        {
+        {//Admin   Manager   SalesStaff   DeliveryStaff   Customer
             await _serviceFactory.GetAuthService().Register(registerDto);
             return Ok();
         }

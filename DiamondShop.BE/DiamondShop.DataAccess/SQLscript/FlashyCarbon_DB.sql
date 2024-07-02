@@ -14,13 +14,13 @@ go
 --=====================================================================
 create table [Account]
 (
-    Id uniqueidentifier default newid() primary key,
-    Email nvarchar(100) unique,
-    [Password] nvarchar(max) not null,
-    AvatarUrl nvarchar(max),
-    [CreatedTime] datetime default CURRENT_TIMESTAMP,
-    [Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:SalesStaff   4:DeliveryStaff   5:Customer
-    [Status] nvarchar(20) default 'available'	--available   |   working   |   deleted
+	Id uniqueidentifier default newid() primary key,
+	Email nvarchar(100) unique,
+	[Password] nvarchar(max) not null,
+	AvatarUrl nvarchar(max),
+	[CreatedTime] datetime default CURRENT_TIMESTAMP,
+	[Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:SalesStaff   4:DeliveryStaff   5:Customer
+	[Status] nvarchar(20) default 'available'	--available   |   working   |   deleted
 );
 go
 
@@ -79,19 +79,19 @@ go
 
 create table [Diamond]
 (
-    Id uniqueidentifier default newid() primary key,
-    [Name] nvarchar(max),
-    Color nvarchar(20),
-    Origin nvarchar(100),
-    CertificationUrl nvarchar(max),
-    CaratWeight nvarchar(20),
-    Clarity nvarchar(20),
-    Cut nvarchar(20),
-    Price money default 0 not null,
-    Quantity int default 0 not null,
-    WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
-    [LastUpdate] datetime default CURRENT_TIMESTAMP,	--for manage history
-    [Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
+	Id uniqueidentifier default newid() primary key,
+	[Name] nvarchar(max),
+	Color nvarchar(20),
+	Origin nvarchar(100),
+	CertificationUrl nvarchar(max),
+	CaratWeight nvarchar(20),
+	Clarity nvarchar(20),
+	Cut nvarchar(20),
+	Price money default 0 not null,
+	Quantity int default 0 not null,
+	WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
+	[LastUpdate] datetime default CURRENT_TIMESTAMP,	--for manage history
+	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
 );
 go
 
@@ -108,14 +108,14 @@ go
 
 create table [Order]
 (
-    Id uniqueidentifier default newid() primary key,
-    Code nvarchar(20),
-    OrderDate datetime default CURRENT_TIMESTAMP,
-    Total money default 0 not null,
-    ShipDate datetime,
-    ShipAddress nvarchar(max),
-    Note nvarchar(max) default 'nothing here',
-    [Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
+	Id uniqueidentifier default newid() primary key,
+	Code nvarchar(20),
+	OrderDate datetime default CURRENT_TIMESTAMP,
+	Total money default 0 not null,
+	ShipDate datetime,
+	ShipAddress nvarchar(max),
+	Note nvarchar(max) default 'nothing here',
+	[Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
 
     CustomerId uniqueidentifier not null foreign key references [Customer](Id),
     SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
@@ -125,12 +125,12 @@ go
 
 create table [OrderDetail]
 (
-    Id uniqueidentifier default newid() primary key,
-    ComplexProduction bit,
-    Quantity int default 0 not null,
-    RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
-    SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
-    SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
+	Id uniqueidentifier default newid() primary key,
+	ComplexProduction bit,
+	Quantity int default 0 not null,
+	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
+	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
+	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
 
     OrderId uniqueidentifier not null foreign key references [Order](Id),
     ProductId uniqueidentifier foreign key references [Product](Id),
