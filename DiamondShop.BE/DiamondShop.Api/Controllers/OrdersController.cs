@@ -24,7 +24,7 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpPost("list"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
-        public async Task<IActionResult> ViewList(QueryOrderDto query)
+        public async Task<IActionResult> ViewList([FromBody] QueryOrderDto query)
         {
             return Ok(await _serviceFactory.GetOrderService().GetList(query));
         }
