@@ -14,7 +14,7 @@
 }
 
 .profile-user {
-  background-image: linear-gradient(45deg, #232222 0%, #fffb7d 100%);
+  background-image: linear-gradient(45deg, #ffb700 0%, #fffb7d 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,8 +108,8 @@
   width: 130px;
   height: 50px;
   display: flex;
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 5px 10px;
+  border-radius: 5px;
   justify-content: center;
   align-items: center;
   gap: 10px;

@@ -113,7 +113,7 @@ const Product: React.FC<ProductProps> = ({ title, price, status, img }) => {
   return (
     <article className="product-card">
       <div className="product-card-img-wrap">
-        <a href="./product-detail.html">
+        <a href="#!">
           <img src={img} alt={title} className="product-card-thumb" />
         </a>
       </div>

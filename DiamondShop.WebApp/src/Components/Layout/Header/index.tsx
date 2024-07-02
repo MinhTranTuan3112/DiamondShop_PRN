@@ -1,7 +1,6 @@
 import "./style.css";
 import LogoIMG from "../../../assets/icons/icon.png";
-import Avartar from "../../../assets/img/Anhcuatoi.jpg";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import Avartar from "../../../assets/img/Anhcuatoi.png";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa6";
@@ -19,12 +18,6 @@ const Navbar = [
     title: "Trang Sức",
     path: "/product",
     id: 1,
-    src: "/product",
-  },
-  {
-    title: "Policy",
-    path: "/policy",
-    id: 2,
     src: "/product",
   },
 ];
@@ -78,7 +71,6 @@ export default function Header() {
                 }
               >
                 <a>{item.title}</a>
-                <MdKeyboardArrowDown className="navbar-arrow" />
                 {isActive === item.title && isActive === Navbar[1].title ? (
                   <div className="dropdown">
                     <div className="dropdown-inner">
@@ -130,10 +122,10 @@ export default function Header() {
               <span className="top-act-title">03</span>
             </button>
             <div className="top-act-seperate"></div>
-            <button className="top-act-btn">
+            <Link className="top-act-btn" to={"/checkout"}>
               <CiShoppingCart className="top-act-img" />
               <span className="top-act-title">$65.42</span>
-            </button>
+            </Link>
           </div>
           <Link to={"/user"} className="top-act-user">
             <img src={Avartar} alt="" className="top-act-avatar" />
