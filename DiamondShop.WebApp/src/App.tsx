@@ -7,6 +7,7 @@ import AuthorizedRoute from "./Components/AuthorizedRoute";
 import TestPage from "./pages/TestPage";
 import ProductDetailsPage from "./pages/Product/details";
 import Checkout from "./pages/Checkout/Checkout";
+import AdminPage from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +27,8 @@ function App() {
           >
             <Route element={<TestPage />} path="/test" />
           </Route>
-          <Route path="/products/:id" element={<ProductDetailsPage/>}></Route>
+          <Route path="/products/:id" element={<ProductDetailsPage />}></Route>
+          <Route element={<AdminPage />} path="/admin" />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

@@ -1,0 +1,15 @@
+.admin_page_container {
+    display: flex;
+    min-height: 100vh; /* Full height of the viewport */
+}
+
+.content {
+    flex-grow: 1; /* Allows the content to take up the remaining space */
+    padding: 20px; /* Adjust padding as needed */
+}
+
+@media (min-width: 768px) {
+    .content {
+        padding-left: 250px;
+    }
+}
