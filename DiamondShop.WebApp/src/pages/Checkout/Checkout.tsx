@@ -4,7 +4,6 @@ import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
 import { FiMinusSquare, FiPlusSquare } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
-import MyImg from "../../assets/img/Anhcuatoi.png";
 
 interface CartItem {
   id: number;
@@ -19,35 +18,39 @@ const Checkout: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([
     {
       id: 1,
-      name: "Coffee Beans - Espresso Arabica and Robusta Beans",
+      name: "Dây chuyền vàng trắng",
       price: 47.0,
       quantity: 1,
-      available: "In Stock",
-      imgSrc: MyImg,
+      available: "Còn hàng",
+      imgSrc:
+        "https://cdn.pnj.io/images/thumbnails/300/300/detailed/206/sp-gd0000w001069-day-chuyen-vang-trang-y-18k-0-pnj-1.png",
     },
     {
       id: 2,
-      name: "Premium Coffee - Blend of Arabica and Robusta",
-      price: 55.0,
-      quantity: 2,
-      available: "In Stock",
-      imgSrc: MyImg,
+      name: "Nhẫn kim cương",
+      price: 120.0,
+      quantity: 1,
+      available: "Còn hàng",
+      imgSrc:
+        "https://cdn.pnj.io/images/thumbnails/300/300/detailed/207/sp-gd0000w001071-day-chuyen-vang-trang-y-18k-pnj-1.png",
     },
     {
       id: 3,
-      name: "Premium Coffee - Blend of Arabica and Robusta",
-      price: 55.0,
-      quantity: 2,
-      available: "In Stock",
-      imgSrc: MyImg,
+      name: "Vòng tay bạc",
+      price: 30.0,
+      quantity: 1,
+      available: "Hết hàng",
+      imgSrc:
+        "https://cdn.pnj.io/images/thumbnails/300/300/detailed/204/sp-gd0000w001076-day-chuyen-vang-trang-y-18k-pnj-1.png",
     },
     {
       id: 4,
-      name: "Premium Coffee - Blend of Arabica and Robusta",
-      price: 55.0,
-      quantity: 2,
-      available: "In Stock",
-      imgSrc: MyImg,
+      name: "Bông tai ngọc trai",
+      price: 65.0,
+      quantity: 1,
+      available: "Còn hàng",
+      imgSrc:
+        "https://cdn.pnj.io/images/thumbnails/300/300/detailed/204/sp-gd0000w001070-day-chuyen-vang-trang-y-18k-pnj-1.png",
     },
   ]);
 
