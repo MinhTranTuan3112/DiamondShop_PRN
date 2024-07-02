@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.Enums;
 
 namespace DiamondShop.BusinessLogic.Services
 {
@@ -29,7 +30,8 @@ namespace DiamondShop.BusinessLogic.Services
         public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
         {
             var diamond = createDiamondDto.Adapt<Diamond>();
-
+            diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
+                .UploadImageAsync(createDiamondDto.CertificationUrl);
             await _unitOfWork.GetDiamondRepository().AddAsync(diamond);
             await _unitOfWork.SaveChangesAsync();
 
@@ -54,6 +56,26 @@ namespace DiamondShop.BusinessLogic.Services
             return diamond.Adapt<GetDiamondDetailsDto>();
         }
 
+        public async Task ChangStatusDiamond(Guid diamondId, ProductStatus status)
+        {
+            var diamond = await _unitOfWork.GetDiamondRepository().GetByIdAsync(diamondId);
+            if (diamond is null)
+            {
+                throw new NotFoundException("Diamond not found");
+            }
+
+            diamond.Status = status switch
+            {
+                ProductStatus.Available => ProductStatus.Available.ToString(),
+                ProductStatus.Unavailable => ProductStatus.Unavailable.ToString(),
+                ProductStatus.Deleted => ProductStatus.Deleted.ToString(),
+                _ => diamond.Status
+            };
+
+            diamond.LastUpdate = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task<PagedResult<GetDiamondInPageResultDto>> GetPageDiamonds(QueryDiamondDto queryDiamondDto)
         {
             if (queryDiamondDto.StartPrice > queryDiamondDto.EndPrice)
@@ -73,7 +95,11 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             updateDiamondDto.Adapt(diamond);
-
+            if (updateDiamondDto.CertificationUrl is not null)
+            {
+                diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
+                    .UploadImageAsync(updateDiamondDto.CertificationUrl);
+            }
             diamond.LastUpdate = DateTime.Now;
 
             if (diamond.Pictures.Any())

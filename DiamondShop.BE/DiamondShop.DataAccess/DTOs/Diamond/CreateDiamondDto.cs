@@ -39,7 +39,8 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public int Quantity { get; set; }
 
         public int WarrantyPeriod { get; set; }
-
+        [Required]
+        public IFormFile CertificationUrl { get; set; }
         public List<IFormFile> DiamondImages { get; set; } = [];
 
     }

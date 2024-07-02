@@ -2,6 +2,7 @@
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,12 @@ namespace DiamondShop.Api.Controllers
         public async Task<ActionResult> UpdateDiamond([FromRoute] Guid id, [FromForm] UpdateDiamondDto updateDiamondDto)
         {
             await _serviceFactory.GetDiamondService().UpdateDiamond(id, updateDiamondDto);
+            return NoContent();
+        }
+        [HttpPut("{diamondId:guid}/{status}")]
+        public async Task<ActionResult> ChangeStatusDiamond(Guid diamondId, ProductStatus status)
+        {
+            await _serviceFactory.GetDiamondService().ChangStatusDiamond(diamondId, status);
             return NoContent();
         }
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondShop.Api.Controllers
@@ -54,6 +55,12 @@ namespace DiamondShop.Api.Controllers
         {
             var result = await _serviceFactory.GetProductService().GetProductDetailById(id);
             return result;
+        }
+        [HttpPut("{productId}/{status}")]
+        public async Task<ActionResult> ChangeStatusProduct(Guid productId, ProductStatus status)
+        {
+            await _serviceFactory.GetProductService().DeleteProduct(productId, status);
+            return NoContent();
         }
     }
 }

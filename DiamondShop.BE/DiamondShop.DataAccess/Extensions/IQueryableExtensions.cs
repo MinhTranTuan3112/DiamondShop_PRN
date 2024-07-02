@@ -62,11 +62,9 @@ namespace DiamondShop.DataAccess.Extensions
             var startPrice = queryDiamondDto.StartPrice;
             var endPrice = queryDiamondDto.EndPrice;
             var name = queryDiamondDto.Name;
-            var color = queryDiamondDto.Color;
-            var origin = queryDiamondDto.Origin;
-            var caratWeight = queryDiamondDto.CaratWeight;
-            var clarity = queryDiamondDto.Clarity;
-            var cut = queryDiamondDto.Cut;
+            var colors = queryDiamondDto.Colors;
+            var cuts = queryDiamondDto.Cuts;
+            var clarities = queryDiamondDto.Clarities;
             if (startPrice < endPrice)
             {
                 query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
@@ -75,25 +73,18 @@ namespace DiamondShop.DataAccess.Extensions
             {
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
             }
-            if (!string.IsNullOrEmpty(color))
+
+            if (colors is not [])
             {
-                query = query.Where(p =>  !string.IsNullOrEmpty(p.Color) && p.Color.ToLower().Contains(color.ToLower()));
+                query = query.Where(p => colors.Contains(p.Color!));
             }
-            if (!string.IsNullOrEmpty(origin))
+            if (clarities is not [])
             {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Origin) && p.Origin.ToLower().Contains(origin.ToLower()));
+                query = query.Where(p => clarities.Contains(p.Clarity!));
             }
-            if (!string.IsNullOrEmpty(caratWeight))
+            if (cuts is not [])
             {
-                query = query.Where(p => !string.IsNullOrEmpty(p.CaratWeight) && p.CaratWeight.ToLower().Contains(caratWeight.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(clarity))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Clarity) && p.Clarity.ToLower().Contains(clarity.ToLower()));
-            }
-            if (!string.IsNullOrEmpty(cut))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Cut) && p.Cut.ToLower().Contains(cut.ToLower()));
+                query = query.Where(p => cuts.Contains(p.Cut!));
             }
             return query;
         }

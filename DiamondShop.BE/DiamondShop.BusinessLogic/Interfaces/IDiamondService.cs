@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.Enums;
 
 namespace DiamondShop.BusinessLogic.Interfaces
 {
@@ -19,5 +20,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task UpdateDiamond(Guid id, UpdateDiamondDto updateDiamondDto);
 
         Task<GetDiamondDetailsDto> GetDiamondDetailsById(Guid id);
+        
+        Task ChangStatusDiamond(Guid diamondId, ProductStatus status);
     }
 }
