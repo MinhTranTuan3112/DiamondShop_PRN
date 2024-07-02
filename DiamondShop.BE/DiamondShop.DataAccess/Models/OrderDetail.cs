@@ -7,6 +7,8 @@ public partial class OrderDetail
 {
     public Guid Id { get; set; }
 
+    public bool? ComplexProduction { get; set; }
+
     public int Quantity { get; set; }
 
     public string? RingSize { get; set; }

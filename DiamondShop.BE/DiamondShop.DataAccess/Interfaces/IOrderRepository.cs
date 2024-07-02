@@ -11,5 +11,6 @@ namespace DiamondShop.DataAccess.Interfaces
     public interface IOrderRepository : IGenericRepository<Order>
     {
         Task<Order?> GetOrderWithOrderDetails(Expression<Func<Order, bool>> predicate);
+        public Task<Order?> GetOrderById(Guid id, bool includeDetail);
     }
 }

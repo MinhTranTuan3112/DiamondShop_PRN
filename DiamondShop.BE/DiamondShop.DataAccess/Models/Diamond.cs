@@ -13,6 +13,8 @@ public partial class Diamond
 
     public string? Origin { get; set; }
 
+    public string? CertificationUrl { get; set; }
+
     public string? CaratWeight { get; set; }
 
     public string? Clarity { get; set; }
@@ -28,8 +30,6 @@ public partial class Diamond
     public DateTime? LastUpdate { get; set; }
 
     public string? Status { get; set; }
-
-    public virtual ICollection<Certification> Certifications { get; set; } = new List<Certification>();
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

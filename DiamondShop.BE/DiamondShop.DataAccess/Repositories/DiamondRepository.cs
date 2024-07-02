@@ -27,7 +27,6 @@ namespace DiamondShop.DataAccess.Repositories
         {
             return await _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
-                                         .Include(d => d.Certifications)
                                          .Include(d => d.ProductParts)
                                          .AsSplitQuery()
                                          .SingleOrDefaultAsync(d => d.Id == id);

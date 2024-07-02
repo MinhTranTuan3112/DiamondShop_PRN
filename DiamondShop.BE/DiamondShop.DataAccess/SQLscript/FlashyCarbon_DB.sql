@@ -83,6 +83,7 @@ create table [Diamond]
 	[Name] nvarchar(max),
 	Color nvarchar(20),
 	Origin nvarchar(100),
+	CertificationUrl nvarchar(max),
 	CaratWeight nvarchar(20),
 	Clarity nvarchar(20),
 	Cut nvarchar(20),
@@ -114,7 +115,7 @@ create table [Order]
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
 	Note nvarchar(max) default 'nothing here',
-	[Status] nvarchar(20) default 'created',	--InCart   |   Pending   |   Received   |   Confirmed   |   Pay   |   Deliveried   |   Deleted
+	[Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
 
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
 	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
@@ -125,6 +126,7 @@ go
 create table [OrderDetail]
 (
 	Id uniqueidentifier default newid() primary key,
+	ComplexProduction bit,
 	Quantity int default 0 not null,
 	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
 	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
@@ -156,17 +158,6 @@ create table [Warranty]
 	OrderDetailId uniqueidentifier not null foreign key references [OrderDetail](Id)
 );
 go
-
-create table [Certification]
-(
-	Id uniqueidentifier default newid() primary key,
-	[Name] nvarchar(max) not null,
-	UrlPath nvarchar(max),
-
-	DiamondId uniqueidentifier not null foreign key references [Diamond](Id),
-);
-go
-
 
 create table [Picture]
 (

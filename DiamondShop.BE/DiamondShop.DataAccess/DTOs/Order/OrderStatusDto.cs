@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace DiamondShop.DataAccess.DTOs.Order
 {
-    public class StaffReceiveDto
+    public class OrderStatusDto
     {
-        public Guid OrderId { get; set; }
-        public Guid StakeholderId { get; set; }
-        [Required] public required string UpdatedStatus { get; set; }
+        [Required] public Guid Id { get; set; }
+        [Required] public string Status { get; set; }
     }
 }

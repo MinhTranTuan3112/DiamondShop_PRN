@@ -3,10 +3,13 @@ namespace DiamondShop.DataAccess.Enums
     public enum OrderStatus
     {
         InCart,
-        Pending,
+        Pending_Confirm,
         Confirmed,
+        Pay,
+        Delivering,
         Deliveried,
-        Returned,
+        Pending_Refund,
+        Refunded,
         Deleted
     }
 }

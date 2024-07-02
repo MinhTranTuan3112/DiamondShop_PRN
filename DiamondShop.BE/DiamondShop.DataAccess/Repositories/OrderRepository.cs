@@ -24,5 +24,15 @@ namespace DiamondShop.DataAccess.Repositories
                                  .FirstOrDefaultAsync(predicate);
         }
 
+        public async Task<Order?> GetOrderById (Guid id, bool includeDetail)
+        {
+            if (includeDetail)
+            {
+                return await _context.Orders
+                    .Include(ord => ord.OrderDetails)
+                    .FirstOrDefaultAsync(ord => ord.Id == id);
+            }
+            return await _context.Orders.FindAsync(id);
+        }
     }
 }

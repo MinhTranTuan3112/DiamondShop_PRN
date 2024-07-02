@@ -30,30 +30,43 @@ namespace DiamondShop.Api.Controllers
             await _serviceFactory.GetOrderService().AddToCart(addToCartDto, HttpContext.User);
             return Ok();
         }
-
-        [HttpPost("send-order"), Authorize(Roles = "Customer")]
-        public async Task<IActionResult> SendOrder(CustomerSendDto order)
+        [HttpGet("{id}&&{includeDetail}"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
+        public async Task<IActionResult> ViewOrder(Guid id, bool includeDetail)
         {
-            bool resultSuccess = await _serviceFactory.GetOrderService().ChangeInfoOrStatus(order);
-            return resultSuccess ? Ok("Send Success") : BadRequest("Send Failed");
+            return Ok(await _serviceFactory.GetOrderService().GetOrderById(id, includeDetail));
         }
 
-        [HttpPost("receive-order"), Authorize(Roles = "SalesStaff, DeliveryStaff")]
-        public async Task<IActionResult> ReceiveOrder(StaffReceiveDto order)
+        [HttpPost("Status"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
+        public async Task<IActionResult> ChangeStatus(OrderStatusDto ord)
         {
             string currentRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-            if (currentRole.IsNullOrEmpty())
+            if (currentRole is null)
             {
                 return Unauthorized();
             }
-            bool resultSuccess = await _serviceFactory.GetOrderService().ChangeStaffOrStatus(order, currentRole);
-            return resultSuccess ? Ok("Update Success") : BadRequest("Update Failed");
+
+            var result = await _serviceFactory.GetOrderService().UpdateStatus(ord.Id, ord.Status, currentRole);
+            return result ? Ok("Change Success") : BadRequest("Change Failed");
+        }
+
+        [HttpPost("Update"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
+        public async Task<IActionResult> UpdateOrder(OrderInfoDto ord)
+        {
+            string currentRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+            if (currentRole is null)
+            {
+                return Unauthorized();
+            }
+
+            var result = await _serviceFactory.GetOrderService().UpdateOrder(ord);
+            return result ? Ok("Change Success") : BadRequest("Change Failed");
         }
 
         [HttpDelete, Authorize(Roles = "Manager")]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            return await _serviceFactory.GetOrderService().DeleteOrder(id) ? Ok("Delete Success") : BadRequest("Delete Failed");
+            var result = await _serviceFactory.GetOrderService().DeleteOrder(id);
+            return result ? Ok("Delete Success") : BadRequest("Delete Failed");
         }
     }
 }
