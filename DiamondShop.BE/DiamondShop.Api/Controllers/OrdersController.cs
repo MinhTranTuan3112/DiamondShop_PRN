@@ -17,10 +17,10 @@ namespace DiamondShop.Api.Controllers
             _serviceFactory = serviceFactory;
         }
 
-        [HttpGet("{id}&&{includeDetail}"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
-        public async Task<IActionResult> ViewOrder([FromRoute] Guid id, [FromRoute] bool includeDetail)
+        [HttpGet("{id}"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
+        public async Task<IActionResult> ViewOrder([FromRoute] Guid id)
         {
-            return Ok(await _serviceFactory.GetOrderService().GetOrderById(id, includeDetail));
+            return Ok(await _serviceFactory.GetOrderService().GetOrderById(id));
         }
 
         [HttpPost("list"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]

@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.DTOs.OrderDetail;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
@@ -111,6 +108,26 @@ namespace DiamondShop.BusinessLogic.Services
             order.Total += orderDetail.SubTotal;
 
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<OrderDetail> Get_OrderDetail_By_Id(Guid orderId)
+        {
+            var existOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetByIdAsync(orderId)
+                ?? throw new NotFoundException("Not found any order detail match the id!");
+            return existOrderDetail;
+        }
+
+        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId)
+        {
+            var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().FindAsync(odtl => odtl.OrderId == orderId)
+                ?? throw new NotFoundException("Not found any order detail of that order!");
+            return listOrderDetail;
+        }
+        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_InfoDto filters)
+        {
+            var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailByFilter(filters)
+                ?? throw new NotFoundException("Not found any order detail of that order!");
+            return listOrderDetail;
         }
     }
 }
