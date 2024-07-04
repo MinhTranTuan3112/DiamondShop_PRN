@@ -21,18 +21,25 @@ const Products: React.FC = () => {
   const [priceRange, setPriceRange] = useState([1000, 5000]);
 
   useEffect(() => {
-    fetchData(currentPage, priceRange);
+    const timer = setTimeout(() => {
+      fetchData(currentPage, priceRange);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+
   }, [currentPage, priceRange]);
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setCurrentPage(value)    
+    setCurrentPage(value)
   };
 
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
     setPriceRange(newValue as number[]);
     setCurrentPage(1);
   };
-  
+
 
   const fetchData = async (page: number, priceRange: number[]) => {
     try {
@@ -48,7 +55,7 @@ const Products: React.FC = () => {
   return (
     <div>
       <Header />
-      <div className="filter-container">
+      <div className="filter-container mt-10">
         <h3>Filter by Price:</h3>
         <Slider
           value={priceRange}
