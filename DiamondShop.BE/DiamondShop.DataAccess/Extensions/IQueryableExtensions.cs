@@ -53,8 +53,11 @@ namespace DiamondShop.DataAccess.Extensions
                 query = query.Where(p => p.ProductParts.Any(pp => diamondIds.Contains(pp.DiamondId)));
             }
 
-
-
+            if (!string.IsNullOrEmpty(queryProductDto.Name))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(queryProductDto.Name.ToLower()));
+            }
+            
             return query;
         }
         public static IQueryable<Diamond> ApplyDiamondsFilter(this IQueryable<Diamond> query, QueryDiamondDto queryDiamondDto)
