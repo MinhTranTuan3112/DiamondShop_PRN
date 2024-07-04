@@ -62,7 +62,7 @@ const Products: React.FC = () => {
             className="product-card"
             key={index}
             onClick={() => {
-              window.location.href = `/product/${prod.id}`;
+              window.location.href = `/products/${prod.id}`;
             }}
           >
             {prod.pictures && prod.pictures.length > 0 && (
