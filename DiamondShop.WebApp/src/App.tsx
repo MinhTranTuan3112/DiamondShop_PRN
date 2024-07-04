@@ -7,6 +7,7 @@ import AuthorizedRoute from "./Components/AuthorizedRoute";
 import TestPage from "./pages/TestPage";
 import ProductDetailsPage from "./pages/Product/details";
 import Checkout from "./pages/Checkout/Checkout";
+import Products from "./pages/Product";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +24,11 @@ function App() {
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
             }
-          >
+          />
             <Route element={<TestPage />} path="/test" />
+          <Route path="/products" element={<Products /> }/>
+          <Route element={<AuthorizedRoute role={"customer"} redirectPath={"/login"} />}>
+            <Route element={<TestPage/>} path="/test"/>
           </Route>
           <Route path="/products/:id" element={<ProductDetailsPage/>}></Route>
         </Routes>
