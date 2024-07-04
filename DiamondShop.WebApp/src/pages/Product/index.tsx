@@ -12,6 +12,8 @@ interface Product {
   pictures: { urlPath: string }[];
 }
 
+
+
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,6 +32,7 @@ const Products: React.FC = () => {
     setPriceRange(newValue as number[]);
     setCurrentPage(1);
   };
+  
 
   const fetchData = async (page: number, priceRange: number[]) => {
     try {
