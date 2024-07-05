@@ -6,6 +6,7 @@ using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Account;
 using DiamondShop.DataAccess.DTOs.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondShop.Api.Controllers
@@ -33,10 +34,22 @@ namespace DiamondShop.Api.Controllers
             await _serviceFactory.GetAuthService().Register(registerDto);
             return Ok();
         }
-
+        [HttpPost("create-account")]
+        public async Task<ActionResult> CreateAccount([FromBody] CreateAccountDto createAccountDto)
+        {
+            await _serviceFactory.GetAuthService().CreateAccount(createAccountDto);
+            return Ok();
+        }
+        
+        [HttpPut("update-password/{id:guid}")]
+        public async Task<ActionResult> UpdatePassword(Guid id, [FromBody]UpdatePasswordDto updatePasswordDto)
+        {
+            await _serviceFactory.GetAuthService().UpdatePassword(id, updatePasswordDto);
+            return Ok();
+        }
         [HttpGet("who-am-i")]
         [Authorize]
-        public async Task<ActionResult<GetAccountDto>> WhoAmI()
+        public async Task<ActionResult<GetAccountDetailDto>> WhoAmI()
         {
             return await _serviceFactory.GetAuthService().GetAccountInfoByClaims(HttpContext.User);
         }

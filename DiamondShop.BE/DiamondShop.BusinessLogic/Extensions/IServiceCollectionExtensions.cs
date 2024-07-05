@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
+using DiamondShop.DataAccess.DTOs.Account;
 using DiamondShop.DataAccess.DTOs.Category;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
@@ -31,6 +32,7 @@ namespace DiamondShop.BusinessLogic.Extensions
             TypeAdapterConfig<UpdateCategoryDto, Category>.NewConfig().IgnoreNullValues(true);
             TypeAdapterConfig<UpdateProductDto, Product>.NewConfig().IgnoreNullValues(true);
             TypeAdapterConfig<CreateProductPartDto, ProductPart>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<UpdateAccountDto, Account>.NewConfig().IgnoreNullValues(true);
             return services;
         }
 
@@ -45,6 +47,7 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddSingleton(opt => StorageClient.Create());
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
             services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IAccountService, AccountService>();
             return services;
         }
     }
