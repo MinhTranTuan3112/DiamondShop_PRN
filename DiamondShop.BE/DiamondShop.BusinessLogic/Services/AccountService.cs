@@ -57,7 +57,7 @@ public class AccountService : IAccountService
         return accounts.Adapt<List<GetAccountDto>>();
     }
 
-    public async Task<GetAccountDetailDto?> GetAccountById(Guid id)
+    public async Task<GetAccountDetailDto> GetAccountById(Guid id)
     {
         var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(id);
         if (account is null)
