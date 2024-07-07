@@ -8,6 +8,7 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface IAccountRepository : IGenericRepository<Account>
     {
-
+        Task<Account?> GetAccountDetail(Guid id);
+        
     }
 }

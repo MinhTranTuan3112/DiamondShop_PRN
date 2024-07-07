@@ -23,5 +23,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IProductPartService GetProductPartService();
 
         IPictureService GetPictureService();
+        IAccountService GetAccountService();
     }
 }

@@ -22,6 +22,7 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IFirebaseStorageService> _firebaseStorageService;
         private readonly Lazy<IPictureService> _pictureService;
         private readonly Lazy<IProductPartService> _productPartService;
+        private readonly Lazy<IAccountService> _accountService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
@@ -33,6 +34,7 @@ namespace DiamondShop.BusinessLogic
             _firebaseStorageService = new Lazy<IFirebaseStorageService>(() => new FirebaseStorageService(storageClient, configuration));
             _pictureService = new Lazy<IPictureService>(() => new PictureService(unitOfWork, this));
             _productPartService = new Lazy<IProductPartService>(() => new ProductPartService(unitOfWork));
+            _accountService = new Lazy<IAccountService>(() => new AccountService(unitOfWork, this));
         }
 
         public IAuthService GetAuthService()
@@ -73,6 +75,11 @@ namespace DiamondShop.BusinessLogic
         public IPictureService GetPictureService()
         {
             return _pictureService.Value;
+        }
+
+        public IAccountService GetAccountService()
+        {
+            return _accountService.Value;
         }
 
         public IProductService GetProductService()
