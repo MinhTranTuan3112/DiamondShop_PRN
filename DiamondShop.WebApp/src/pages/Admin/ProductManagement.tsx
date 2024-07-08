@@ -1,5 +1,3 @@
-// ProductManagement.tsx
-
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -18,16 +16,23 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts } from "./APIClient";
+import { fetchProducts, fetchProductById } from "./APIClient"; // Adjust this import based on your API client implementation
 import avatar from "../../assets/img/Anhcuatoi.png";
+import { Empty } from "antd";
+import ProductModal from "./Modal/ProductModal"; // Adjust the import based on the actual path
 
 interface Product {
   id: string;
   name: string;
   type: string;
   material: string;
+  gender: string | null;
   price: number;
   point: number;
+  quantity: number;
+  category: {
+    name: string;
+  };
   pictures: {
     id: string;
     urlPath: string;
@@ -36,14 +41,14 @@ interface Product {
 
 const theme = createTheme({
   typography: {
-    fontSize: 15, // Default font size for the entire page
+    fontSize: 15,
     htmlFontSize: 15,
   },
   components: {
     MuiTableCell: {
       styleOverrides: {
         root: {
-          fontSize: "13px", // Override TableCell font size to 13px
+          fontSize: "13px",
         },
       },
     },
@@ -59,6 +64,10 @@ const ProductManagement: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [sortColumn, setSortColumn] = useState<string>("");
   const [orderByDesc, setOrderByDesc] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(
+    null
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +80,24 @@ const ProductManagement: React.FC = () => {
           sortColumn,
           orderByDesc
         );
-        setProducts(data.results);
+        const mappedProducts: Product[] = data.results.map((result: any) => ({
+          id: result.id,
+          name: result.name,
+          type: result.type,
+          material: result.material,
+          gender: result.gender,
+          price: result.price,
+          point: result.point,
+          quantity: result.quantity,
+          category: {
+            name: result.category.name,
+          },
+          pictures: result.pictures.map((pic: any) => ({
+            id: pic.id,
+            urlPath: pic.urlPath,
+          })),
+        }));
+        setProducts(mappedProducts);
         setTotalProducts(data.totalCount);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -107,6 +133,25 @@ const ProductManagement: React.FC = () => {
     }
   };
 
+  const handleOpenModal = (product: Partial<Product> | null = null) => {
+    setCurrentProduct(product);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setCurrentProduct(null);
+  };
+
+  const handleSaveProduct = (product: Partial<Product>) => {
+    if (currentProduct?.id) {
+      // Handle edit product logic here
+    } else {
+      // Handle add product logic here
+    }
+    handleCloseModal();
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -120,12 +165,13 @@ const ProductManagement: React.FC = () => {
             padding: "10px",
             outline: "none",
             border: "none",
-            borderBottom: "2px solid #FFD700 ",
+            borderBottom: "2px solid #FFD700",
           }}
         />
         <Button
           variant="contained"
-          style={{ background: "#FFD700 ", fontSize: "10px" }}
+          style={{ background: "#FFD700", fontSize: "10px" }}
+          onClick={() => handleOpenModal()}
         >
           Add Product
         </Button>
@@ -140,7 +186,18 @@ const ProductManagement: React.FC = () => {
             height: "500px",
           }}
         >
-          <CircularProgress style={{ color: "#FFD700 " }} />
+          <CircularProgress style={{ color: "#FFD700" }} />
+        </div>
+      ) : products.length === 0 ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "500px",
+          }}
+        >
+          <Empty description="No Products Found" />
         </div>
       ) : (
         <TableContainer
@@ -211,7 +268,16 @@ const ProductManagement: React.FC = () => {
                   sx={{
                     fontWeight: 700,
                     color: "#2e2e2e",
-                    width: "30%",
+                    width: "15%",
+                  }}
+                >
+                  Category
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "20%",
                   }}
                 >
                   Picture
@@ -240,6 +306,9 @@ const ProductManagement: React.FC = () => {
                   </TableCell>
                   <TableCell sx={{ width: "10%" }}>{product.price}</TableCell>
                   <TableCell sx={{ width: "10%" }}>{product.point}</TableCell>
+                  <TableCell sx={{ width: "15%" }}>
+                    {product.category.name}
+                  </TableCell>
                   <TableCell sx={{ width: "20%" }}>
                     {product.pictures.length > 0 && (
                       <img
@@ -248,14 +317,17 @@ const ProductManagement: React.FC = () => {
                         alt={product.name}
                         style={{
                           width: "50px",
-                          height: "100px",
+                          height: "80px",
                           objectFit: "contain",
                         }}
                       />
                     )}
                   </TableCell>
-                  <TableCell sx={{ width: "15%" }}>
-                    <IconButton style={{ color: "#FFD700 " }}>
+                  <TableCell sx={{ width: "10%" }}>
+                    <IconButton
+                      style={{ color: "#FFD700" }}
+                      onClick={() => handleOpenModal(product)}
+                    >
                       <EditIcon />
                     </IconButton>
                     <IconButton style={{ color: "orangered" }}>
@@ -299,6 +371,12 @@ const ProductManagement: React.FC = () => {
             color: "white",
           },
         }}
+      />
+      <ProductModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        handleSave={handleSaveProduct}
+        initialData={currentProduct}
       />
     </ThemeProvider>
   );
