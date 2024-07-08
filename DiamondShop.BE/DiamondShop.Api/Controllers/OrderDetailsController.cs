@@ -24,21 +24,22 @@ namespace DiamondShop.Api.Controllers
             return Ok(await _serviceFactory.GetOrderDetailService().GetList_OrderDetail_By_OrderId(id));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetListByFilter([FromBody] OrderDetail_InfoDto filterInput)
+        [HttpPost("list-filtered")]
+        public async Task<IActionResult> GetListByFilter([FromBody] OrderDetail_PagingDto filterInput)
         {
             return Ok(await _serviceFactory.GetOrderDetailService().GetList_OrderDetail_By_Filter(filterInput));
         }
-        [HttpPatch]
-        public async Task<IActionResult> Update(OrderDetail_InfoDto order)
+
+        [HttpPatch("update")]
+        public async Task<IActionResult> Update([FromBody] OrderDetail_InfoDto order)
         {
-            return Ok();
+            return Ok(await _serviceFactory.GetOrderDetailService().UpdateOrderDetail(order));
         }
         
         [HttpDelete]
-        public async Task<IActionResult> DeleteOrderDetail()
+        public async Task<IActionResult> DeleteOrderDetail(Guid orderDetailId)
         {
-            return Ok();
+            return Ok(await _serviceFactory.GetOrderDetailService().DeleteOrderDetail(orderDetailId));
         }
     }
 }

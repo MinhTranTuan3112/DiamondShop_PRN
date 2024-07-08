@@ -125,8 +125,7 @@ namespace DiamondShop.BusinessLogic.Services
             currentOrder.Status = newStatus;
 
             //Save Change
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            return await _unitOfWork.SaveChangesAsync()>0;
         }
 
         public async Task<bool> UpdateOrder(OrderInfoDto order)

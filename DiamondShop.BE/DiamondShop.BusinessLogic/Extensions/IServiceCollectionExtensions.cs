@@ -6,6 +6,7 @@ using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
 using DiamondShop.DataAccess.DTOs.Category;
 using DiamondShop.DataAccess.DTOs.Diamond;
+using DiamondShop.DataAccess.DTOs.OrderDetail;
 using DiamondShop.DataAccess.Models;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,8 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddMapster();
             TypeAdapterConfig<UpdateDiamondDto, Diamond>.NewConfig().IgnoreNullValues(true);
             TypeAdapterConfig<UpdateCategoryDto, Category>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<OrderDetail_InfoDto, OrderDetail>.NewConfig().IgnoreNullValues(true)
+                .Map(destination => destination.Id, startFrom => startFrom.OrderDetailId);
             return services;
         }
 

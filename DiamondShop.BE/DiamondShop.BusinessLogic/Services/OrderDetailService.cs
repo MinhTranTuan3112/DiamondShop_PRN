@@ -5,6 +5,7 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
+using Mapster;
 using Newtonsoft.Json;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -110,9 +111,16 @@ namespace DiamondShop.BusinessLogic.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<OrderDetail> Get_OrderDetail_By_Id(Guid orderId)
+        public async Task<OrderDetail> Get_OrderDetail_By_Id(Guid id)
         {
-            var existOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetByIdAsync(orderId)
+            var existOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetByIdAsync(id)
+                ?? throw new NotFoundException("Not found any order detail match the id!");
+            return existOrderDetail;
+        }
+
+        public async Task<OrderDetail> Get_OrderDetail_IncludeReference(Guid orderDetailId)
+        {
+            var existOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetById_IncludeReference(orderDetailId)
                 ?? throw new NotFoundException("Not found any order detail match the id!");
             return existOrderDetail;
         }
@@ -123,11 +131,29 @@ namespace DiamondShop.BusinessLogic.Services
                 ?? throw new NotFoundException("Not found any order detail of that order!");
             return listOrderDetail;
         }
-        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_InfoDto filters)
+        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters)
         {
             var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailByFilter(filters)
                 ?? throw new NotFoundException("Not found any order detail of that order!");
             return listOrderDetail;
         }
+        public async Task<bool> UpdateOrderDetail(OrderDetail_InfoDto updatedOrderDetail)
+        {
+            var foundOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetByIdAsync(updatedOrderDetail.OrderDetailId)
+                ?? throw new NotFoundException("Not found any order detail of that order!");
+
+            //Mapster auto map
+            updatedOrderDetail.Adapt(foundOrderDetail);
+
+            return await _unitOfWork.SaveChangesAsync()>0;
+        }
+
+        public async Task<bool> DeleteOrderDetail(Guid orderDetailId)
+        {
+            var foundOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetByIdAsync(orderDetailId)
+                ?? throw new NotFoundException("Not found any order detail of that order!");
+            return await _unitOfWork.GetOrderDetailRepository().DeleteOrderDetailAndReferences(foundOrderDetail);
+        }
+
     }
 }

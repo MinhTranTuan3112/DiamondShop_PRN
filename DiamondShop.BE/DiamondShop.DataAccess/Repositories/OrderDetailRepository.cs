@@ -13,11 +13,19 @@ namespace DiamondShop.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<OrderDetail>> GetListOrderDetailByFilter(OrderDetail_InfoDto filters)
+        public async Task<OrderDetail?> GetById_IncludeReference(Guid orderDetailId)
+        {
+            return await _context.OrderDetails
+                .Include(odtl => odtl.Product)
+                .Include(odtl => odtl.Order)
+                .Include(odtl => odtl.Warranties)
+                .FirstOrDefaultAsync(odtl => odtl.Id == orderDetailId);
+        }
+
+        public async Task<IEnumerable<OrderDetail>> GetListOrderDetailByFilter(OrderDetail_PagingDto filters)
         {
             var query = _context.OrderDetails
                 .AsNoTracking()
-                .AsSplitQuery()
                 .AsQueryable();
 
             // Apply search
@@ -42,6 +50,17 @@ namespace DiamondShop.DataAccess.Repositories
                 .ToListAsync();
 
             return queriedOrderDetails;
+        }
+
+        public async Task<bool> DeleteOrderDetailAndReferences(OrderDetail? orderDetail)
+        {
+           if (orderDetail is null) return false;
+
+            //Delete Constrain reference
+            await _context.Warranties.Where(waran => waran.OrderDetailId == orderDetail.Id).ExecuteDeleteAsync();
+
+            _context.OrderDetails.Remove(orderDetail);
+            return await _context.SaveChangesAsync()>0;
         }
     }
 }
