@@ -30,6 +30,7 @@ namespace DiamondShop.DataAccess.Extensions
             decimal startPrice = queryProductDto.StartPrice;
             decimal endPrice = queryProductDto.EndPrice;
             var categoryIds = queryProductDto.CategoryIds;
+            var name = queryProductDto.Name;
             var material = queryProductDto.Material;
             var diamondIds = queryProductDto.DiamondIds;
 
@@ -46,6 +47,10 @@ namespace DiamondShop.DataAccess.Extensions
             if (!string.IsNullOrEmpty(material))
             {
                 query = query.Where(p => !string.IsNullOrEmpty(p.Material) && p.Material.ToLower().Contains(material.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
             }
 
             if (diamondIds is not [])
