@@ -79,9 +79,9 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpGet("statistic")]
-        public async Task<IActionResult> GetOrderStatistics()
+        public async Task<IActionResult> GetOrderStatistics(int? month)
         {
-            return Ok(await _serviceFactory.GetOrderService().GetOrderStatisticsAsync());
+            return Ok(await _serviceFactory.GetOrderService().GetOrderStatisticsAsync(month.Value));
         }
     }
 }

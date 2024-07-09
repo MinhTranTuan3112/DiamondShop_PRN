@@ -178,10 +178,13 @@ namespace DiamondShop.BusinessLogic.Services
             return true;
         }
 
-        public async Task<OrderStatistic> GetOrderStatisticsAsync()
+        public async Task<OrderStatistic> GetOrderStatisticsAsync(int month)
         {
             var orders = await _unitOfWork.GetOrderRepository().GetAllAsync();
-
+            if (month != 0 && (month >= 1 && month <= 12))
+            {
+                orders = orders.Where(o => o.OrderDate.HasValue && o.OrderDate.Value.Month == month).ToList();
+            }
             var totalOrders = orders.Count;
             var totalRevenue = orders.Sum(o => o.Total);
             var averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
