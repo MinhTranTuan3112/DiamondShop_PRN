@@ -2,7 +2,6 @@
 go
 
 --=============[RESET DATA]=============--
-delete from [Certification];
 delete from [Picture];
 delete from [ProductPart];
 delete from [Diamond];
@@ -49,37 +48,37 @@ insert into [Account](Email,[Password],[Role],[Status]) values
 go
 
 insert into [StakeHolder](Fullname,PhoneNumber,Salary,AccountId) values
-	('Admin', '0000000000', 10000, (select Id from [Account] where Email = 'admin@flashycarbon.com')),
-	('Manager', '0000000001', 7500, (select Id from [Account] where Email = 'manager@flashycarbon.com')),
-	(N'Hoàng Phạm', '0000000002', 7500, (select Id from [Account] where Email = 'hoangphse172789@fpt.edu.vn')),
-	(N'Johnny Đặng', '0000000003', 5000, (select Id from [Account] where Email = 'johhnydang@flashycarbon.com')),
-	('Khoa Pug', '0000000004', 5000, (select Id from [Account] where Email = 'khoapug@flashycarbon.com')),
-	('Rihana', '0000000005', 5000, (select Id from [Account] where Email = 'rihanna@flashycarbon.com')),
-	(N'Tùng Sike', '0000000006', 1000, (select Id from [Account] where Email = 'tungsike@wibu.com')),
-	(N'Phú Lê', '0000000007', 1000, (select Id from [Account] where Email = 'phule@giangho.com'));
+	('Admin', '0827260935', 10000, (select Id from [Account] where Email = 'admin@flashycarbon.com')),
+	('Manager', '0918270193', 7500, (select Id from [Account] where Email = 'manager@flashycarbon.com')),
+	(N'Hoàng Phạm', '0834385296', 7500, (select Id from [Account] where Email = 'hoangphse172789@fpt.edu.vn')),
+	(N'Johnny Đặng', '0981549726', 5000, (select Id from [Account] where Email = 'johhnydang@flashycarbon.com')),
+	('Khoa Pug', '0840521794', 5000, (select Id from [Account] where Email = 'khoapug@flashycarbon.com')),
+	('Rihana', '0891529687', 5000, (select Id from [Account] where Email = 'rihanna@flashycarbon.com')),
+	(N'Tùng Sike', '0343107648', 1000, (select Id from [Account] where Email = 'tungsike@wibu.com')),
+	(N'Phú Lê', '0369307526', 1000, (select Id from [Account] where Email = 'phule@giangho.com'));
 go
 
 insert into [Customer](Fullname, PhoneNumber, AccountId) values
-	(N'Nguyễn Văn An', '0000000008', (select Id from [Account] where Email = 'an.nguyen@gmail.com')),
-	(N'Trần Thu Hà', '0000000009', (select Id from [Account] where Email = 'ha.tran@gmail.com')),
-	(N'Lê Hoàng Minh', '0000000010', (select Id from [Account] where Email = 'minh.le@gmail.com')),
-	(N'Phạm Thu Thủy', '0000000011', (select Id from [Account] where Email = 'thuy.pham@gmail.com')),
-	(N'Ngô Đức Tuấn', '0000000012', (select Id from [Account] where Email = 'tuan.ngo@gmail.com')),
-	(N'Nguyễn Thị Lan', '0000000013', (select Id from [Account] where Email = 'lan.nguyen@gmail.com')),
-	(N'Trịnh Công Danh', '0000000014', (select Id from [Account] where Email = 'danh.trinh@gmail.com')),
-	(N'Lê Thị Diễm', '0000000015', (select Id from [Account] where Email = 'diem.le@gmail.com')),
-	(N'Hoàng Quốc Bảo', '0000000016', (select Id from [Account] where Email = 'bao.hoang@gmail.com')),
-	(N'Trương Thị Vân', '0000000017', (select Id from [Account] where Email = 'van.truong@gmail.com')),
-	(N'Đỗ Minh Đức', '0000000018', (select Id from [Account] where Email = 'duc.do@gmail.com')),
-	(N'Nguyễn Thị Mỹ', '0000000019', (select Id from [Account] where Email = 'my.nguyen@gmail.com')),
-	(N'Lê Anh Tuấn', '0000000020', (select Id from [Account] where Email = 'tuan.le@gmail.com')),
-	(N'Trần Thị Phương', '0000000021', (select Id from [Account] where Email = 'phuong.tran@gmail.com')),
-	(N'Ngô Văn Hải', '0000000022', (select Id from [Account] where Email = 'hai.ngo@gmail.com')),
-	(N'Nguyễn Thị Thanh', '0000000023', (select Id from [Account] where Email = 'thanh.nguyen@gmail.com')),
-	(N'Trần Quốc Bảo', '0000000024', (select Id from [Account] where Email = 'bao.tran@gmail.com')),
-	(N'Lê Thị Hồng', '0000000025', (select Id from [Account] where Email = 'hong.le@gmail.com')),
-	(N'Đỗ Văn Minh', '0000000026', (select Id from [Account] where Email = 'minh.do@gmail.com')),
-	(N'Nguyễn Thị Nga', '0000000027', (select Id from [Account] where Email = 'nga.nguyen@gmail.com'));
+	(N'Nguyễn Văn An', '0701702493', (select Id from [Account] where Email = 'an.nguyen@gmail.com')),
+	(N'Trần Thu Hà', '0903219046', (select Id from [Account] where Email = 'ha.tran@gmail.com')),
+	(N'Lê Hoàng Minh', '0761253496', (select Id from [Account] where Email = 'minh.le@gmail.com')),
+	(N'Phạm Thu Thủy', '0813094875', (select Id from [Account] where Email = 'thuy.pham@gmail.com')),
+	(N'Ngô Đức Tuấn', '0811978042', (select Id from [Account] where Email = 'tuan.ngo@gmail.com')),
+	(N'Nguyễn Thị Lan', '0985240167', (select Id from [Account] where Email = 'lan.nguyen@gmail.com')),
+	(N'Trịnh Công Danh', '0788490157', (select Id from [Account] where Email = 'danh.trinh@gmail.com')),
+	(N'Lê Thị Diễm', '0323519764', (select Id from [Account] where Email = 'diem.le@gmail.com')),
+	(N'Hoàng Quốc Bảo', '0913659147', (select Id from [Account] where Email = 'bao.hoang@gmail.com')),
+	(N'Trương Thị Vân', '0320789354', (select Id from [Account] where Email = 'van.truong@gmail.com')),
+	(N'Đỗ Minh Đức', '0798710924', (select Id from [Account] where Email = 'duc.do@gmail.com')),
+	(N'Nguyễn Thị Mỹ', '0948215639', (select Id from [Account] where Email = 'my.nguyen@gmail.com')),
+	(N'Lê Anh Tuấn', '0360426938', (select Id from [Account] where Email = 'tuan.le@gmail.com')),
+	(N'Trần Thị Phương', '0366201839', (select Id from [Account] where Email = 'phuong.tran@gmail.com')),
+	(N'Ngô Văn Hải', '0387524913', (select Id from [Account] where Email = 'hai.ngo@gmail.com')),
+	(N'Nguyễn Thị Thanh', '0597394028', (select Id from [Account] where Email = 'thanh.nguyen@gmail.com')),
+	(N'Trần Quốc Bảo', '0795120439', (select Id from [Account] where Email = 'bao.tran@gmail.com')),
+	(N'Lê Thị Hồng', '0375074312', (select Id from [Account] where Email = 'hong.le@gmail.com')),
+	(N'Đỗ Văn Minh', '0356971845', (select Id from [Account] where Email = 'minh.do@gmail.com')),
+	(N'Nguyễn Thị Nga', '0377249835', (select Id from [Account] where Email = 'nga.nguyen@gmail.com'));
 go
 
 insert into [Category]([Name]) values
