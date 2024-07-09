@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace DiamondShop.DataAccess.DTOs.Diamond
 {
@@ -38,5 +39,9 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public int Quantity { get; set; }
 
         public int WarrantyPeriod { get; set; }
+        [Required]
+        public IFormFile CertificationUrl { get; set; }
+        public List<IFormFile> DiamondImages { get; set; } = [];
+
     }
 }

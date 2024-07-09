@@ -15,6 +15,8 @@ namespace DiamondShop.DataAccess.Interfaces
         IDiamondRepository GetDiamondRepository(); 
         ICategoryRepository GetCategoryRepository();
         IProductPartRepository GetProductPartRepository();
+        IPictureRepository GetPictureRepository();
+        IStakeHolderRepository GetStakeHolderRepository();
         Task<int> SaveChangesAsync();
     }
 }

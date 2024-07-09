@@ -1,4 +1,6 @@
-﻿using DiamondShop.DataAccess.Models;
+using DiamondShop.DataAccess.Models;
+using System.Collections.Generic;
+using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DiamondShop.DataAccess;
@@ -35,6 +37,7 @@ public partial class FlashyCarbonDbContext : DbContext
     public virtual DbSet<StakeHolder> StakeHolders { get; set; }
 
     public virtual DbSet<Warranty> Warranties { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -90,7 +93,7 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.Account).WithOne(p => p.Customer)
                 .HasForeignKey<Customer>(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Customer__Accoun__412EB0B6");
+                .HasConstraintName("FK__Customer__Accoun__2E1BDC42");
         });
 
         modelBuilder.Entity<Diamond>(entity =>
@@ -135,15 +138,15 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__CustomerI__6A30C649");
+                .HasConstraintName("FK__Order__CustomerI__571DF1D5");
 
             entity.HasOne(d => d.DeliveryStaff).WithMany(p => p.OrderDeliveryStaffs)
                 .HasForeignKey(d => d.DeliveryStaffId)
-                .HasConstraintName("FK__Order__DeliveryS__6C190EBB");
+                .HasConstraintName("FK__Order__DeliveryS__59063A47");
 
             entity.HasOne(d => d.SalesStaff).WithMany(p => p.OrderSalesStaffs)
                 .HasForeignKey(d => d.SalesStaffId)
-                .HasConstraintName("FK__Order__SalesStaf__6B24EA82");
+                .HasConstraintName("FK__Order__SalesStaf__5812160E");
         });
 
         modelBuilder.Entity<OrderDetail>(entity =>
@@ -158,16 +161,16 @@ public partial class FlashyCarbonDbContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__OrderDeta__Diamo__74AE54BC");
+                .HasConstraintName("FK__OrderDeta__Diamo__619B8048");
 
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderDeta__Order__72C60C4A");
+                .HasConstraintName("FK__OrderDeta__Order__5FB337D6");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
-                .HasConstraintName("FK__OrderDeta__Produ__73BA3083");
+                .HasConstraintName("FK__OrderDeta__Produ__60A75C0F");
         });
 
         modelBuilder.Entity<Picture>(entity =>
@@ -208,7 +211,7 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Product__Categor__5629CD9C");
+                .HasConstraintName("FK__Product__Categor__4316F928");
         });
 
         modelBuilder.Entity<ProductPart>(entity =>
@@ -222,12 +225,12 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.Diamond).WithMany(p => p.ProductParts)
                 .HasForeignKey(d => d.DiamondId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ProductPa__Diamo__628FA481");
+                .HasConstraintName("FK__ProductPa__Diamo__4F7CD00D");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductParts)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ProductPa__Produ__619B8048");
+                .HasConstraintName("FK__ProductPa__Produ__4E88ABD4");
         });
 
         modelBuilder.Entity<StakeHolder>(entity =>
@@ -249,7 +252,7 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.Account).WithOne(p => p.StakeHolder)
                 .HasForeignKey<StakeHolder>(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__StakeHold__Accou__48CFD27E");
+                .HasConstraintName("FK__StakeHold__Accou__35BCFE0A");
         });
 
         modelBuilder.Entity<Warranty>(entity =>
@@ -269,7 +272,7 @@ public partial class FlashyCarbonDbContext : DbContext
             entity.HasOne(d => d.OrderDetail).WithMany(p => p.Warranties)
                 .HasForeignKey(d => d.OrderDetailId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Warranty__OrderD__7A672E12");
+                .HasConstraintName("FK__Warranty__OrderD__6754599E");
         });
 
         OnModelCreatingPartial(modelBuilder);

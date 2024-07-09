@@ -32,22 +32,24 @@ namespace DiamondShop.DataAccess.Repositories
                                 .FirstOrDefaultAsync(x => x.Id == id);
             return product;
         }
-         public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
-        {
 
-            var (pageNumber, pageSize, sortBy, orderByDesc) = queryProductDto.QueryDto;
+        public async Task<PagedResult<Product>> GetPagedProducts(QueryProductDto queryProductDto)
+        {
+            int pageNumber = queryProductDto.PageNumber;
+            int pageSize = queryProductDto.PageSize;
+            string sortBy = queryProductDto.SortColumn;
+            bool orderByDesc = queryProductDto.OrderByDesc;
 
             var query = _context.Products.AsNoTracking()
                                         .Include(p => p.Pictures)
                                         .Include(p => p.Category)
                                         .Include(p => p.ProductParts)
-                                        
                                         .AsSplitQuery()
                                         .AsQueryable();
 
             query = query.ApplyProductsFilter(queryProductDto);
 
-            query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy)) 
+            query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy))
                                 : query.OrderBy(GetSortProperty(sortBy));
 
 
@@ -71,5 +73,5 @@ namespace DiamondShop.DataAccess.Repositories
         }
     }
 
-       
+
 }
