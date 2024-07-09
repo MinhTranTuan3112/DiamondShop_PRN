@@ -6,6 +6,7 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -19,6 +20,19 @@ namespace DiamondShop.BusinessLogic.Services
         {
             _unitOfWork = unitOfWork;
             _serviceFactory = serviceFactory;
+        }
+
+        public async Task<List<Order>> GetOrdersByUserId(ClaimsPrincipal claims)
+        {
+            var accountId = claims.GetAccountId();
+
+            var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(accountId);
+
+            var customerId = account.Customer.Id;
+
+            var list = await _unitOfWork.GetOrderRepository().GetAllAsync();
+            list = list.Where(o => o.CustomerId == customerId).ToList();
+            return list;
         }
 
         public async Task<Order> GetOrderById(Guid id)
