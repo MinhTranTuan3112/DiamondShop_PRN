@@ -1,4 +1,4 @@
-﻿use FlashyCarbon_DB;
+use FlashyCarbon_DB;
 go
 
 --=============[RESET DATA]=============--
@@ -288,17 +288,17 @@ go
 
 --Clavia Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6pq9uwGKHxbQI0dKdN-58Jf0gFGYloT6OJg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTweGM-B4uoDT4TaVdNAyjHnsRgjresPOBdVA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Clavia_Lay.png', null, [Product].Id
+	select 'https://gemnomads.com/cdn/shop/products/kiteWg_bca9ce66-4af2-4ef2-abbf-4d04db121f99_3000x.jpg?v=1660329141', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Clavia%';
 go
@@ -306,17 +306,17 @@ go
 
 --Caste Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Caste_Preview.png', null, [Product].Id
+	select 'https://i0.wp.com/soniatherese.com/wp-content/uploads/2023/01/Medium-white-gold-sandcast-ring.jpg?fit=1960%2C1960&ssl=1', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Caste_Stand.png', null, [Product].Id
+	select 'https://i0.wp.com/soniatherese.com/wp-content/uploads/2023/01/Medium-white-gold-sandcast-ring.jpg?fit=1960%2C1960&ssl=1', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Caste_Lay.png', null, [Product].Id
+	select 'https://i0.wp.com/soniatherese.com/wp-content/uploads/2023/01/Medium-white-gold-sandcast-ring.jpg?fit=1960%2C1960&ssl=1', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
 go
@@ -324,17 +324,17 @@ go
 
 --Flourishing Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJlZdWfuqEKXAR7H1lMWu4U9tatRyl82cMQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJlZdWfuqEKXAR7H1lMWu4U9tatRyl82cMQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPJlZdWfuqEKXAR7H1lMWu4U9tatRyl82cMQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
 go
@@ -342,17 +342,17 @@ go
 
 --Bellamy Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVqYSBx4vzyibTXsZimFIGCWP6J_iOTNbcew&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFHNIyl1LRbUHfO8L0xwqcyoB_wsGTNcPFHQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAPhcdfu10_DzugDXAHBG8qEXvHfLbloshXQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
 go
@@ -360,17 +360,17 @@ go
 
 --Amalia Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtp3Casr52bvpaAG6hsHqslkcTSQJwQiG0oA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdrViseUcZ1U0vJTTZzZvOvRcBWv8EySr6mA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Amalia_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSApWfJTMf7O0C-8rYO3LrNbhenEGqxzTcMbQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
 go
@@ -378,17 +378,17 @@ go
 
 --Arternos Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrxiGvGjuuQdEeSkKjlulTzrMBcoXg5GrPxg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrxiGvGjuuQdEeSkKjlulTzrMBcoXg5GrPxg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrxiGvGjuuQdEeSkKjlulTzrMBcoXg5GrPxg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
 go
@@ -396,17 +396,17 @@ go
 
 --Abby Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMCcpggQ1KY4LHVKZ9CuJrQHt2ducVCg_5wQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBcRZQKNvq3VPKgf77lf4_chDh3sdYThj00w&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlqULCs78Mv3lKevlsIoEJeL6kVj0TA3OfLg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
 go
@@ -414,17 +414,17 @@ go
 
 --Grandeur Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDM3NQGHOP5w_snSVYMCvf8tX4818VQYJ-lw&s	', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo0m8YL6ykjVqqaaZcvZecFOu2Qfs_JgnaIA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz7097r3tquC9_DuOHOIQd-U_w3GYu4loaWQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
 go
@@ -432,34 +432,34 @@ go
 
 --Adivity Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTU8mMR2FWJQyYS0tiVL2X7LQ9K2VFAFzoZTQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Stand.png', null, [Product].Id
+	select 'https://ae01.alicdn.com/kf/H02ed26c0b8814daa85866231a47e136eA/GIA-Yellow-Diamond-Ring-0-69ct-18K-Gold-Fancy-Yellow-Diamonds-Wedding-Engagement-Female-Rings-for.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Female/Adivity_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7-oaIBzIqnhlt4a_RTlD6oaTky16DHevCLQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
 go
 
 --A8 Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/A8_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZmiBfKpcXuGpHDaBzUKKKgtYGOvgJCUhorQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/A8_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRahGM7hBT4hbM2MWsZOOIJFtrzAFa-VOlv-A&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/A8_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqelJqKxeywFWf6kPaNTZVnPP4gt6JIGtHjA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
 go
@@ -467,51 +467,51 @@ go
 
 --Aventador Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPQ2aBAZXfZth-fE9jooFNI1YjHXLE-g8D8w&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnwP7xiDffCqAaA2aVUnuM-JbizDdd9M5Syg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Aventador_Lay.png', null, [Product].Id
+	select 'https://raymondleejewelers.net/wp-content/uploads/2019/12/IMG_1165-797x1024.jpeg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
 go
 
 --Authentic Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6AEMiBq3ZfQ3suP1XSLWXX5RtQnIfIqqlMg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4x_BrK892itw9_xUFx7ADC0SKApX_J99QUA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Authentic_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpbM80CkQNT43DVXZfDqo04IDwvPN_-83frQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
 go
 
 --Caddie Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo5EbLTkDyOM6GOduofNlDjF_D0xTyMLG0AA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Stand.png', null, [Product].Id
+	select 'https://public.augusta.com/s3fs-public/article/images/12140777.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Caddie_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJBEMATT7HQG2440G517QjQhaMH3hRPmP_-g&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
 go
@@ -519,17 +519,17 @@ go
 
 --Candid Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Candid_Preview.png', null, [Product].Id
+	select 'https://www.candere.com/media/jewellery/images/CP015552_1.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Candid_Stand.png', null, [Product].Id
+	select 'https://www.candere.com/media/jewellery/images/c015552_1.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Candid_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmqP8RvfNmKS5Ac7sv3PKbr2W2_NVCTAgSdA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
 go
@@ -537,137 +537,137 @@ go
 
 --Pinnacle Rings
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMjzUb7_x8Z6aLHVX-Wo7CQ_hAMrmwGthRpA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ339Lps0RM81j0QeYJYGfmXMaK1MkmhnAJSg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Lay.png', null, [Product].Id
+	select 'https://cdn.caratlane.com/media/catalog/product/S/R/SR00183-YGP900_1_lar.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
 go
 
 --Basque Earring
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Basque_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9A3lmrDzaHh4pKuuAHxM-LVbKhOimE9nUow&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Earring' and [Product].[Name] like '%Basque%';
 go
 
 --Canzon Earring
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Canzon_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5jVS3dQz9uOPvvb1Xni4sVo3-Ns-7vaVhOg&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Earring' and [Product].[Name] like '%Canzon%';
 go
 
 --Jasmine Earring
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Jasmine_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEnhce6v8Uvrh9PeA9U7z5h2_CJgMfsW3PPA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Earring' and [Product].[Name] like '%Jasmine%';
 go
 
 --Flowery Earring
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Flowery_Preview.png', null, [Product].Id
+	select 'https://cdn11.bigcommerce.com/s-9b8niz/images/stencil/1100x1100/products/4506/16376/floral-diamond-engagement-ring-mount-nature-inspired__29254.1652667276.jpg?c=2', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Earring' and [Product].[Name] like '%Flowery%';
 go
 
 --Ratline Earring
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Ratline_Preview.png', null, [Product].Id
+	select 'https://file.hstatic.net/1000381168/file/ratline_17c646c638184206aadf1b6f971f8760_grande.png', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Earring' and [Product].[Name] like '%Ratline%';
 go
 
 --Flowery Pendant
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Flowery.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQryUCJkI8H4hbEyk1pnaPGk6oAlDxpZGJJ0w&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Pendant' and [Product].[Name] like '%Flowery%';
 go
 
 --Gerberas Pendant
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Gerberas.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjvw9quhiO4YtTH83OwmRAn6becvC7dV1XkQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Pendant' and [Product].[Name] like '%Gerberas%';
 go
 
 --Benicia Pendant
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Benicia.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3M3xQRAiCf4KKQYaBu8sE204UUIHLq4D2vA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Pendant' and [Product].[Name] like '%Benicia%';
 go
 
 --Dacing Bracelet
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Dacing_Preview.png', null, [Product].Id
+	select 'https://www.anmoljewellers.in/wp-content/uploads/2022/01/DANCING-BALLERINA-DIAMOND-RING.jpg', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Dacing_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHxHiCFPlz2Kd1pBvpgcVJJHlh8IIS8OKCpw&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelet/Dacing_Lay.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpneD9-QD1e2N1YZ0o4whbX3G-S5cadR0o2A&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
 go
 
 --Lucky Bracelet
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Lucky_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkSGWL_UXZnwvd03tN5EH1zOwDNGw4Y0kJvQ&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
 go
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Lucky_Stand.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeoCN6LQVa8fQIT9zufrLXdNLjJwLjpA2lyw&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
 go
 
 --Bambina Bangles
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Bambina.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWtj_XcSiWgZ9wIRfvqD9S0eGnEjocJTHIbw&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bangles' and [Product].[Name] like '%Bambina%';
 go
 
 --Gratify Bangles
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Gratify.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdPicz1vy8KxyGgT_KEbAjMz9bMD8RULa7Ew&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bangles' and [Product].[Name] like '%Gratify%';
 go
 
 --Naiya Bangles
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Naiya.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdqcDURYVWiG6FfFUrOT-JUZAIu28bD6bS3A&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bangles' and [Product].[Name] like '%Naiya%';
 go
 
 --Hilarial Bangles
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Hilarial_Open.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRizdi1gUENS3joWUdGlKMbYC1B3PpfWEhVDA&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
 go
 
 --Hilarial Bangles
 insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Hilarial_Preview.png', null, [Product].Id
+	select 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLStdzO-q3nfMUwkPZgCFCTHYAcWwChz_Ang&s', null, [Product].Id
 	from [Product]
 	where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
 go
