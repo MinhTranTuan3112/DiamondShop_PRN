@@ -21,9 +21,9 @@ namespace DiamondShop.BusinessLogic.Services
             _serviceFactory = serviceFactory;
         }
 
-        public async Task<Order> GetOrderById(Guid id, bool includeDetail)
+        public async Task<Order> GetOrderById(Guid id)
         {
-            var foundOrder = await _unitOfWork.GetOrderRepository().GetOrderById(id, includeDetail)
+            var foundOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(id)
                 ?? throw new NotFoundException("Not found this order");
             return foundOrder;
         }
@@ -125,8 +125,7 @@ namespace DiamondShop.BusinessLogic.Services
             currentOrder.Status = newStatus;
 
             //Save Change
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            return await _unitOfWork.SaveChangesAsync()>0;
         }
 
         public async Task<bool> UpdateOrder(OrderInfoDto order)

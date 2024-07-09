@@ -23,21 +23,10 @@ namespace DiamondShop.DataAccess.Repositories
             _context = context;
         }
 
-        public Task<Order?> GetOrderWithOrderDetails(Expression<Func<Order, bool>> predicate)
+        public Task<Order?> GetOrderWithOrderDetails(Expression<Func<Order, bool>> LINQ_Regex)
         {
             return _context.Orders.Include(o => o.OrderDetails)
-                                 .FirstOrDefaultAsync(predicate);
-        }
-
-        public async Task<Order?> GetOrderById(Guid id, bool includeDetail)
-        {
-            if (includeDetail)
-            {
-                return await _context.Orders
-                    .Include(ord => ord.OrderDetails)
-                    .FirstOrDefaultAsync(ord => ord.Id == id);
-            }
-            return await _context.Orders.FindAsync(id);
+                                 .FirstOrDefaultAsync(LINQ_Regex);
         }
         public async Task<IEnumerable<Order>?> GetListAsync(QueryOrderDto input)
         {
