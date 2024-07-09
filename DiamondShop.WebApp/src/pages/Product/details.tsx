@@ -1,11 +1,63 @@
-import React, { useState } from "react";
 import Footer from "../../Components/Layout/Footer";
 import Header from "../../Components/Layout/Header";
 import './details.css';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-type Props = {}
+import { fetchProductDetails } from "../../services/product_service";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { formatPrice } from "../../utils/priceUtils";
+type Props = {};
+
+const fetchData = async (id: string) => {
+    const response = await fetchProductDetails(id);
+
+    if (response.status === 404) {
+        const error = new Error("Product not found");
+        (error as any).status = 404;
+        throw error;
+    }
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch product details");
+    }
+
+    const data: ProductDetails = await response.json();
+
+    console.log({ data });
+
+    return data;
+};
 
 const ProductDetailsPage = (props: Props) => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    if (!id) {
+        return <div>Invalid product id</div>;
+    }
+
+    const { isPending, error, data } = useQuery({
+        queryKey: ['product_details', id],
+        queryFn: async () => await fetchData(id),
+        retry: false
+    });
+
+    useEffect(() => {
+        if (error && (error as any).status === 404) {
+            navigate("/notfound");
+        }
+    }, [error, navigate]);
+
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+    
+    if (isPending) {
+        <div>Loading...</div>
+    }
+
     return (
         <>
             <Header />
@@ -23,10 +75,9 @@ const ProductDetailsPage = (props: Props) => {
                     </div>
                 </section>
                 <section className="product_info_section" style={{ width: '50%' }}>
-                    <h1 className="text-4xl mb-2">Nhẫn kim cương LUCKY STAR</h1>
-                    <h3 className="mb-3 flex gap-3">
-                        <span className="old_price text-gray-400"><del>4.000.000 VNĐ</del></span>
-                        <span className="new_price text-red-600 text-3xl font-bold">3.000.000 VNĐ</span>
+                    <h1 className="text-4xl mb-2">{data?.name}</h1>
+                    <h3 className="mb-3">
+                        <span className="new_price text-red-600 text-3xl font-bold">{formatPrice(data?.price)} VNĐ</span>
                     </h3>
                     <hr />
 
@@ -34,7 +85,7 @@ const ProductDetailsPage = (props: Props) => {
                         <div className="form-group mb-4">
                             <label htmlFor="material" className="block w-[15%] mb-2">Chất liệu</label>
                             <select name="material" id="material" className="w-[40%]">
-                                <option value="" selected>Chọn chất liệu</option>
+                                <option value="" defaultChecked>Chọn chất liệu</option>
                                 <option value="Vàng">Vàng</option>
                                 <option value="Bạc">Bạc</option>
                             </select>
@@ -42,12 +93,12 @@ const ProductDetailsPage = (props: Props) => {
                         <div className="form-group mb-4">
                             <label htmlFor="main-stone" className="block w-[15%] mb-2">Viên chính</label>
                             <select name="main-stone" id="main-stone" className="w-[40%]">
-                                <option value="" selected>Chọn viên chính</option>
+                                <option value="" defaultChecked>Chọn viên chính</option>
                             </select>
                         </div>
                         <div className="form-group">
                             <label htmlFor="size" className="block w-[15%] mb-2">Ni</label>
-                            <input type="number" className="w-[40%]" name="size" id="size" value={0} />
+                            <input type="number" className="w-[40%]" name="size" id="size" />
                         </div>
                     </div>
 
