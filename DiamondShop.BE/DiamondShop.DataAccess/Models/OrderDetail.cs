@@ -17,6 +17,8 @@ public partial class OrderDetail
 
     public decimal SubTotal { get; set; }
 
+    public string? Status { get; set; }
+
     public Guid OrderId { get; set; }
 
     public Guid? ProductId { get; set; }

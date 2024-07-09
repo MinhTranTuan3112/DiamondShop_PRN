@@ -7,19 +7,19 @@ public partial class Diamond
 {
     public Guid Id { get; set; }
 
-    public string? Name { get; set; }
+    public string Origin { get; set; } = null!;
 
-    public string? Color { get; set; }
+    public string Shape { get; set; } = null!;
 
-    public string? Origin { get; set; }
+    public string Color { get; set; } = null!;
 
-    public string? CertificationUrl { get; set; }
+    public string Clarity { get; set; } = null!;
 
-    public string? CaratWeight { get; set; }
+    public string Cut { get; set; } = null!;
 
-    public string? Clarity { get; set; }
+    public string CaratWeight { get; set; } = null!;
 
-    public string? Cut { get; set; }
+    public int Point { get; set; }
 
     public decimal Price { get; set; }
 
@@ -27,9 +27,13 @@ public partial class Diamond
 
     public int WarrantyPeriod { get; set; }
 
-    public DateTime? LastUpdate { get; set; }
+    public DateTime LastUpdate { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
+
+    public Guid CertificateId { get; set; }
+
+    public virtual Certificate Certificate { get; set; } = null!;
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

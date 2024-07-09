@@ -9,21 +9,21 @@ public partial class Warranty
 
     public string ItemName { get; set; } = null!;
 
+    public bool? IsProduct { get; set; }
+
     public string? Type { get; set; }
 
     public string? Privacy { get; set; }
 
     public string? Condition { get; set; }
 
-    public bool? IsProduct { get; set; }
-
-    public DateTime? StartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
 
     public string? Reason { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public Guid OrderDetailId { get; set; }
 

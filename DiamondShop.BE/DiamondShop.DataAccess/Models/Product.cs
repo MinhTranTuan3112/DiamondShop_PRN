@@ -25,7 +25,7 @@ public partial class Product
 
     public DateTime? LastUpdate { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public Guid CategoryId { get; set; }
 
