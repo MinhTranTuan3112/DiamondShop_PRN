@@ -4,7 +4,7 @@ import { Modal, Box, TextField, Button } from "@mui/material";
 interface ProductModalProps {
   open: boolean;
   handleClose: () => void;
-  handleSave: (product: Partial<Product>) => void;
+  handleSave: () => void;
   initialData?: Partial<Product>;
 }
 

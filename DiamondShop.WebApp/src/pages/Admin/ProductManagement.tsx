@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts, fetchProductById } from "./APIClient"; // Adjust this import based on your API client implementation
+import { fetchProducts } from "./APIClient"; // Adjust this import based on your API client implementation
 import avatar from "../../assets/img/Anhcuatoi.png";
 import { Empty } from "antd";
 import ProductModal from "./Modal/ProductModal"; // Adjust the import based on the actual path
@@ -143,14 +143,7 @@ const ProductManagement: React.FC = () => {
     setCurrentProduct(null);
   };
 
-  const handleSaveProduct = (product: Partial<Product>) => {
-    if (currentProduct?.id) {
-      // Handle edit product logic here
-    } else {
-      // Handle add product logic here
-    }
-    handleCloseModal();
-  };
+  const handleSaveProduct = () => {};
 
   return (
     <ThemeProvider theme={theme}>
