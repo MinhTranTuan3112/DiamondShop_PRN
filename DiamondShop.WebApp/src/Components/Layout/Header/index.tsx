@@ -3,7 +3,7 @@ import LogoIMG from "../../../assets/icons/icon.png";
 import Avartar from "../../../assets/img/Anhcuatoi.png";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
-import { FaRegHeart } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -16,11 +16,12 @@ const Navbar = [
   },
   {
     title: "Trang Sức",
-    path: "/product",
+    path: "/",
     id: 1,
-    src: "/product",
+    src: "/",
   },
 ];
+
 const Product = [
   {
     heading: "Chủng loại",
@@ -30,7 +31,6 @@ const Product = [
     heading: "Chất Liệu",
     items: ["Vàng", "Bạc", "Platinum"],
   },
-
   {
     heading: "Dòng hàng",
     items: [
@@ -50,6 +50,7 @@ const Product = [
 
 export default function Header() {
   const [isActive, setIsActive] = useState("");
+
   return (
     <header className="header fixed">
       <div className="top-bar">
@@ -70,7 +71,7 @@ export default function Header() {
                   isActive === item.title ? "navbar-link active" : "navbar-link"
                 }
               >
-                <a>{item.title}</a>
+                <Link to={item.path}>{item.title}</Link>
                 {isActive === item.title && isActive === Navbar[1].title ? (
                   <div className="dropdown">
                     <div className="dropdown-inner">

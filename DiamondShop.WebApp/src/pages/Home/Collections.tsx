@@ -111,9 +111,12 @@ function Collections() {
 
 const Product: React.FC<ProductProps> = ({ title, price, status, img }) => {
   return (
-    <article className="product-card">
+    <article
+      className="product-card"
+      style={{ maxWidth: "250px", border: "none" }}
+    >
       <div className="product-card-img-wrap">
-        <a href="#!">
+        <a href="">
           <img src={img} alt={title} className="product-card-thumb" />
         </a>
       </div>

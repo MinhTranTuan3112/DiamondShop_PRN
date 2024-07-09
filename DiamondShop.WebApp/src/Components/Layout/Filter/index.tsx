@@ -5,11 +5,11 @@ import "./style.css";
 export default function Filter() {
   const FilterList = [
     {
-      category: "Concept",
+      category: "Category",
       options: ["Lifestyle", "Sport", "Culture"],
     },
     {
-      category: "Range",
+      category: "Gender",
       options: ["Men", "Women"],
     },
     {
@@ -21,8 +21,8 @@ export default function Filter() {
       options: ["Lifestyle", "Sport", "Culture"],
     },
     {
-      category: "Color",
-      options: ["Lifestyle", "Sport", "Culture"],
+      category: "Status",
+      options: ["Available", "NonAvailable"],
     },
   ];
 
