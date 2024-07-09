@@ -7,6 +7,7 @@ using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -177,6 +178,22 @@ namespace DiamondShop.BusinessLogic.Services
             return true;
         }
 
+        public async Task<OrderStatistic> GetOrderStatisticsAsync()
+        {
+            var orders = await _unitOfWork.GetOrderRepository().GetAllAsync();
+
+            var totalOrders = orders.Count;
+            var totalRevenue = orders.Sum(o => o.Total);
+            var averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+            return new OrderStatistic
+            {
+                TotalOrders = totalOrders,
+                TotalRevenue = totalRevenue,
+                AverageOrderValue = averageOrderValue
+            };
+        }
+
         //===================================================================================================================
         private static readonly HashSet<string> OrderStatusOf_Customer = new HashSet<string>()
         {
@@ -214,5 +231,6 @@ namespace DiamondShop.BusinessLogic.Services
         {
             if (orderStatus.ToLower().Equals("Deleted".ToLower())) throw new BadRequestException("This order already deleted!");
         }
+
     }
 }

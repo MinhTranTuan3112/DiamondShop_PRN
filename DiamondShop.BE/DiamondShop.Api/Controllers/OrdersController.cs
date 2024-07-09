@@ -77,5 +77,11 @@ namespace DiamondShop.Api.Controllers
             var result = await _serviceFactory.GetOrderService().DeleteOrder(id);
             return result ? Ok("Delete Success") : BadRequest("Delete Failed");
         }
+
+        [HttpGet("statistic")]
+        public async Task<IActionResult> GetOrderStatistics()
+        {
+            return Ok(await _serviceFactory.GetOrderService().GetOrderStatisticsAsync());
+        }
     }
 }
