@@ -45,15 +45,24 @@ export interface DashboardStats {
 }
 
 export const fetchDashboardStats = async (): Promise<DashboardStats> => {
-  // Simulating a delay for fetching data
+  const response = await fetch("https://localhost:7054/api/Orders/dashboard-stats");
+  const data = await response.json();
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        numberOfDiamonds: 150,
-        numberOfProducts: 150,
-        revenue: 250000,
-        profit: 80000,
+        numberOfDiamonds: data.numberOfDiamonds,
+        numberOfProducts: data.numberOfProducts,
+        revenue: data.totalRevenue,
+        profit: data.profit,
       });
     }, 1000); // 1 second delay
   });
+};
+
+export const fetchDataForMonthLineChat = async (month:number) => {
+  const response = await fetch(
+    `https://localhost:7054/api/Orders/statistic?month=${month}`
+  );
+  const data = await response.json();
+  return data;
 };

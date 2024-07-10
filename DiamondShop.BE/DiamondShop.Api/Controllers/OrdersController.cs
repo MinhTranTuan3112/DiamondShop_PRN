@@ -83,5 +83,11 @@ namespace DiamondShop.Api.Controllers
         {
             return Ok(await _serviceFactory.GetOrderService().GetOrderStatisticsAsync(month));
         }
+
+        [HttpGet("dashboard-stats")]
+        public async Task<IActionResult> GetDashboardStats()
+        {
+            return Ok(await _serviceFactory.GetOrderService().getDashBoardStats());
+        }
     }
 }

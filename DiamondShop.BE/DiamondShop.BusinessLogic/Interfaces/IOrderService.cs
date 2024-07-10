@@ -18,5 +18,6 @@ namespace DiamondShop.BusinessLogic.Interfaces
         public Task<bool> DeleteOrder(Guid orderId);
         Task<List<Order>> GetOrdersByUserId(ClaimsPrincipal claims);
         Task<OrderStatistic> GetOrderStatisticsAsync(int month);
+        Task<DashboardStats> getDashBoardStats();
     }
 }

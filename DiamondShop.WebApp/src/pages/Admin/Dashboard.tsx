@@ -12,7 +12,12 @@ import DiamondIcon from "@mui/icons-material/Diamond";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import { fetchDashboardStats, DashboardStats } from "./APIClient"; // Adjust this import based on your folder structure
+import {
+  fetchDashboardStats,
+  DashboardStats,
+  fetchDataForMonthLineChat,
+} from "./APIClient";
+import MyLineChart from "./MyLineChart";
 
 const theme = createTheme({
   typography: {
@@ -24,6 +29,11 @@ const theme = createTheme({
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [totalOrderEachMonth, settotalOrderEachMonth] = useState([]);
+  const [totalRevenueEachMonth, settotalRevenueEachMonth] = useState([]);
+  const [averageOrderValueEachMonth, setaverageOrderValueEachMonth] = useState(
+    []
+  );
 
   useEffect(() => {
     const getStats = async () => {
@@ -38,7 +48,37 @@ const Dashboard: React.FC = () => {
       }
     };
 
+    const fetchChartData = async () => {
+      const allData = [];
+      for (let month = 1; month <= 12; month++) {
+        const monthlyData = await fetchDataForMonthLineChat(month);
+        allData.push({
+          month: `Month ${month}`,
+          totalOrders: monthlyData.totalOrders,
+          totalRevenue: monthlyData.totalRevenue,
+          averageOrderValue: monthlyData.averageOrderValue,
+          diamondCount: monthlyData.diamondCount,
+          productCount: monthlyData.productCount
+        });
+      }
+
+      settotalOrderEachMonth(allData.map((item) => item.totalOrders));
+      settotalRevenueEachMonth(allData.map((item) => item.totalRevenue));
+      setaverageOrderValueEachMonth(
+        allData.map((item) => item.averageOrderValue)
+      );
+      
+      setStats({
+        ...stats,
+        numberOfDiamonds: allData[0].diamondCount,
+        numberOfProducts: allData[0].productCount,
+        revenue: allData[0].totalRevenue,
+        profit: 0,
+      });
+    };
+
     getStats();
+    fetchChartData();
   }, []);
 
   return (
@@ -125,6 +165,12 @@ const Dashboard: React.FC = () => {
             </Grid>
           </Grid>
         )}
+
+        <MyLineChart
+          averageOrderValue={averageOrderValueEachMonth}
+          totalOrderEachMonth={totalOrderEachMonth}
+          totalRevenueEachMonth={totalRevenueEachMonth}
+        />
       </div>
     </ThemeProvider>
   );

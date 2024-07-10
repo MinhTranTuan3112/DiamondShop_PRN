@@ -8,6 +8,7 @@ using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DiamondShop.BusinessLogic.Services
@@ -181,9 +182,10 @@ namespace DiamondShop.BusinessLogic.Services
         public async Task<OrderStatistic> GetOrderStatisticsAsync(int month)
         {
             var orders = await _unitOfWork.GetOrderRepository().GetAllAsync();
+
             if (month != 0 && (month >= 1 && month <= 12))
             {
-                orders = orders.Where(o => o.OrderDate.HasValue && o.OrderDate.Value.Month == month).ToList();
+                orders = orders.Where(o => o.OrderDate.Month == month).ToList();
             }
             var totalOrders = orders.Count;
             var totalRevenue = orders.Sum(o => o.Total);
@@ -193,7 +195,21 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 TotalOrders = totalOrders,
                 TotalRevenue = totalRevenue,
-                AverageOrderValue = averageOrderValue
+                AverageOrderValue = averageOrderValue,
+            };
+        }
+
+        public async Task<DashboardStats> getDashBoardStats()
+        {
+            var numberofDiamonds = _unitOfWork.GetDiamondRepository().GetAllAsync().Result.Count();
+            var numberofProdducts = _unitOfWork.GetProductRepository().GetAllAsync().Result.Count();
+            var totalRevenue = _unitOfWork.GetOrderRepository().GetAllAsync().Result.Sum(o => o.Total);
+            return new DashboardStats
+            {
+                numberOfDiamonds = numberofDiamonds,
+                numberOfProducts = numberofProdducts,
+                totalRevenue = totalRevenue,
+                Profit = totalRevenue * 0.1m
             };
         }
 
