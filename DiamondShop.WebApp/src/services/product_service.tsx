@@ -25,6 +25,7 @@ export const fetchPagedProducts = async (pageNumber: number = 1, pageSize: numbe
   startPrice: number | null = null,
   endPrice: number | null = null,
   name: string = '') => {
+    
   try {
     let url = `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&orderByDesc=${orderByDesc}`;
 

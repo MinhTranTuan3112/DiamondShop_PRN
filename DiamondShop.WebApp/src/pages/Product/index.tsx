@@ -1,95 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { fetchPagedProducts, listProduct } from "../../services/product_service";
 import Footer from "../../Components/Layout/Footer";
 import Header from "../../Components/Layout/Header";
+import ProductPageContent from "../../Components/Product/productPageContent";
 import "./styles.css";
-import { useSearchParams } from 'react-router-dom';
-import ProductCard from "../../Components/Product/productCard";
-import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
+
 
 type Props = {
 
 }
 
 const ProductsPage = (props: Props) => {
-  console.log('Render ProductsPage');
-  const [products, setProducts] = useState<PagedProduct[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const page = searchParams.get('page') ? +searchParams.get('page')! : 1;
-  const pageSize = searchParams.get('pageSize') ? +searchParams.get('pageSize')! : 10;
-
-  const sortColumn = searchParams.get('sort') ? searchParams.get('sort')! : 'id';
-  const orderByDesc = searchParams.get('desc') ? searchParams.get('desc')! === 'true' : false;
-
-  const nameParam = searchParams.get('name') || '';
-  const startPriceParam = searchParams.get('startPrice') ? +searchParams.get('startPrice')! : null;
-  const endPriceParam = searchParams.get('endPrice') ? +searchParams.get('endPrice')! : null;
-
-
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      fetchPagedProducts(page, pageSize, sortColumn, orderByDesc, startPriceParam, endPriceParam, nameParam)
-        .then(data => setProducts(data.results));
-    }, 500);
-    setIsLoading(false);
-
-    return () => {
-      clearTimeout(timer);
-    }
-
-  }, [page, nameParam, startPriceParam, endPriceParam]);
-
-  if (isLoading) {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams({ ...Object.fromEntries(searchParams), name: e.target.value });
-  };
-
-  const handleStartPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newStartPrice = +e.target.value;
-    setSearchParams({ ...Object.fromEntries(searchParams), startPrice: newStartPrice.toString() });
-    if (endPriceParam && newStartPrice < endPriceParam) {
-    }
-  };
-
-  const handleEndPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEndPrice = +e.target.value;
-    setSearchParams({ ...Object.fromEntries(searchParams), endPrice: newEndPrice.toString() });
-    if (startPriceParam && newEndPrice > startPriceParam) {
-    }
-  };
 
   return (
     <>
       <Header />
-      <div className="filter_section flex justify-center gap-2 my-7">
-        <input type="search" value={searchParams.get('name') || ''} 
-        onChange={handleNameChange} name="name" placeholder="Nhập tên sản phẩm..." 
-        className="p-2 mr-10" />
-        <p className="flex items-center">Từ</p>
-        <input type="number" className="p-2" placeholder="Giá bắt đầu"
-          value={searchParams.get('startPrice') || ''}
-          onChange={handleStartPriceChange} />
-        <p className="flex items-center">Đến</p>
-        <input type="number" className="p-2" value={searchParams.get('endPrice') || ''}
-          onChange={handleEndPriceChange}
-          placeholder="Giá kết thúc"
-          name="" id="" />
-      </div>
-      {products.length === 0 ? (
-        <div className="text-center">Không tìm thấy sản phẩm</div>
-      ) : (
-        <div className="product-container">
-          {products.map((product, index) => (
-            <ProductCard product={product} key={index} />
-          ))}
-        </div>
-      )}
+      <ProductPageContent/>
       <Footer />
     </>
   );
