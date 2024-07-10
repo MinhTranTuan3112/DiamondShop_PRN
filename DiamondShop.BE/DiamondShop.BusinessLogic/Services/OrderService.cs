@@ -183,7 +183,7 @@ namespace DiamondShop.BusinessLogic.Services
             var orders = await _unitOfWork.GetOrderRepository().GetAllAsync();
             if (month != 0 && (month >= 1 && month <= 12))
             {
-                orders = orders.Where(o => o.OrderDate.HasValue && o.OrderDate.Value.Month == month).ToList();
+                //orders = orders.Where(o => o.OrderDate.HasValue && o.OrderDate.Value.Month == month).ToList();
             }
             var totalOrders = orders.Count;
             var totalRevenue = orders.Sum(o => o.Total);
