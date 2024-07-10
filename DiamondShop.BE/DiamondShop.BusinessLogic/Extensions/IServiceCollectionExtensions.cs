@@ -6,6 +6,7 @@ using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
 using DiamondShop.DataAccess.DTOs.Account;
 using DiamondShop.DataAccess.DTOs.Category;
+using DiamondShop.DataAccess.DTOs.Certificate;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.OrderDetail;
 using DiamondShop.DataAccess.DTOs.Product;
@@ -36,6 +37,9 @@ namespace DiamondShop.BusinessLogic.Extensions
             TypeAdapterConfig<UpdateProductDto, Product>.NewConfig().IgnoreNullValues(true);
             TypeAdapterConfig<CreateProductPartDto, ProductPart>.NewConfig().IgnoreNullValues(true);
             TypeAdapterConfig<UpdateAccountDto, Account>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<UpdateCertificateDto, Certificate>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<UpdateCertificateDto, Diamond>.NewConfig().IgnoreNullValues(true);
+            TypeAdapterConfig<UpdateDiamondDto, Certificate>.NewConfig().IgnoreNullValues(true);
             return services;
         }
 

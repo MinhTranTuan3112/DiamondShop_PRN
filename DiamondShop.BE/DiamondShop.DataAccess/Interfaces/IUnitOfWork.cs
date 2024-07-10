@@ -17,6 +17,7 @@ namespace DiamondShop.DataAccess.Interfaces
         IProductPartRepository GetProductPartRepository();
         IPictureRepository GetPictureRepository();
         IStakeHolderRepository GetStakeHolderRepository();
+        ICertificateRepository GetCertificateRepository();
         Task<int> SaveChangesAsync();
     }
 }
