@@ -77,10 +77,10 @@ namespace DiamondShop.DataAccess.Extensions
             {
                 query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
             }
-            if (!string.IsNullOrEmpty(name))
-            {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
-            }
+            // if (!string.IsNullOrEmpty(name))
+            // {
+            //     query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
+            // }
 
             if (colors is not [])
             {
