@@ -23,25 +23,14 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<Admin />} />
-
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
             }
           />
           <Route element={<TestPage />} path="/test" />
-          {/* <Route path="/products" element={<Products />} /> */}
           <Route path="/products" element={<ProductsPage />} />
-          <Route
-            element={
-              <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
-            }
-          >
-            <Route element={<TestPage />} path="/test" />
-          </Route>
           <Route path="/products/:id" element={<ProductDetailsPage />}></Route>
-          <Route path="/products/:id" element={<ProductDetailsPage />}></Route>
-
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
