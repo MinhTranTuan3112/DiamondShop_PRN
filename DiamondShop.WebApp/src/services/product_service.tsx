@@ -19,3 +19,41 @@ export const fetchProductDetails = async (id: string) => {
 
   return response;
 };
+
+export const fetchPagedProducts = async (pageNumber: number = 1, pageSize: number = 10,
+  sortColumn: string = "id", orderByDesc: boolean = false,
+  startPrice: number | null = null,
+  endPrice: number | null = null,
+  name: string = '') => {
+  try {
+    let url = `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&orderByDesc=${orderByDesc}`;
+
+    if (name && name != '') {
+      url += `&name=${name}`;
+    }
+
+    if (startPrice) {
+      url += `&startPrice=${startPrice}`;
+    }
+
+    if (endPrice) {
+      url += `&endPrice=${endPrice}`;
+    }
+
+    console.log(`Fetching paged products from: ${url}`);
+
+    const response = await customFetch({
+      endpointPath: url
+    });
+
+    const data = await response.json();
+    console.log(`Paged product data:`);
+    console.log({ data });
+
+    return data;
+
+  } catch (error) {
+    console.error(`Failed to fetch paged products: ${error}`);
+    return null;
+  }
+}
