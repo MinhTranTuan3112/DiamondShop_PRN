@@ -16,10 +16,10 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts } from "./APIClient"; // Adjust this import based on your API client implementation
+import { fetchProducts } from "./APIClient";
 import avatar from "../../assets/img/Anhcuatoi.png";
 import { Empty } from "antd";
-import ProductModal from "./Modal/ProductModal"; // Adjust the import based on the actual path
+import ProductModal from "./Modal/ProductModal";
 
 interface Product {
   id: string;

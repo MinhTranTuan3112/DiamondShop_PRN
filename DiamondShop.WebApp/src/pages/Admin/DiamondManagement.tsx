@@ -19,7 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchDiamonds } from "./APIClient";
 import avatar from "../../assets/img/Anhcuatoi.png";
 import { Empty } from "antd";
-import DiamondModal from "./Modal/DiamondModal"; // Adjust the import based on the actual path
+import DiamondModal from "./Modal/DiamondModal";
 
 interface Diamond {
   id: string;
@@ -64,7 +64,7 @@ const DiamondManagement: React.FC = () => {
   const [totalDiamonds, setTotalDiamonds] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortColumn, setSortColumn] = useState<string>("price");
+  const [sortColumn, setSortColumn] = useState<string>("");
   const [orderByDesc, setOrderByDesc] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currentDiamond, setCurrentDiamond] = useState<Partial<Diamond> | null>(
@@ -321,7 +321,7 @@ const DiamondManagement: React.FC = () => {
                   <TableCell sx={{ width: "20%" }}>
                     {diamond.pictures.length > 0 && (
                       <img
-                        src={avatar} // Change to diamond.pictures[0].urlPath when API returns valid URLs
+                        src={avatar}
                         alt={diamond.name}
                         style={{
                           width: "50px",

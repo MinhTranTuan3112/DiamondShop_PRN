@@ -118,11 +118,6 @@ export default function Header() {
             </button>
           </div>
           <div className="top-act-group">
-            <button className="top-act-btn">
-              <FaRegHeart className="top-act-img" />
-              <span className="top-act-title">03</span>
-            </button>
-            <div className="top-act-seperate"></div>
             <Link className="top-act-btn" to={"/checkout"}>
               <CiShoppingCart className="top-act-img" />
               <span className="top-act-title">$65.42</span>
