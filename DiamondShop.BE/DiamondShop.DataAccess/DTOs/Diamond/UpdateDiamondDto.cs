@@ -10,11 +10,11 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
 {
     public class UpdateDiamondDto
     {
-        public string? Name { get; set; }
-
         [EnumDataType(typeof(DiamondColor))]
         public string? Color { get; set; }
-
+        [EnumDataType(typeof(DiamondShape))]
+        public string? Shape { get; set; }
+        [EnumDataType(typeof(DiamondOrigin))]
         public string? Origin { get; set; }
 
         public string? CaratWeight { get; set; }
@@ -32,8 +32,7 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public int? WarrantyPeriod { get; set; }
 
         public string? Status { get; set; }
-
-        public IFormFile? CertificationUrl { get; set; }
+        
         public List<IFormFile> DiamondImages { get; set; } = [];
     }
 }

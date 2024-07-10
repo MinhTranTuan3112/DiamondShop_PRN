@@ -9,8 +9,8 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
     public class GetDiamondDto
     {
         public Guid Id { get; set; }
-
-        public string? Name { get; set; }
+        
+        public string? Shape { get; set; }
 
         public string? Color { get; set; }
 

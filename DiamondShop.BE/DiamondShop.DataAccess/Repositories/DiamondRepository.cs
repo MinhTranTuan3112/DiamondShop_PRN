@@ -28,6 +28,7 @@ namespace DiamondShop.DataAccess.Repositories
             return await _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
                                          .Include(d => d.ProductParts)
+                                         .Include(d => d.Certificate)
                                          .AsSplitQuery()
                                          .SingleOrDefaultAsync(d => d.Id == id);
         }
@@ -35,6 +36,7 @@ namespace DiamondShop.DataAccess.Repositories
         public async Task<Diamond?> GetDiamondWithPicturesById(Guid id)
         {
             return await _context.Diamonds.Include(d => d.Pictures)
+                                          .Include(d => d.Certificate)
                                          .SingleOrDefaultAsync(d => d.Id == id);
         }
 

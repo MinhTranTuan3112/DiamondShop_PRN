@@ -29,18 +29,24 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task<GetDiamondIdDto> CreateDiamond(CreateDiamondDto createDiamondDto)
         {
+            var certificate = await _unitOfWork.GetCertificateRepository()
+                .GetCertificateById(createDiamondDto.CertificateId);
+            if (certificate is  null)
+            {
+                throw new NotFoundException("Certificate is not existed");
+            }
+
+            if (certificate.Diamond is not null)
+            {
+                throw new BadRequestException("This certificate is already related to another diamond");
+            }
             var diamond = createDiamondDto.Adapt<Diamond>();
-            // diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
-            //     .UploadImageAsync(createDiamondDto.CertificationUrl);
             await _unitOfWork.GetDiamondRepository().AddAsync(diamond);
             await _unitOfWork.SaveChangesAsync();
-
-            // if (createDiamondDto.DiamondImages is not [])
-            // {
-            //     await _serviceFactory.GetPictureService().UploadDiamondPictures(createDiamondDto.DiamondImages, diamond.Id);
-            // }
-
-
+            if (createDiamondDto.DiamondImages is not [])
+            {
+                await _serviceFactory.GetPictureService().UploadDiamondPictures(createDiamondDto.DiamondImages, diamond.Id);
+            }
             return new GetDiamondIdDto { Id = diamond.Id };
         }
 
@@ -95,27 +101,21 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             updateDiamondDto.Adapt(diamond);
-            // if (updateDiamondDto.CertificationUrl is not null)
-            // {
-            //     diamond.CertificationUrl = await _serviceFactory.GetFirebaseStorageService()
-            //         .UploadImageAsync(updateDiamondDto.CertificationUrl);
-            // }
+            updateDiamondDto.Adapt(diamond.Certificate);
             diamond.LastUpdate = DateTime.Now;
-
-            // if (diamond.Pictures.Any())
-            // {
-            //     await _serviceFactory.GetPictureService().DeletePictures(diamond.Pictures);
-            //
-            //     diamond.Pictures.Clear();
-            // }
+            
+            if (diamond.Pictures.Any())
+            {
+                await _serviceFactory.GetPictureService().DeletePictures(diamond.Pictures);
+            
+                diamond.Pictures.Clear();
+            }
             
             await _unitOfWork.SaveChangesAsync();
-
-
-            // if (updateDiamondDto.DiamondImages is not [])
-            // {
-            //     await _serviceFactory.GetPictureService().UploadDiamondPictures(updateDiamondDto.DiamondImages, diamond.Id);
-            // }
+            if (updateDiamondDto.DiamondImages is not [])
+            {
+                await _serviceFactory.GetPictureService().UploadDiamondPictures(updateDiamondDto.DiamondImages, diamond.Id);
+            }
 
 
         }
