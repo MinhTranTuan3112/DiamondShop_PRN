@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DiamondShop.DataAccess.Models;
+﻿namespace DiamondShop.DataAccess.Models;
 
 public partial class Category
 {
@@ -11,7 +8,7 @@ public partial class Category
 
     public DateTime? LastUpdate { get; set; }
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

@@ -51,7 +51,7 @@ namespace DiamondShop.DataAccess.Repositories
             {
                 "lastUpdate" => diamond => (diamond.LastUpdate == null) ? diamond.Id : diamond.LastUpdate,
                 "price" => diamond => diamond.Price,
-                "name" => diamond => diamond.Name!,
+                //"name" => diamond => diamond.Name!,
                  _ => diamond => diamond.Id
             };
         }

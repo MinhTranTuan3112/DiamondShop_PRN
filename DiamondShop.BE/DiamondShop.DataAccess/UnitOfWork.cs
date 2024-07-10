@@ -13,22 +13,24 @@ namespace DiamondShop.DataAccess
         private readonly Lazy<IAccountRepository> _accountRepository;
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<IOrderRepository> _orderRepository;
-        private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IOrderDetailRepository> _orderDetailRepository;
+        private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IDiamondRepository> _diamondRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<IProductPartRepository> _productPartRepository;
+        private readonly Lazy<IWarrantyRepository> _warrantyRepository;
         public UnitOfWork(FlashyCarbonDbContext context)
         {
             _context = context;
             _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
-            _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
             _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(context));
+            _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
             _diamondRepository = new Lazy<IDiamondRepository>(() => new DiamondRepository(context));
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
             _productPartRepository = new Lazy<IProductPartRepository>(() => new ProductPartRepository(context));
+            _warrantyRepository = new Lazy<IWarrantyRepository>(() => new WarrantyRepository(context));
         }
 
         public IAccountRepository GetAccountRepository()
@@ -69,6 +71,10 @@ namespace DiamondShop.DataAccess
         public IProductRepository GetProductRepository()
         {
             return _productRepository.Value;
+        }
+        public IWarrantyRepository GetWarrantyRepository()
+        {
+            return _warrantyRepository.Value;
         }
 
         public async Task<int> SaveChangesAsync()

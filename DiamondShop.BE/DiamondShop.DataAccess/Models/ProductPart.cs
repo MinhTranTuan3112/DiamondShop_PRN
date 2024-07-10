@@ -7,7 +7,9 @@ public partial class ProductPart
 {
     public Guid Id { get; set; }
 
-    public bool? IsMain { get; set; }
+    public bool IsMain { get; set; }
+
+    public int Point { get; set; }
 
     public Guid ProductId { get; set; }
 

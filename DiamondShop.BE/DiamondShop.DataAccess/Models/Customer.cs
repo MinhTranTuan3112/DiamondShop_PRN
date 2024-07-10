@@ -19,5 +19,7 @@ public partial class Customer
 
     public virtual Account Account { get; set; } = null!;
 
+    public virtual ICollection<CustomerPromotion> CustomerPromotions { get; set; } = new List<CustomerPromotion>();
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

@@ -73,7 +73,7 @@ namespace DiamondShop.DataAccess.Extensions
             }
             if (!string.IsNullOrEmpty(name))
             {
-                query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
+                //query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
             }
             if (!string.IsNullOrEmpty(color))
             {

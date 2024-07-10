@@ -6,7 +6,6 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
-using Microsoft.IdentityModel.Tokens;
 
 namespace DiamondShop.BusinessLogic.Services
 {
@@ -27,12 +26,14 @@ namespace DiamondShop.BusinessLogic.Services
                 ?? throw new NotFoundException("Not found this order");
             return foundOrder;
         }
+
         public async Task<IEnumerable<Order>?> GetList(QueryOrderDto query)
         {
             var foundOrder = await _unitOfWork.GetOrderRepository().GetListAsync(query)
                 ??throw new NotFoundException("Not found available order");
             return foundOrder;
         }
+
         public async Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims)
         {
             var accountId = claims.GetAccountId();
@@ -182,7 +183,7 @@ namespace DiamondShop.BusinessLogic.Services
             OrderStatus.Confirmed.ToString().ToLower(),
 
             //Confirm Pay
-            OrderStatus.Pay.ToString().ToLower(),
+            OrderStatus.Pending_Deliver.ToString().ToLower(),
 
             //Refund
             OrderStatus.Refunded.ToString().ToLower()

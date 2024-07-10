@@ -20,7 +20,7 @@ create table [Account]
 	AvatarUrl nvarchar(max),
 	[CreatedTime] datetime default CURRENT_TIMESTAMP,
 	[Role] nvarchar(20) not null,				--1:Admin   2:Manager   3:SalesStaff   4:DeliveryStaff   5:Customer
-	[Status] nvarchar(20) default 'available'	--available   |   working   |   deleted
+	[Status] nvarchar(20) not null default 'available'	--available   |   working   |   deleted
 );
 go
 
@@ -34,6 +34,7 @@ create table [Customer]
 
 	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
 );
+create nonclustered index IX_Customer_Point on [Customer] (Point);
 go
 
 create table [StakeHolder]
@@ -47,15 +48,15 @@ create table [StakeHolder]
 
 	AccountId uniqueidentifier not null unique foreign key references [Account](Id)
 );
+create index idx_StakeHolderId on [StakeHolder](Id);
 go
-
 
 create table [Category]
 (
 	Id uniqueidentifier default newid() primary key,
 	[Name] nvarchar(50) not null,
 	[LastUpdate] datetime default CURRENT_TIMESTAMP,			--for manage history
-	[Status] nvarchar(20) default 'available'	--available   |   stop-sale   |   deleted
+	[Status] nvarchar(20) not null default 'available'	--available   |   stop-sale   |   deleted
 );
 go
 
@@ -67,60 +68,105 @@ create table [Product]
 	Material nvarchar(100),
 	Gender bit,				--0:Female		1:Male
 	Price money not null,	--Diamond Price + Doing_Price
-	[Point] int default 0 not null,
+	Point int default 0 not null,
 	Quantity int default 0 not null,
 	WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
 	[LastUpdate] datetime default CURRENT_TIMESTAMP,			--for manage history
-	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
+	[Status] nvarchar(20) not null default 'available',	--available   |   out-of-stock   |   deleted
 
 	CategoryId uniqueidentifier not null foreign key references [Category](Id)
+);
+go
+
+create table [Certificate]
+(
+	Id uniqueidentifier default newid() primary key,
+	ReportNumber nvarchar(max),
+	Origin nvarchar(50) not null,
+	Shape nvarchar(100) not null,
+	Color nvarchar(50) not null,
+	Clarity nvarchar(50) not null,
+	Cut nvarchar(50) not null,
+	CaratWeight nvarchar(50) not null,
+	DateOfIssue datetime not null default CURRENT_TIMESTAMP,
+	[Status] nvarchar(20) not null default 'available',	--available   |   not-available   |   deleted
 );
 go
 
 create table [Diamond]
 (
 	Id uniqueidentifier default newid() primary key,
-	[Name] nvarchar(max),
-	Color nvarchar(20),
-	Origin nvarchar(100),
-	CertificationUrl nvarchar(max),
-	CaratWeight nvarchar(20),
-	Clarity nvarchar(20),
-	Cut nvarchar(20),
+	Origin nvarchar(50) not null,
+	Shape nvarchar(100) not null,
+	Color nvarchar(50) not null,
+	Clarity nvarchar(50) not null,
+	Cut nvarchar(50) not null,
+	CaratWeight nvarchar(50) not null,
+	Point int default 0 not null,
 	Price money default 0 not null,
 	Quantity int default 0 not null,
 	WarrantyPeriod int default 0 not null,	--count as month (thoi han bao hanh)
-	[LastUpdate] datetime default CURRENT_TIMESTAMP,	--for manage history
-	[Status] nvarchar(20) default 'available',	--available   |   out-of-stock   |   deleted
+	[LastUpdate] datetime not null default CURRENT_TIMESTAMP,	--for manage history
+	[Status] nvarchar(20) not null default 'available',	--available   |   out-of-stock   |   deleted
+
+	CertificateId uniqueidentifier unique not null foreign key references [Certificate](Id)	--1 diamond - 1 certificate
 );
 go
+
 
 create table [ProductPart]
 (
 	Id uniqueidentifier default newid() primary key,--1 product has many same non-main diamond
-	IsMain bit,
+	IsMain bit not null,
+	Point int default 0 not null,
 
 	ProductId uniqueidentifier not null foreign key references [Product](Id),
 	DiamondId uniqueidentifier not null foreign key references [Diamond](Id)
 );
+create nonclustered index IX_ProductPart_ProductId on [ProductPart] (ProductId);
 go
 
 
 create table [Order]
 (
 	Id uniqueidentifier default newid() primary key,
-	Code nvarchar(20),
-	OrderDate datetime default CURRENT_TIMESTAMP,
+	Code nvarchar(max) not null,
+	OrderDate datetime not null default CURRENT_TIMESTAMP,
 	Total money default 0 not null,
+	PayMethod nvarchar(20),
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
-	Note nvarchar(max) default 'nothing here',
+	Note nvarchar(max) default 'Nothing!',
 	[Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
 
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
 	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
 	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
 );
+create nonclustered index IX_Order_CustomerId on [order] (customerid);
+go
+
+create table [Promotion]
+(
+	Id uniqueidentifier default newid() primary key,
+	[Name] nvarchar(100) not null,
+	[Description] nvarchar(max),
+	ExpiredDate datetime not null,
+	DiscountPercent int not null,		--int%
+	[Status] nvarchar(20) not null default 'available',	--expired   |   deleted
+);
+go
+
+create table [CustomerPromotion]
+(
+	primary key (PromotionId, CustomerId),
+	PromotionId uniqueidentifier not null foreign key references [Promotion](Id),
+	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
+	CollectedDate datetime not null,
+	[Status] nvarchar(20) not null default 'collected',		--used	|	expired	|	deleted
+);
+create nonclustered index IX_CustomerPromotion_PromotionId on [CustomerPromotion] (PromotionId);
+create nonclustered index IX_CustomerPromotion_CustomerId on [CustomerPromotion] (CustomerId);
 go
 
 create table [OrderDetail]
@@ -131,6 +177,7 @@ create table [OrderDetail]
 	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
 	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
 	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
+	[Status] nvarchar(20)  default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
 
 	OrderId uniqueidentifier not null foreign key references [Order](Id),
 	ProductId uniqueidentifier foreign key references [Product](Id),
@@ -140,23 +187,25 @@ create table [OrderDetail]
         or (ProductId is null and DiamondId is not null)
     )
 );
+create nonclustered index IX_OrderDetail_OrderId on [OrderDetail] (OrderId);
 go
 
 create table [Warranty]
 (
 	Id uniqueidentifier default newid() primary key,
 	[ItemName] nvarchar(max) not null,
+	IsProduct bit,					-- 1 = Product Warranty, 0 = Diamond Warranty
 	[Type] nvarchar(50),
 	Privacy nvarchar(max),
 	Condition nvarchar(max),
-	IsProduct bit,					-- 1 = Product Warranty, 0 = Diamond Warranty
-	StartDate datetime,
+	StartDate datetime not null default CURRENT_TIMESTAMP,
 	EndDate datetime,
 	[Reason] nvarchar(max),
-	[Status] nvarchar(20) default 'available',	--available   |   not-available   |   deleted
+	[Status] nvarchar(20) not null default 'Temporary',	--available   |   not-available   |   deleted
 
 	OrderDetailId uniqueidentifier not null foreign key references [OrderDetail](Id)
 );
+create nonclustered index IX_Warranty_OrderDetailId  on [Warranty] (OrderDetailId);
 go
 
 create table [Picture]

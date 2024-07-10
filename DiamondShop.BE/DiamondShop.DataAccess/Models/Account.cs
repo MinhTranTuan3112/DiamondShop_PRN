@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DiamondShop.DataAccess.Models;
+﻿namespace DiamondShop.DataAccess.Models;
 
 public partial class Account
 {
@@ -17,7 +14,7 @@ public partial class Account
 
     public string Role { get; set; } = null!;
 
-    public string? Status { get; set; }
+    public string Status { get; set; } = null!;
 
     public virtual Customer? Customer { get; set; }
 

@@ -17,6 +17,7 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IDiamondService> _diamondService;
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IOrderDetailService> _orderDetailService;
+        private readonly Lazy<IWarrantyService> _warrantyService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
@@ -25,6 +26,7 @@ namespace DiamondShop.BusinessLogic
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
             _orderDetailService = new Lazy<IOrderDetailService>(() => new OrderDetailService(unitOfWork));
+            _warrantyService = new Lazy<IWarrantyService>(() => new WarrantyService(unitOfWork));
         }
 
         public IAuthService GetAuthService()
@@ -55,6 +57,10 @@ namespace DiamondShop.BusinessLogic
         public IProductService GetProductService()
         {
             return _productService.Value;
+        }
+        public IWarrantyService GetWarrantyService()
+        {
+            return _warrantyService.Value;
         }
     }
 }
