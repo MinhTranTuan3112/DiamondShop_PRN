@@ -4,12 +4,10 @@ import {
   AppstoreOutlined,
   CrownOutlined,
   ShoppingCartOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import Dashboard from "./Dashboard";
-import CategoryManagement from "./CategoryManagement";
 import DiamondManagement from "./DiamondManagement";
 import OrderManagement from "./OrderManagement";
 import ProductManagement from "./ProductManagement";
@@ -37,7 +35,6 @@ const items: MenuItem[] = [
   getItem("Products", "2", <AppstoreOutlined />),
   getItem("Diamond", "3", <CrownOutlined />),
   getItem("Order", "4", <ShoppingCartOutlined />),
-  getItem("Category", "5", <UserOutlined />),
 ];
 
 const Admin: React.FC = () => {
@@ -61,8 +58,6 @@ const Admin: React.FC = () => {
         return <DiamondManagement />;
       case "4":
         return <OrderManagement />;
-      case "5":
-        return <CategoryManagement />;
       default:
         return <div>No Content</div>;
     }

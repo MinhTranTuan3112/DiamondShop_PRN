@@ -7,9 +7,9 @@ import AuthorizedRoute from "./Components/AuthorizedRoute";
 import TestPage from "./pages/TestPage";
 import ProductDetailsPage from "./pages/Product/details";
 import Checkout from "./pages/Checkout/Checkout";
-import Products from "./pages/Product";
 import Admin from "./pages/Admin/Admin";
 import NotFoundPage from "./pages/NotFound";
+import ProductsPage from "./pages/Product";
 
 const queryClient = new QueryClient();
 
@@ -23,25 +23,15 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<Admin />} />
-
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
             }
           />
           <Route element={<TestPage />} path="/test" />
-          <Route path="/products" element={<Products />} />
-          <Route
-            element={
-              <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
-            }
-          >
-            <Route element={<TestPage />} path="/test" />
-          </Route>
+          <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailsPage />}></Route>
-          <Route path="/products/:id" element={<ProductDetailsPage/>}></Route>
-
-          <Route path="*" element={<NotFoundPage/>} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
