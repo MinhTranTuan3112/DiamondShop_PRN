@@ -17,13 +17,12 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchDiamonds } from "./APIClient";
-import avatar from "../../assets/img/Anhcuatoi.png";
 import { Empty } from "antd";
 import DiamondModal from "./Modal/DiamondModal";
 
 interface Diamond {
   id: string;
-  name: string;
+  shape: string;
   color: string;
   origin: string;
   certificationUrl: string | null;
@@ -195,9 +194,9 @@ const DiamondManagement: React.FC = () => {
                     width: "20%",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleSort("name")}
+                  onClick={() => handleSort("Shape")}
                 >
-                  Name {sortColumn === "name" && (orderByDesc ? "↓" : "↑")}
+                  Shape {sortColumn === "Shape" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -306,7 +305,7 @@ const DiamondManagement: React.FC = () => {
                   key={diamond.id}
                   sx={{ background: "rgb(243,247,251)" }}
                 >
-                  <TableCell sx={{ width: "20%" }}>{diamond.name}</TableCell>
+                  <TableCell sx={{ width: "20%" }}>{diamond.shape}</TableCell>
                   <TableCell sx={{ width: "10%" }}>{diamond.color}</TableCell>
                   <TableCell sx={{ width: "10%" }}>{diamond.origin}</TableCell>
                   <TableCell sx={{ width: "10%" }}>
@@ -321,8 +320,7 @@ const DiamondManagement: React.FC = () => {
                   <TableCell sx={{ width: "20%" }}>
                     {diamond.pictures.length > 0 && (
                       <img
-                        src={avatar}
-                        alt={diamond.name}
+                        src={diamond.pictures[0].urlPath}
                         style={{
                           width: "50px",
                           height: "80px",

@@ -47,6 +47,7 @@ namespace DiamondShop.DataAccess.Repositories
                                          .Include(d => d.Pictures)
                                          .AsSplitQuery()
                                          .AsQueryable();
+            query = query.Where(d => d.Status != "Deleted");
             query = query.ApplyDiamondsFilter(queryDiamondDto);
             query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy))
                                 : query.OrderBy(GetSortProperty(sortBy));

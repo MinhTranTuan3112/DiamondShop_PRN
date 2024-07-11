@@ -47,6 +47,8 @@ namespace DiamondShop.DataAccess.Repositories
                                         .AsSplitQuery()
                                         .AsQueryable();
 
+            query = query.Where(p => p.Status != "Deleted");
+
             query = query.ApplyProductsFilter(queryProductDto);
 
             query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy))

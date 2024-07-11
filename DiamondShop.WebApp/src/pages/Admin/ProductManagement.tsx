@@ -17,7 +17,6 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { fetchProducts } from "./APIClient";
-import avatar from "../../assets/img/Anhcuatoi.png";
 import { Empty } from "antd";
 import ProductModal from "./Modal/ProductModal";
 
@@ -305,8 +304,7 @@ const ProductManagement: React.FC = () => {
                   <TableCell sx={{ width: "20%" }}>
                     {product.pictures.length > 0 && (
                       <img
-                        // src={product.pictures[0].urlPath}
-                        src={avatar}
+                        src={product.pictures[0].urlPath}
                         alt={product.name}
                         style={{
                           width: "50px",
