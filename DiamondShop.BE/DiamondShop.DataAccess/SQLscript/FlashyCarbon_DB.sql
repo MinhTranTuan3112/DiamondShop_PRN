@@ -63,7 +63,7 @@ go
 create table [Product]
 (
 	Id uniqueidentifier default newid() primary key,
-	[Name] nvarchar(50),
+	[Name] nvarchar(50) not null,
 	[Type] nvarchar(50),		--Ring | Earring | Pendant | Bracelet | Bangles
 	Material nvarchar(100),
 	Gender bit,				--0:Female		1:Male

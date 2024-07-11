@@ -9,10 +9,11 @@ namespace DiamondShop.DataAccess.DTOs.Warranty
         public string? CustomerName { get; set; }
         public string? CustomerPhone { get; set; }
         public string? ItemName { get; set; }
-        public bool IsProduct { get; set; }
-        public WarrantyType Type { get; set; }
+        public bool? IsProduct { get; set; }
+        public string? Type { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string? Status { get; set; }
+        public WarrantyStatus Status { get; set; }
+        public bool IsDescending { get; set; }//By date
     }
 }

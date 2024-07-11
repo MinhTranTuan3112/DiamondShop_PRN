@@ -2,15 +2,17 @@
 go
 
 --=============[RESET DATA]=============--
-delete from [Certification];
 delete from [Picture];
+delete from [Warranty]
+delete from [OrderDetail];
+delete from [CustomerPromotion];
+delete from [Promotion];
+delete from [Order];
 delete from [ProductPart];
 delete from [Diamond];
-delete from [Warranty];
-delete from [OrderDetail];
+delete from [Certificate];
 delete from [Product];
 delete from [Category];
-delete from [Order];
 delete from [StakeHolder];
 delete from [Customer];
 delete from [Account];

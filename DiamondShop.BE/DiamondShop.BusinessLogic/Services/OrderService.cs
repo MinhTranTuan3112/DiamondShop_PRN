@@ -2,6 +2,7 @@ using System.Security.Claims;
 using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
@@ -27,7 +28,7 @@ namespace DiamondShop.BusinessLogic.Services
             return foundOrder;
         }
 
-        public async Task<IEnumerable<Order>?> GetList(QueryOrderDto query)
+        public async Task<PagedResult<Order>?> GetList(QueryOrderDto query)
         {
             var foundOrder = await _unitOfWork.GetOrderRepository().GetListAsync(query)
                 ??throw new NotFoundException("Not found available order");

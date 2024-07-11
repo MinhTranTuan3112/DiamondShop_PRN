@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Extensions;
 using DiamondShop.DataAccess.Interfaces;
@@ -28,7 +29,7 @@ namespace DiamondShop.DataAccess.Repositories
             return _context.Orders.Include(o => o.OrderDetails)
                                  .FirstOrDefaultAsync(LINQ_Regex);
         }
-        public async Task<IEnumerable<Order>?> GetListAsync(QueryOrderDto input)
+        public async Task<PagedResult<Order>?> GetListAsync(QueryOrderDto input)
         {
             var query = _context.Orders
                 .AsNoTracking()
@@ -74,7 +75,13 @@ namespace DiamondShop.DataAccess.Repositories
                 .Take(amountItem)
                 .ToListAsync();
 
-            return queriedOrders;
+            return new PagedResult<Order>
+            {
+                Results = queriedOrders,
+                TotalCount = await query.CountAsync(),
+                PageSize = amountItem,
+                CurrentPage = pageIndex
+            };
         }
     }
 }
