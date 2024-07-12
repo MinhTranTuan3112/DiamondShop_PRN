@@ -24,6 +24,7 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IProductPartService> _productPartService;
         private readonly Lazy<IAccountService> _accountService;
         private readonly Lazy<ICertificateService> _certificateSerivce;
+        private readonly Lazy<IPromotionService> promotionService;
         public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
@@ -37,6 +38,7 @@ namespace DiamondShop.BusinessLogic
             _productPartService = new Lazy<IProductPartService>(() => new ProductPartService(unitOfWork));
             _accountService = new Lazy<IAccountService>(() => new AccountService(unitOfWork, this));
             _certificateSerivce = new Lazy<ICertificateService>(() => new CertificateService(unitOfWork));
+            promotionService = new Lazy<IPromotionService>(() => new PromotionService(unitOfWork));
         }
 
         public IAuthService GetAuthService()
@@ -92,6 +94,10 @@ namespace DiamondShop.BusinessLogic
         public IProductService GetProductService()
         {
             return _productService.Value;
+        }
+        public IPromotionService GetPromotionService()
+        {
+            return promotionService.Value;
         }
     }
 }
