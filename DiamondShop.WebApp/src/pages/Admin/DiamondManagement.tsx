@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchDiamonds } from "./APIClient";
+import { fetchDiamonds, deleteObject } from "./APIClient";
 import { Empty } from "antd";
 import DiamondModal from "./Modal/DiamondModal";
 
@@ -130,6 +130,18 @@ const DiamondManagement: React.FC = () => {
   const handleSaveDiamond = (diamond: Partial<Diamond>) => {
     // Save diamond data logic here
     handleCloseModal();
+  };
+
+  const handleDeleteDiamond = async (DiamondId: string) => {
+    try {
+      await deleteObject("Diamonds", DiamondId);
+      setDiamonds((prevDiamonds) =>
+        prevDiamonds.filter((Diamond) => Diamond.id !== DiamondId)
+      );
+      setTotalDiamonds(totalDiamonds - 1);
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
+    }
   };
 
   return (
@@ -336,7 +348,10 @@ const DiamondManagement: React.FC = () => {
                     >
                       <EditIcon />
                     </IconButton>
-                    <IconButton style={{ color: "orangered" }}>
+                    <IconButton
+                      style={{ color: "orangered" }}
+                      onClick={() => handleDeleteDiamond(diamond.id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

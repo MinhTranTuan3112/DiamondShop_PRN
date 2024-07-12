@@ -1,11 +1,11 @@
+import { useState } from "react";
 import "./style.css";
 import LogoIMG from "../../../assets/icons/icon.png";
-import Avartar from "../../../assets/img/Anhcuatoi.png";
+import Avatar from "../../../assets/img/non-user.png";
 import { CiShoppingCart } from "react-icons/ci";
 import { CiSearch } from "react-icons/ci";
-import { FaRegHeart } from "react-icons/fa";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = [
   {
@@ -49,7 +49,10 @@ const Product = [
 ];
 
 export default function Header() {
+  const { authAccount, logout } = useAuth();
   const [isActive, setIsActive] = useState("");
+
+  console.log(authAccount);
 
   return (
     <header className="header fixed">
@@ -124,8 +127,13 @@ export default function Header() {
             </Link>
           </div>
           <Link to={"/user"} className="top-act-user">
-            <img src={Avartar} alt="" className="top-act-avatar" />
+            <img
+              src={authAccount?.avatarUrl || Avatar}
+              alt=""
+              className="top-act-avatar"
+            />
           </Link>
+          {authAccount ? <button onClick={logout}>Logout</button> : <></>}
         </div>
       </div>
     </header>
