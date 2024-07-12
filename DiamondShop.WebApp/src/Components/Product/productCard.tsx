@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { formatPrice } from "../../utils/priceUtils";
 
 type Props = {
     product: PagedProduct;
@@ -26,7 +27,7 @@ const ProductCard = ({ product }: Props) => {
                 />
             )}
             <h3 className="product-name" onClick={navigateToProductDetails}>{product.name}</h3>
-            <p className="product-price">{product.price}$</p>
+            <p className="product-price">{formatPrice(product.price)} VNĐ</p>
             <Button variant="contained" color="primary" style={{ width: "100px" }}>
                 Thêm vào giỏ hàng
             </Button>

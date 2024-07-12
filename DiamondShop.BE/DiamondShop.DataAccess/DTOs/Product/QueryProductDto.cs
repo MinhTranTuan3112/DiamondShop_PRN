@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondShop.DataAccess.DTOs.Product
@@ -39,5 +41,8 @@ namespace DiamondShop.DataAccess.DTOs.Product
         
         [FromQuery(Name = "diamondIds")]
         public List<Guid> DiamondIds { get; set; } = [];
+
+        [FromQuery(Name = "types")]
+        public string[] Types { get; set; } = [];
     }
 }

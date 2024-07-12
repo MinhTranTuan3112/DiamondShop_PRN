@@ -20,18 +20,27 @@ namespace DiamondShop.Api.Controllers
         {
             _serviceFactory = serviceFactory;
         }
+
+        [HttpGet("types")]
+        public ActionResult<List<string>> GetProductTypes()
+        {
+            return _serviceFactory.GetProductService().GetProductTypes();
+        }
+
         [HttpPost]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
         public async Task<ActionResult<GetProductIdDto>> CreateProduct([FromForm] CreateProductDto createProductDto)
         {
             return Created(nameof(CreateProduct), await _serviceFactory.GetProductService().CreateProduct(createProductDto));
         }
+
         [HttpPost("{productId:guid}")]
         // [Authorize(Roles = "SalesStaff, sales-staff")]
         public async Task<ActionResult<GetProductIdDto>> CreateProductProperties(Guid productId, [FromBody] CreateProductPropetiesDto createProductPropertiesDto)
         {
             return Created(nameof(CreateProductProperties), await _serviceFactory.GetProductService().CreateProductProperties(productId, createProductPropertiesDto));
         }
+
         [HttpPut("{id:guid}")]
         public async Task<ActionResult> UpdateProduct([FromRoute] Guid id, [FromForm] UpdateProductDto updateProductDto)
         {
@@ -44,6 +53,7 @@ namespace DiamondShop.Api.Controllers
             await _serviceFactory.GetProductService().UpdateProductProperties(productId, createProductPropertiesDto);
             return NoContent();
         }
+
         [HttpGet]
         public async Task<ActionResult<PagedResult<GetProductInPagedResultDto>>> GetPagedProducts([FromQuery] QueryProductDto queryProductDto)
         {
@@ -56,6 +66,7 @@ namespace DiamondShop.Api.Controllers
             var result = await _serviceFactory.GetProductService().GetProductDetailById(id);
             return result;
         }
+
         [HttpPut("{productId}/{status}")]
         public async Task<ActionResult> ChangeStatusProduct(Guid productId, ProductStatus status)
         {

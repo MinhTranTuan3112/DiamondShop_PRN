@@ -20,6 +20,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task UpdateProductProperties(Guid productId, CreateProductPropetiesDto createProductPropertiesDto);
 
         Task DeleteProduct(Guid productId, ProductStatus status);
+        List<string> GetProductTypes();
     }
 }
         

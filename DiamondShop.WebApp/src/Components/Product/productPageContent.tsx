@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
-import { fetchPagedProducts } from '../../services/product_service';
+import { fetchPagedProducts, fetchProductTypes } from '../../services/product_service';
 import ProductCard from './productCard';
 import Pagination from '@mui/material/Pagination';
-import { Box, Slider } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Slider } from '@mui/material';
 import { formatPrice } from '../../utils/priceUtils';
 type Props = {}
 
@@ -11,6 +11,7 @@ const ProductPageContent = (props: Props) => {
 
     const [pagedResult, setPagedResult] = useState<PagedResult<PagedProduct>>();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [productTypes, setProductTypes] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const pageParam = searchParams.get('page') ? +searchParams.get('page')! : 1;
@@ -22,14 +23,20 @@ const ProductPageContent = (props: Props) => {
     const nameParam = searchParams.get('name') || '';
     const startPriceParam = searchParams.get('startPrice') ? +searchParams.get('startPrice')! : null;
     const endPriceParam = searchParams.get('endPrice') ? +searchParams.get('endPrice')! : null;
-    const [priceRange, setPriceRange] = useState<number[]>([0, 100000]);
+    const typesParam = searchParams.get('types') ? searchParams.get('types')?.split(',') : [];
+
+
+    const [priceRange, setPriceRange] = useState<number[]>([0, 100000000]);
 
     useEffect(() => {
 
         setIsLoading(true);
 
+        fetchProductTypes().then(data => setProductTypes(data));
+
         const timer = setTimeout(() => {
-            fetchPagedProducts(pageParam, pageSize, sortColumn, orderByDesc, startPriceParam, endPriceParam, nameParam)
+            fetchPagedProducts(pageParam, pageSize, sortColumn, orderByDesc, startPriceParam, endPriceParam, nameParam, 
+                typesParam)
                 .then(data => setPagedResult(data));
         }, 500);
 
@@ -39,7 +46,7 @@ const ProductPageContent = (props: Props) => {
             clearTimeout(timer);
         }
 
-    }, [pageParam, nameParam, startPriceParam, endPriceParam]);
+    }, [pageParam, nameParam, startPriceParam, endPriceParam, JSON.stringify(typesParam)]);
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchParams({ ...searchParams, name: e.target.value });
@@ -85,57 +92,90 @@ const ProductPageContent = (props: Props) => {
         setSearchParams({ ...searchParams, page: value.toString() });
     };
 
-    return (
-        <>
-            <div className="filter_section flex justify-center gap-2 my-7">
-                <input type="search" value={searchParams.get('name') || ''}
-                    onChange={handleNameChange} name="name" placeholder="Nhập tên sản phẩm..."
-                    className="p-2 mr-10" />
+    const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
+        // Assuming typesParam is an array. If it's a comma-separated string, you would first split it into an array.
+        let newTypesParam = typesParam ? [...typesParam] : [];
+        const newValue = event.target.value;
 
-
-
-                {/* <p className="flex items-center">Từ</p>
-                <input type="number" className="p-2" placeholder="Giá bắt đầu"
-                value={searchParams.get('startPrice') || ''}
-                onChange={handleStartPriceChange} />
-                <p className="flex items-center">Đến</p>
-                <input type="number" className="p-2" value={searchParams.get('endPrice') || ''}
-                onChange={handleEndPriceChange}
-                placeholder="Giá kết thúc"
-                name="" id="" /> */}
-            </div>
-            <Box sx={{ width: 300, margin: '0 auto' }}>
-                <Slider
-                    getAriaLabel={() => 'Minimum distance'}
-                    value={[startPriceParam || 0, endPriceParam || 100000]}
-                    onChange={handlePriceChange}
-                    min={0}
-                    max={100000}
-                    step={100}
-                    valueLabelDisplay="auto"
-                    getAriaValueText={valuetext}
-                    disableSwap
-                />
-            </Box>
-            {
-                isLoading ? (
-                    <div className="text-center">Đang tải dữ liệu...</div>
-                ) :
-                    pagedResult?.results.length === 0 ? (
-                        <div className="text-center">Không tìm thấy sản phẩm</div>
-                    ) : (
-                        <div className="product-container">
-                            {pagedResult?.results.map((product, index) => (
-                                <ProductCard product={product} key={index} />
-                            ))}
-                        </div>
-                    )
+        if (checked) {
+            // Add the new type if it's checked and not already present
+            if (!newTypesParam.includes(newValue)) {
+                newTypesParam.push(newValue);
             }
+        } else {
+            // Remove the type if it's unchecked
+            newTypesParam = newTypesParam.filter(type => type !== newValue);
+        }
 
-            <Pagination size='large' className='my-5 inline-center' color='primary' count={pagedResult?.totalPages}
-                onChange={handlePageChanged} page={searchParams.get('page') ? +searchParams.get('page')! : 1} />
+        // Assuming you need to convert the array back to a comma-separated string for setSearchParams
+        const newTypesString = newTypesParam.join(',');
 
-        </>
+        setSearchParams({ ...searchParams, types: newTypesString });
+    }
+
+    return (
+        <div className='flex flex-row'>
+            <aside className="left_content ml-5 mt-5 text-3xl">
+                <p className='font-bold'>Loại sản phẩm</p>
+                <FormGroup >
+                    {productTypes.map((type, index) => (
+                        <FormControlLabel control={<Checkbox onChange={handleTypeChange} 
+                        checked={typesParam?.includes(type)}
+                        sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} label={type} value={type} key={index} />
+                    ))}
+                </FormGroup>
+            </aside>
+            <aside className="right_content">
+                <section className="">
+                    <div className="filter_section flex justify-center gap-2 my-7">
+                        <input type="search" value={searchParams.get('name') || ''}
+                            onChange={handleNameChange} name="name" placeholder="Nhập tên sản phẩm..."
+                            className="p-2 mr-10" />
+                        {/* <p className="flex items-center">Từ</p>
+                        <input type="number" className="p-2" placeholder="Giá bắt đầu"
+                        value={searchParams.get('startPrice') || ''}
+                        onChange={handleStartPriceChange} />
+                        <p className="flex items-center">Đến</p>
+                        <input type="number" className="p-2" value={searchParams.get('endPrice') || ''}
+                        onChange={handleEndPriceChange}
+                        placeholder="Giá kết thúc"
+                        name="" id="" /> */}
+                    </div>
+                    <Box sx={{ width: 300, margin: '0 auto' }}>
+                        <Slider
+                            getAriaLabel={() => 'Minimum distance'}
+                            value={[startPriceParam || 0, endPriceParam || 100000000]}
+                            onChange={handlePriceChange}
+                            min={0}
+                            max={100000000}
+                            step={1000000}
+                            valueLabelDisplay="auto"
+                            getAriaValueText={valuetext}
+                            disableSwap
+                        />
+                    </Box>
+                </section>
+                <section className="products_content">
+                    {
+                        isLoading ? (
+                            <div className="text-center">Đang tải dữ liệu...</div>
+                        ) :
+                            pagedResult?.results.length === 0 ? (
+                                <div className="text-center">Không tìm thấy sản phẩm</div>
+                            ) : (
+                                <div className="product-container">
+                                    {pagedResult?.results.map((product, index) => (
+                                        <ProductCard product={product} key={index} />
+                                    ))}
+                                </div>
+                            )
+                    }
+                    <Pagination size='large' className='my-5 inline-center' color='primary' count={pagedResult?.totalPages}
+                        onChange={handlePageChanged} page={searchParams.get('page') ? +searchParams.get('page')! : 1} />
+                </section>
+            </aside>
+
+        </div>
     );
 };
 
