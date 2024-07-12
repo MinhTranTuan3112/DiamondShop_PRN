@@ -436,14 +436,55 @@ insert into [Diamond](Origin, Shape, Color, Clarity, Cut, CaratWeight, Point, Pr
 ('CGL', 'Rectangle', 'J', 'I3', 'VeryGood', '3.46 carat', '713769', '71376909', '1', '10',(select Id from [Certificate] where ReportNumber='3233569629' and Origin='CGL' and Shape='Rectangle' and Color='J' and Clarity='I3' and Cut='VeryGood' and CaratWeight='3.46 carat'));
 go
 
---insert into [ProductPart](IsMain, Point, ProductId, DiamondId) values
---('1', (select top 1 Id from [Diamond] order by newid()), (select top 1 Id from [Diamond] order by newid()),(select top 1 Id from [Diamond] order by newid()),
---('0', (select top 1 Id from [Diamond] order by newid()), (select top 1 Id from [Diamond] order by newid()),(select top 1 Id from [Diamond] order by newid()),
---('0', (select top 1 Id from [Diamond] order by newid()), (select top 1 Id from [Diamond] order by newid()),(select top 1 Id from [Diamond] order by newid()),
---('0', (select top 1 Id from [Diamond] order by newid()), (select top 1 Id from [Diamond] order by newid()),(select top 1 Id from [Diamond] order by newid()),
---('0', (select top 1 Id from [Diamond] order by newid()), (select top 1 Id from [Diamond] order by newid()),(select top 1 Id from [Diamond] order by newid()),
+--==============================[ PRODUCT PART ]==============================
+--Female Ring Gold 14K Clavia 3CT
+	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 1, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Clavia 3CT' and pro.[Type] = 'Ring' and pro.Price = 12274000;
+	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Clavia 3CT' and pro.[Type] = 'Ring' and pro.Price = 12274000;
+	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Clavia 3CT' and pro.[Type] = 'Ring' and pro.Price = 12274000;
+	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Clavia 3CT' and pro.[Type] = 'Ring' and pro.Price = 12274000;
+	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Clavia 3CT' and pro.[Type] = 'Ring' and pro.Price = 12274000;
+go
+--Male Ring Gold 14K A8 5C Y - 91264000 - Ring - 3
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 1, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Male Ring Gold 14K A8 5C Y' and pro.[Type] = 'Ring' and pro.Price = 91264000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Male Ring Gold 14K A8 5C Y' and pro.[Type] = 'Ring' and pro.Price = 91264000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Male Ring Gold 14K A8 5C Y' and pro.[Type] = 'Ring' and pro.Price = 91264000;
+go
 
+--Female Ring Gold 14K Adivity 1CT - 24340000 - Ring - 3
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 1, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Adivity 1CT' and pro.[Type] = 'Ring' and pro.Price = 24340000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Adivity 1CT' and pro.[Type] = 'Ring' and pro.Price = 24340000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Female Ring Gold 14K Adivity 1CT' and pro.[Type] = 'Ring' and pro.Price = 24340000;
+go
 
+--Earring Platinum 950 Basque S 5C - 47661000 - Earring - 6
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 1, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 6), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Earring Platinum 950 Basque S 5C' and pro.[Type] = 'Earring' and pro.Price = 47661000;
+go
+
+--Pendant Gold 14K Flowery 5C - 9432000 - Pendant - 3
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Pendant Gold 14K Flowery 5C' and pro.[Type] = 'Pendant' and pro.Price = 9432000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Pendant Gold 14K Flowery 5C' and pro.[Type] = 'Pendant' and pro.Price = 9432000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Pendant Gold 14K Flowery 5C' and pro.[Type] = 'Pendant' and pro.Price = 9432000;
+go
+
+--Bangles Gold 14K Bambina - 33410000 - Bangles - 3
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bangles Gold 14K Bambina' and pro.[Type] = 'Bangles' and pro.Price = 33410000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bangles Gold 14K Bambina' and pro.[Type] = 'Bangles' and pro.Price = 33410000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 3), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bangles Gold 14K Bambina' and pro.[Type] = 'Bangles' and pro.Price = 33410000;
+
+--Bracelet Gold 14K Dacing S 1CT - 77084000 - Bracelet - 5
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
+insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
+
+--insert into [Order](Code,OrderDate,PayMethod,ShipDate,ShipAddress,Note,[Status],CustomerId,SalesStaffId, DeliveryStaffId)
+--select 
 --=================[PICTURES]=================
 --Diamond
 --insert into [Picture] (UrlPath, DiamondId, ProductId)
