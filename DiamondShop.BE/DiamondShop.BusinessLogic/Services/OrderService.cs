@@ -7,6 +7,10 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DiamondShop.BusinessLogic.Services
 {
@@ -19,6 +23,19 @@ namespace DiamondShop.BusinessLogic.Services
         {
             _unitOfWork = unitOfWork;
             _serviceFactory = serviceFactory;
+        }
+
+        public async Task<List<Order>> GetOrdersByUserId(ClaimsPrincipal claims)
+        {
+            var accountId = claims.GetAccountId();
+
+            var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(accountId);
+
+            var customerId = account.Customer.Id;
+
+            var list = await _unitOfWork.GetOrderRepository().GetAllAsync();
+            list = list.Where(o => o.CustomerId == customerId).ToList();
+            return list;
         }
 
         public async Task<Order> GetOrderById(Guid id)
@@ -165,6 +182,40 @@ namespace DiamondShop.BusinessLogic.Services
             return true;
         }
 
+        public async Task<OrderStatistic> GetOrderStatisticsAsync(int month)
+        {
+            var orders = await _unitOfWork.GetOrderRepository().GetAllAsync();
+
+            if (month != 0 && (month >= 1 && month <= 12))
+            {
+                orders = orders.Where(o => o.OrderDate.Month == month).ToList();
+            }
+            var totalOrders = orders.Count;
+            var totalRevenue = orders.Sum(o => o.Total);
+            var averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+            return new OrderStatistic
+            {
+                TotalOrders = totalOrders,
+                TotalRevenue = totalRevenue,
+                AverageOrderValue = averageOrderValue,
+            };
+        }
+
+        public async Task<DashboardStats> getDashBoardStats()
+        {
+            var numberofDiamonds = _unitOfWork.GetDiamondRepository().GetAllAsync().Result.Count();
+            var numberofProdducts = _unitOfWork.GetProductRepository().GetAllAsync().Result.Count();
+            var totalRevenue = _unitOfWork.GetOrderRepository().GetAllAsync().Result.Sum(o => o.Total);
+            return new DashboardStats
+            {
+                numberOfDiamonds = numberofDiamonds,
+                numberOfProducts = numberofProdducts,
+                totalRevenue = totalRevenue,
+                Profit = totalRevenue * 0.1m
+            };
+        }
+
         //===================================================================================================================
         private static readonly HashSet<string> OrderStatusOf_Customer = new HashSet<string>()
         {
@@ -202,5 +253,6 @@ namespace DiamondShop.BusinessLogic.Services
         {
             if (orderStatus.ToLower().Equals("Deleted".ToLower())) throw new BadRequestException("This order already deleted!");
         }
+
     }
 }

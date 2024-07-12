@@ -12,12 +12,16 @@ namespace DiamondShop.DataAccess.DTOs.Auth
         [Required]
         [EmailAddress]
         public required string Email { get; set; }
+        [Required]
+        public required string Fullname { get; set; }
 
         [Required]
         public required string Password { get; set; }
+        
+        
 
-        [Required]
-        [EnumDataType(typeof(Role))]
-        public required string Role { get; set; }
+        // [Required]
+        // [EnumDataType(typeof(Role))]
+        // public required string Role { get; set; }
     }
 }

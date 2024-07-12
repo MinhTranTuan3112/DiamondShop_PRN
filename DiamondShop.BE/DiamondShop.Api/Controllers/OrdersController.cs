@@ -2,7 +2,9 @@ using System.Security.Claims;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Order;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace DiamondShop.Api.Controllers
 {
@@ -15,6 +17,13 @@ namespace DiamondShop.Api.Controllers
         public OrdersController(IServiceFactory serviceFactory)
         {
             _serviceFactory = serviceFactory;
+        }
+
+        [HttpGet("customer-orders"), Authorize(Roles = "Customer")]
+        public async Task<IActionResult> getlistorderbyuserid()
+        {
+            var list = await _serviceFactory.GetOrderService().GetOrdersByUserId(HttpContext.User);
+            return Ok(list);
         }
 
         [HttpGet("{id}"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
@@ -63,10 +72,22 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Manager")]
-        public async Task<IActionResult> DeleteOrder([FromRoute]Guid id)
+        public async Task<IActionResult> DeleteOrder([FromRoute] Guid id)
         {
             var result = await _serviceFactory.GetOrderService().DeleteOrder(id);
             return result ? Ok("Delete Success") : BadRequest("Delete Failed");
+        }
+
+        [HttpGet("statistic")]
+        public async Task<IActionResult> GetOrderStatistics(int month = 0)
+        {
+            return Ok(await _serviceFactory.GetOrderService().GetOrderStatisticsAsync(month));
+        }
+
+        [HttpGet("dashboard-stats")]
+        public async Task<IActionResult> GetDashboardStats()
+        {
+            return Ok(await _serviceFactory.GetOrderService().getDashBoardStats());
         }
     }
 }

@@ -4,21 +4,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using DiamondShop.DataAccess.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace DiamondShop.DataAccess.DTOs.Diamond
 {
     public class UpdateDiamondDto
     {
-        public string? Name { get; set; }
-
         [EnumDataType(typeof(DiamondColor))]
         public string? Color { get; set; }
-        
+        [EnumDataType(typeof(DiamondShape))]
+        public string? Shape { get; set; }
+        [EnumDataType(typeof(DiamondOrigin))]
         public string? Origin { get; set; }
 
         public string? CaratWeight { get; set; }
 
-        [EnumDataType(typeof(DiamondClarity))]  
+        [EnumDataType(typeof(DiamondClarity))]
         public string? Clarity { get; set; }
 
         [EnumDataType(typeof(DiamondCut))]
@@ -31,5 +32,7 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public int? WarrantyPeriod { get; set; }
 
         public string? Status { get; set; }
+        
+        public List<IFormFile> DiamondImages { get; set; } = [];
     }
 }

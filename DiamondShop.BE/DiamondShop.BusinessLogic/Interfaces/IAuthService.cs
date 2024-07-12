@@ -15,6 +15,10 @@ namespace DiamondShop.BusinessLogic.Interfaces
 
         Task Register(RegisterDto registerDto);
 
-        Task<GetAccountDto> GetAccountInfoByClaims(ClaimsPrincipal claims);
+        Task<GetAccountDetailDto> GetAccountInfoByClaims(ClaimsPrincipal claims);
+        Task CreateAccount(CreateAccountDto createAccountDto);
+        
+        //Task UpdateStakeholderAccount()
+        Task UpdatePassword(Guid id, UpdatePasswordDto updatePasswordDto);
     }
 }

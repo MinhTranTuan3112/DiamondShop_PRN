@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.DTOs.Certificate;
 using DiamondShop.DataAccess.DTOs.Certification;
 using DiamondShop.DataAccess.DTOs.Picture;
 using DiamondShop.DataAccess.DTOs.ProductPart;
@@ -11,8 +12,8 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
     public class GetDiamondDetailsDto
     {
         public Guid Id { get; set; }
-
-        public string? Name { get; set; }
+        
+        public string? Shape { get; set; }
 
         public string? Color { get; set; }
 
@@ -33,8 +34,7 @@ namespace DiamondShop.DataAccess.DTOs.Diamond
         public DateTime? LastUpdate { get; set; }
 
         public string? Status { get; set; }
-
-        public ICollection<GetCertificationDto> Certifications { get; set; } = [];
+        public GetCertificateDetailDto? Certificate { get; set; }
 
         public ICollection<GetPictureDto> Pictures { get; set; } = [];
 

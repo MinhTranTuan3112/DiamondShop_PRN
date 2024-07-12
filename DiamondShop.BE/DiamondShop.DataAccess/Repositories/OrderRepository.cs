@@ -36,6 +36,7 @@ namespace DiamondShop.DataAccess.Repositories
                 .AsSplitQuery()
                 .AsQueryable();
 
+            query = query.Where(o => o.Status != "Deleted");
             // Apply search
             if (input.SalesStaffId != Guid.Empty)
             {

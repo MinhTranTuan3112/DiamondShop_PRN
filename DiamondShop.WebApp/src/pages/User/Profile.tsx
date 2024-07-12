@@ -1,12 +1,14 @@
-import Avatar from "../../assets/img/Anhcuatoi.jpg";
+import Avatar from "../../assets/img/Anhcuatoi.png";
 import "./style.css";
 import { FaUser } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 import { MdOutlineMail } from "react-icons/md";
 import { LuPhone } from "react-icons/lu";
 import { CiLocationOn } from "react-icons/ci";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
+import { Link } from "react-router-dom";
 
 const User = {
   name: "Phuc Le",
@@ -39,58 +41,28 @@ export default function Profile() {
             <h3 className="profile-menu-title">Manage Account</h3>
             <ul className="menu-list">
               <li>
-                <a href="" className="profile-menu-link">
+                <Link to={"/user"} className="profile-menu-link">
                   <span className="profile-menu-icon">
                     <FaUser />
                   </span>
                   Personal Info
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="" className="profile-menu-link">
+                <Link to={"/checkout"} className="profile-menu-link">
                   <span className="profile-menu-icon">
-                    <FaUser />
+                    <FaCartShopping />
                   </span>
-                  Addresses
-                </a>
+                  Cart
+                </Link>
               </li>
               <li>
-                <a href="" className="profile-menu-link">
-                  <span className="profile-menu-icon">
-                    <FaUser />
-                  </span>
-                  Personal Info
-                </a>
-              </li>
-            </ul>
-          </div>
-          {/* Menu 2*/}
-          <div className="profile-menu">
-            <h3 className="profile-menu-title">My items</h3>
-            <ul className="menu-list">
-              <li>
-                <a href="" className="profile-menu-link">
+                <Link to={""} className="profile-menu-link">
                   <span className="profile-menu-icon">
                     <FaUser />
                   </span>
                   Personal Info
-                </a>
-              </li>
-              <li>
-                <a href="" className="profile-menu-link">
-                  <span className="profile-menu-icon">
-                    <FaUser />
-                  </span>
-                  Personal Info
-                </a>
-              </li>
-              <li>
-                <a href="" className="profile-menu-link">
-                  <span className="profile-menu-icon">
-                    <FaUser />
-                  </span>
-                  Personal Info
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

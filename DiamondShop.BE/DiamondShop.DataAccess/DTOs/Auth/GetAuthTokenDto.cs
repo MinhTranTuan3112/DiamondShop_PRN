@@ -8,5 +8,7 @@ namespace DiamondShop.DataAccess.DTOs.Auth
     public class GetAuthTokenDto
     {
         public required string AccessToken { get; set; }
+
+        public required DateTime ExpireIn { get; set; }
     }
 }

@@ -30,20 +30,71 @@ namespace DiamondShop.BusinessLogic.Services
             _configuration = configuration;
         }
 
-        public async Task<GetAccountDto> GetAccountInfoByClaims(ClaimsPrincipal claims)
+        public async Task<GetAccountDetailDto> GetAccountInfoByClaims(ClaimsPrincipal claims)
         {
             var accountId = claims.GetAccountId();
 
-            var account = await _unitOfWork.GetAccountRepository().FindOneAsync(a => a.Id == accountId);
+            var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(accountId);
 
             if (account is null)
             {
                 throw new UnauthorizedException("Unauthorized");
             }
 
-            return account.Adapt<GetAccountDto>();
+            return account.Adapt<GetAccountDetailDto>();
 
         }
+
+        public async Task CreateAccount(CreateAccountDto createAccountDto)
+        {
+            createAccountDto.Password = HashPassword(createAccountDto.Password);
+            var account = await _unitOfWork.GetAccountRepository().AddAsync(createAccountDto.Adapt<Account>());
+            await _unitOfWork.SaveChangesAsync();
+
+            switch (account.Role)
+            {
+                case nameof(Role.Customer):
+                    await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
+                    {
+                        AccountId = account.Id,
+                        Fullname = createAccountDto.FullName
+                    });
+                    break;
+                case nameof(Role.Manager):
+                case nameof(Role.Admin):
+                case nameof(Role.DeliveryStaff):
+                case nameof(Role.SalesStaff):
+                    await _unitOfWork.GetStakeHolderRepository().AddAsync(new StakeHolder
+                    {
+                        AccountId = account.Id,
+                        Fullname = createAccountDto.FullName
+                    });
+                    break;
+            } 
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        
+
+        public async Task UpdatePassword(Guid id, UpdatePasswordDto updatePasswordDto)
+        {
+            var account = await _unitOfWork.GetAccountRepository().FindOneAsync(x => x.Id == id);
+            if (account is null)
+            {
+                throw new NotFoundException("Account is not existed");
+            }
+            if (HashPassword(updatePasswordDto.CurrentPassword) != account.Password)
+            {
+                throw new UnauthorizedException("Current password is not correct");
+            }
+            if (updatePasswordDto.RetypeNewPassword != updatePasswordDto.NewPassword)
+            {
+                throw new BadRequestException("Retype password does not match new password");
+            }
+            account.Password = HashPassword(updatePasswordDto.NewPassword);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
 
         public async Task<GetAuthTokenDto> Login(LoginDto loginDto)
         {
@@ -55,14 +106,10 @@ namespace DiamondShop.BusinessLogic.Services
                 throw new UnauthorizedException("Wrong email or password");
             }
 
-            return new GetAuthTokenDto
-            {
-                AccessToken = GenerateAccessToken(account.Id, account.Role)
-            };
-
+            return GenerateAccessToken(account.Id, account.Role);
         }
 
-        private string GenerateAccessToken(Guid accountId, string role)
+        private GetAuthTokenDto GenerateAccessToken(Guid accountId, string role)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtAuth:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -72,15 +119,21 @@ namespace DiamondShop.BusinessLogic.Services
                 new("aid", accountId.ToString())
             };
 
+            var expireTime = DateTime.Now.AddDays(7);
+
             var token = new JwtSecurityToken(
               issuer: _configuration["JwtAuth:Issuer"],
               audience: _configuration["JwtAuth:Audience"],
               claims: claims,
-              expires: DateTime.Now.AddDays(7),
+              expires: expireTime,
               signingCredentials: credentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new GetAuthTokenDto
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpireIn = expireTime
+            };
         }
 
         private string HashPassword(string password)
@@ -103,25 +156,37 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task Register(RegisterDto registerDto)
         {
+            var accountDb = await _unitOfWork.GetAccountRepository().FindOneAsync(x => x.Email == registerDto.Email);
+            if (accountDb is not null)
+            {
+                throw new BadRequestException("Email is already existed");
+            }
             registerDto.Password = HashPassword(registerDto.Password);
             var account = await _unitOfWork.GetAccountRepository().AddAsync(registerDto.Adapt<Account>());
+            account.Role = Role.Customer.ToString();
+            
             await _unitOfWork.SaveChangesAsync();
-
-            switch (account.Role)
+            await _unitOfWork.GetCustomerRepository().AddAsync(new Customer()
             {
-                case var role when role == Role.Customer.ToString():
-                    await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
-                    {
-                        AccountId = account.Id,
-                        Fullname = string.Empty
-                    });
-
-                    await _unitOfWork.SaveChangesAsync();
-                    break;
-                default:
-                    throw new BadRequestException("Invalid role or this role is not supported yet.");
-
-            }
+                AccountId = account.Id,
+                Fullname = registerDto.Fullname
+            });
+            await _unitOfWork.SaveChangesAsync();
+            // switch (account.Role)
+            // {
+            //     case var role when role == Role.Customer.ToString():
+            //         await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
+            //         {
+            //             AccountId = account.Id,
+            //             Fullname = string.Empty
+            //         });
+            //
+            //         await _unitOfWork.SaveChangesAsync();
+            //         break;
+            //     default:
+            //         throw new BadRequestException("Invalid role or this role is not supported yet.");
+            //
+            // }
         }
     }
 }

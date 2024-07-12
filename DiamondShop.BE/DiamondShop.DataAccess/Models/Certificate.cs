@@ -1,4 +1,4 @@
-﻿namespace DiamondShop.DataAccess.Models;
+namespace DiamondShop.DataAccess.Models;
 
 public partial class Certificate
 {

@@ -28,17 +28,26 @@ namespace DiamondShop.DataAccess.Repositories
             return await _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
                                          .Include(d => d.ProductParts)
+                                         .Include(d => d.Certificate)
                                          .AsSplitQuery()
+                                         .SingleOrDefaultAsync(d => d.Id == id);
+        }
+
+        public async Task<Diamond?> GetDiamondWithPicturesById(Guid id)
+        {
+            return await _context.Diamonds.Include(d => d.Pictures)
+                                          .Include(d => d.Certificate)
                                          .SingleOrDefaultAsync(d => d.Id == id);
         }
 
         public async Task<PagedResult<Diamond>> GetPagedDiamonds(QueryDiamondDto queryDiamondDto)
         {
             var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDto.QueryDto;
-            var query =  _context.Diamonds.AsNoTracking()
+            var query = _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
                                          .AsSplitQuery()
                                          .AsQueryable();
+            query = query.Where(d => d.Status != "Deleted");
             query = query.ApplyDiamondsFilter(queryDiamondDto);
             query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy))
                                 : query.OrderBy(GetSortProperty(sortBy));

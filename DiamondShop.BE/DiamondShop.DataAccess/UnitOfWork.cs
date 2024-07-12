@@ -19,6 +19,9 @@ namespace DiamondShop.DataAccess
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<IProductPartRepository> _productPartRepository;
         private readonly Lazy<IWarrantyRepository> _warrantyRepository;
+        private readonly Lazy<IPictureRepository> _pictureRepository;
+        private readonly Lazy<IStakeHolderRepository> _stakeHolderRepository;
+        private readonly Lazy<ICertificateRepository> _certificateRepository;
         public UnitOfWork(FlashyCarbonDbContext context)
         {
             _context = context;
@@ -31,6 +34,9 @@ namespace DiamondShop.DataAccess
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
             _productPartRepository = new Lazy<IProductPartRepository>(() => new ProductPartRepository(context));
             _warrantyRepository = new Lazy<IWarrantyRepository>(() => new WarrantyRepository(context));
+            _pictureRepository = new Lazy<IPictureRepository>(() => new PictureRepository(context));
+            _stakeHolderRepository = new Lazy<IStakeHolderRepository>(() => new StakeHolderRepository(context));
+            _certificateRepository = new Lazy<ICertificateRepository>(() => new CertificateRepository(context));
         }
 
         public IAccountRepository GetAccountRepository()
@@ -61,6 +67,21 @@ namespace DiamondShop.DataAccess
         public IOrderRepository GetOrderRepository()
         {
             return _orderRepository.Value;
+        }
+
+        public IPictureRepository GetPictureRepository()
+        {
+            return _pictureRepository.Value;
+        }
+
+        public IStakeHolderRepository GetStakeHolderRepository()
+        {
+            return _stakeHolderRepository.Value;
+        }
+
+        public ICertificateRepository GetCertificateRepository()
+        {
+            return _certificateRepository.Value;
         }
 
         public IProductPartRepository GetProductPartRepository()

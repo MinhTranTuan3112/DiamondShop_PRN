@@ -15,5 +15,11 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IOrderDetailService GetOrderDetailService();
 
         IWarrantyService GetWarrantyService();
+        IFirebaseStorageService GetFirebaseStorageService();
+        IProductPartService GetProductPartService();
+
+        IPictureService GetPictureService();
+        IAccountService GetAccountService();
+        ICertificateService GetCertificateService();
     }
 }
