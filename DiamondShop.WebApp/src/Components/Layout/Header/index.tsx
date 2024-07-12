@@ -52,8 +52,6 @@ export default function Header() {
   const { authAccount, logout } = useAuth();
   const [isActive, setIsActive] = useState("");
 
-  console.log(authAccount);
-
   return (
     <header className="header fixed">
       <div className="top-bar">

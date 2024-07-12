@@ -80,3 +80,9 @@ export const fetchDataForMonthLineChat = async (month:number) => {
   const data = await response.json();
   return data;
 };
+
+export const fetchCategories = async () => {
+  const response = await fetch(`${BASE_URL}/Categories`);
+  const data = response.json();
+  return data;
+}
