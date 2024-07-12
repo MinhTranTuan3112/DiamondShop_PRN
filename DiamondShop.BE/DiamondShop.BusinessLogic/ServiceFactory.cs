@@ -20,7 +20,6 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IOrderDetailService> _orderDetailService;
         private readonly Lazy<IWarrantyService> _warrantyService;
-        public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration)
         private readonly Lazy<IFirebaseStorageService> _firebaseStorageService;
         private readonly Lazy<IPictureService> _pictureService;
         private readonly Lazy<IProductPartService> _productPartService;
