@@ -33,6 +33,7 @@ namespace DiamondShop.DataAccess.Extensions
             var name = queryProductDto.Name;
             var material = queryProductDto.Material;
             var diamondIds = queryProductDto.DiamondIds;
+            var types = queryProductDto.Types;
 
             if (startPrice < endPrice)
             {
@@ -48,6 +49,7 @@ namespace DiamondShop.DataAccess.Extensions
             {
                 query = query.Where(p => !string.IsNullOrEmpty(p.Material) && p.Material.ToLower().Contains(material.ToLower()));
             }
+
             if (!string.IsNullOrEmpty(name))
             {
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
@@ -62,7 +64,12 @@ namespace DiamondShop.DataAccess.Extensions
             {
                 query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(queryProductDto.Name.ToLower()));
             }
-            
+
+            if (types is not [])
+            {
+                query = query.Where(p => types.Contains(p.Type));
+            }
+
             return query;
         }
         public static IQueryable<Diamond> ApplyDiamondsFilter(this IQueryable<Diamond> query, QueryDiamondDto queryDiamondDto)

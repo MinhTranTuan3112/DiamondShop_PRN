@@ -26,6 +26,17 @@
     return data;
   };
 
+  export const deleteObject = async(object: string,objectId: string) => {
+    const response = await fetch(`${BASE_URL}/${object}/${objectId}/2`, {
+      method: 'PUT'
+    });
+    if (response.status === 204) {
+      return;
+    } else {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+  };
+
   export const fetchDiamonds = async (search: string, page: number, rowsPerPage: number, sortColumn: string, orderByDesc: boolean) => {
     const response = await fetch(
       `${BASE_URL}/Diamonds?QueryDto.PageNumber=${page}&QueryDto.PageSize=${rowsPerPage}&QueryDto.SortBy=${sortColumn}&QueryDto.OrderByDesc=${orderByDesc}&Name=${search}`
@@ -35,6 +46,9 @@
     }
     return response.json();
   };
+
+  
+
 
 // Mock API Client
 export interface DashboardStats {

@@ -1,4 +1,6 @@
-import Avatar from "../../assets/img/Anhcuatoi.png";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Userimg from "../../assets/img/non-user.png";
 import "./style.css";
 import { FaUser } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
@@ -9,17 +11,37 @@ import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
 import { Link } from "react-router-dom";
-
-const User = {
-  name: "Phuc Le",
-  email: "tarek97.ta@gmail.com",
-  phone: "+000 11122 2345 657",
-  DOB: "11-11-2002",
-  Address: "Bangladesh Embassy, Washington, DC 20008",
-  registed: "11-11-2002",
-};
+import { FaInbox } from "react-icons/fa";
+import { fetchWhoAmI } from "../../services/auth_service";
+import useAuth from "../../hooks/useAuth";
+import { User } from "../../types/User";
 
 export default function Profile() {
+  const { accessToken } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken === null) {
+      window.location.href = "/login";
+    } else {
+      const handlefetch = async () => {
+        const response = await fetchWhoAmI(accessToken);
+        if (response.ok) {
+          const data: User = await response.json();
+          setUser(data);
+        } else {
+          navigate("/login");
+        }
+      };
+      handlefetch();
+    }
+  }, [accessToken, navigate]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Header />
@@ -28,13 +50,18 @@ export default function Profile() {
           {/* User */}
           <div className="profile-user">
             <img
-              src={Avatar}
+              src={user.avatarUrl ? user.avatarUrl : Userimg}
               alt="avatar"
               className="profile-user-avatar"
               style={{}}
             />
-            <h1 className="profile-user-name">{User.name}</h1>
-            <p className="profile-user-desc">Ngày đăng ký: {User.registed}</p>
+            <h1 className="profile-user-name">{user.customer.fullname}</h1>
+            <p className="profile-user-desc">
+              Ngày đăng ký:{" "}
+              {user.timeStamp
+                ? new Date(user.timeStamp).toLocaleDateString()
+                : "N/A"}
+            </p>
           </div>
           {/* Menu 1*/}
           <div className="profile-menu">
@@ -57,11 +84,11 @@ export default function Profile() {
                 </Link>
               </li>
               <li>
-                <Link to={""} className="profile-menu-link">
+                <Link to={"/order"} className="profile-menu-link">
                   <span className="profile-menu-icon">
-                    <FaUser />
+                    <FaInbox />
                   </span>
-                  Personal Info
+                  Order
                 </Link>
               </li>
             </ul>
@@ -83,7 +110,7 @@ export default function Profile() {
               </span>
               <div className="account-info-detail">
                 <h3 className="account-info-heading">Email</h3>
-                <p className="account-info-desc">{User.email}</p>
+                <p className="account-info-desc">{user.email}</p>
               </div>
             </div>
             <div className="account-info">
@@ -92,7 +119,7 @@ export default function Profile() {
               </span>
               <div className="account-info-detail">
                 <h3 className="account-info-heading">Số điện thoại</h3>
-                <p className="account-info-desc">{User.phone}</p>
+                <p className="account-info-desc">{user.customer.phoneNumber}</p>
               </div>
             </div>
             <div className="account-info">
@@ -100,8 +127,8 @@ export default function Profile() {
                 <LiaBirthdayCakeSolid />
               </span>
               <div className="account-info-detail">
-                <h3 className="account-info-heading">Ngày sinh</h3>
-                <p className="account-info-desc">{User.DOB}</p>
+                <h3 className="account-info-heading">Điểm</h3>
+                <p className="account-info-desc">{user.customer.point}</p>
               </div>
             </div>
             <div className="account-info">
@@ -110,7 +137,9 @@ export default function Profile() {
               </span>
               <div className="account-info-detail">
                 <h3 className="account-info-heading">Địa chỉ</h3>
-                <p className="account-info-desc">{User.Address}</p>
+                <p className="account-info-desc">
+                  {user.customer.address || "N/A"}
+                </p>
               </div>
             </div>
           </div>

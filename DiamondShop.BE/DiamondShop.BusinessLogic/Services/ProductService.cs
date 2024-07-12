@@ -7,6 +7,7 @@ using Mapster;
 using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.DataAccess.Enums;
+
 namespace DiamondShop.BusinessLogic.Services
 {
     public class ProductService : IProductService
@@ -147,6 +148,11 @@ namespace DiamondShop.BusinessLogic.Services
             }
 
             return (await _unitOfWork.GetProductRepository().GetPagedProducts(queryProductDto)).Adapt<PagedResult<GetProductInPagedResultDto>>();
+        }
+
+        public List<string> GetProductTypes()
+        {
+            return [.. Enum.GetNames(typeof(ProductType))];
         }
     }
 }    

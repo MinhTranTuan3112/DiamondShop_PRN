@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts } from "./APIClient";
+import { fetchProducts, deleteObject } from "./APIClient";
 import { Empty } from "antd";
 import ProductModal from "./Modal/ProductModal";
 
@@ -143,6 +143,18 @@ const ProductManagement: React.FC = () => {
   };
 
   const handleSaveProduct = () => {};
+
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      await deleteObject("Products", productId);
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product.id !== productId)
+      );
+      setTotalProducts(totalProducts - 1);
+    } catch (error) {
+      console.error("Lỗi khi xóa sản phẩm:", error);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -321,7 +333,10 @@ const ProductManagement: React.FC = () => {
                     >
                       <EditIcon />
                     </IconButton>
-                    <IconButton style={{ color: "orangered" }}>
+                    <IconButton
+                      style={{ color: "orangered" }}
+                      onClick={() => handleDeleteProduct(product.id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

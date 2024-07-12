@@ -24,7 +24,8 @@ export const fetchPagedProducts = async (pageNumber: number = 1, pageSize: numbe
   sortColumn: string = "id", orderByDesc: boolean = false,
   startPrice: number | null = null,
   endPrice: number | null = null,
-  name: string = '') => {
+  name: string = '',
+  types: string[] = []) => {
     
   try {
     let url = `/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&orderByDesc=${orderByDesc}`;
@@ -39,6 +40,12 @@ export const fetchPagedProducts = async (pageNumber: number = 1, pageSize: numbe
 
     if (endPrice) {
       url += `&endPrice=${endPrice}`;
+    }
+
+    if (types && types.length > 0) {
+      types.forEach(type => {
+        url += `&types=${type}`;
+      });
     }
 
     console.log(`Fetching paged products from: ${url}`);
@@ -58,3 +65,11 @@ export const fetchPagedProducts = async (pageNumber: number = 1, pageSize: numbe
     return null;
   }
 }
+
+export const fetchProductTypes = async () => {
+  const response = await customFetch({
+    endpointPath: '/products/types',
+  });
+
+  return await response.json();
+};

@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./LoginForm.css";
 import { fetchLogin } from "../../../services/auth_service";
 import useAuth from "../../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -10,6 +11,8 @@ const LoginForm = () => {
   });
 
   const { setAccessToken, setExpirationDate } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,6 +23,7 @@ const LoginForm = () => {
       console.log(data);
       setAccessToken(data.accessToken);
       setExpirationDate(new Date(data.expireIn));
+      navigate("/");
     }
   };
 
@@ -31,6 +35,7 @@ const LoginForm = () => {
           className="w-[40%] p-5 shadow-lg rounded-lg"
           onSubmit={handleFormSubmit}
           method="POST"
+          style={{ width: "500px", background: "#FFD700" }}
         >
           <h1 className="text-4xl font-bold text-center mb-10">Đăng nhập</h1>
           <div className="w-[52%] inline-center">
