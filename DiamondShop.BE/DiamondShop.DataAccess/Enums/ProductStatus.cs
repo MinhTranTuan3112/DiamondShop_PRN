@@ -3,6 +3,6 @@
 public enum ProductStatus
 {
     Available,
-    Unavailable,
+    OutOfStock,
     Deleted
 }

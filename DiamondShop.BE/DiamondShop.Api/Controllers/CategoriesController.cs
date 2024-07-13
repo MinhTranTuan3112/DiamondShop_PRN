@@ -2,6 +2,7 @@
 using DiamondShop.DataAccess.DTOs.Category;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,17 +38,17 @@ namespace DiamondShop.Api.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> DeleteCategory(Guid id)
-        {
-            await _serviceFactory.GetCategoryService().DeleteCategory(id);
-            return NoContent();
-        }
-
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<GetCategoryDto>> GetCategoryById(Guid id)
         {
             return await _serviceFactory.GetCategoryService().GetCategoryById(id);
+        }
+        
+        [HttpPut("{categoryId:guid}/{status}")]
+        public async Task<ActionResult> ChangeStatusCategory(Guid categoryId, CategoryStatus status)
+        {
+            await _serviceFactory.GetCategoryService().ChangStatusCategory(categoryId, status);
+            return NoContent();
         }
     }
 }

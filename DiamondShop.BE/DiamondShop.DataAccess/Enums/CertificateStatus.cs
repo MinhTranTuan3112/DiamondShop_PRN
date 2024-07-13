@@ -1,8 +1,8 @@
 ﻿namespace DiamondShop.DataAccess.Enums;
 
-public enum AccountStatus
+public enum CertificateStatus
 {
     Available,
-    Working,
+    Unavailable,
     Deleted
 }

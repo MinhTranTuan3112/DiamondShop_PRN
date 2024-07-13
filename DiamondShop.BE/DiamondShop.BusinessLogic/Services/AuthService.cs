@@ -54,6 +54,7 @@ namespace DiamondShop.BusinessLogic.Services
             switch (account.Role)
             {
                 case nameof(Role.Customer):
+                    account.Status = AccountStatus.Working.ToString().ToLower();
                     await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
                     {
                         AccountId = account.Id,

@@ -31,26 +31,33 @@ namespace DiamondShop.BusinessLogic.Services
             return category.Adapt<GetCategoryDto>();
         }
 
-        public async Task DeleteCategory(Guid id)
-        {
-            var category = await _unitOfWork.GetCategoryRepository().FindOneAsync(x => x.Id == id)
-                ?? throw new NotFoundException("Category not found");
-                
-            if (category.Status == CategoryStatus.Deleted.ToString())
-            {
-                throw new BadRequestException("Category is already deleted");
-            }
-
-            category.Status = CategoryStatus.Deleted.ToString();
-            await _unitOfWork.SaveChangesAsync();
-        }
-
         public async Task<List<GetCategoryDto>> GetAllCategories()
         {
             var categories = await _unitOfWork.GetCategoryRepository().GetAllAsync();
             return categories.Adapt<List<GetCategoryDto>>();
 
         }
+
+        public async Task ChangStatusCategory(Guid categoryId, CategoryStatus status)
+        {
+            var category = await _unitOfWork.GetCategoryRepository().FindOneAsync(x => x.Id == categoryId);
+            if (category is null)
+            {
+                throw new NotFoundException("Category not found");
+            }
+
+            category.Status = status switch
+            {
+                CategoryStatus.Available => CategoryStatus.Available.ToString().ToLower(),
+                CategoryStatus.StopSale => CategoryStatus.StopSale.ToString().ToLower(),
+                CategoryStatus.Deleted => CategoryStatus.Deleted.ToString().ToLower(),
+                _ => category.Status
+            };
+
+            category.LastUpdate = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         public async Task<GetCategoryDto> GetCategoryById(Guid id)
         {
             var category = await _unitOfWork.GetCategoryRepository().FindOneAsync(x => x.Id == id)
