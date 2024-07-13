@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,10 @@ namespace DiamondShop.Api.Controllers
             _serviceFactory = serviceFactory;
         }
 
-        [HttpGet("customer-orders"), Authorize(Roles = "Customer")]
-        public async Task<IActionResult> getlistorderbyuserid()
+        [HttpGet("customer-orders/{status}"), Authorize(Roles = "Customer")]
+        public async Task<IActionResult> GetOrdersOfCustomer([FromRoute] OrderStatus status)
         {
-            var list = await _serviceFactory.GetOrderService().GetOrdersByUserId(HttpContext.User);
-            return Ok(list);
+            return Ok(await _serviceFactory.GetOrderService().GetOrdersByStatus(HttpContext.User, status));
         }
 
         [HttpGet("{id}"), Authorize(Roles = "Manager, SalesStaff, DeliveryStaff, Customer")]
