@@ -18,8 +18,8 @@ namespace DiamondShop.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPromotions(int pageIndex = 1, int pageSize = 10, string searchString = "", DateTime expireDate = new DateTime())
         {
-            var (data, count) = await _serviceFactory.GetPromotionService().GetPromotions(pageIndex, pageSize, searchString, expireDate);
-            return Ok(new { data, count });
+            var (data, totalPage) = await _serviceFactory.GetPromotionService().GetPromotions(pageIndex, pageSize, searchString, expireDate);
+            return Ok(new { data, totalPage });
         }
 
 
