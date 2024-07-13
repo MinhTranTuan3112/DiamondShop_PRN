@@ -7,15 +7,15 @@ type Props = {
 };
 
 const AuthorizedRoute = ({ role, redirectPath }: Props) => {
-    const { authAccount, isTokenExpired, isLoading, isError } = useAuth();
+    const { authAccount, isTokenExpired } = useAuth();
 
-    if (isLoading) {
-        return null;
-    }
+    // if (isLoading) {
+    //     return null;
+    // }
 
-    if (isError) {
-        return <div className="text-red-600">Error</div>
-    }
+    // if (isError) {
+    //     return <div className="text-red-600">Error</div>
+    // }
 
     const isAuthorized: boolean = (!!authAccount && authAccount.role.toLowerCase() === role.toLowerCase());
 

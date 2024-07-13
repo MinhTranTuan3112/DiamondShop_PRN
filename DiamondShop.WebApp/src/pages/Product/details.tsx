@@ -5,8 +5,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { fetchProductDetails } from "../../services/product_service";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { formatPrice } from "../../utils/priceUtils";
+import { useEffect, useState } from "react";
+import { formatPrice, getRingSizePrice } from "../../utils/priceUtils";
+import Swal from 'sweetalert2'
+import { AddToCartRequest } from "../../types/addToCartRequest";
+import { fetchAddToCart } from "../../services/order_service";
+import useAuth from "../../hooks/useAuth";
+import { ProductType } from "../../enums/ProductType";
+import useLocalStorage from "../../hooks/useLocalStorage";
+
 type Props = {};
 
 const fetchData = async (id: string) => {
