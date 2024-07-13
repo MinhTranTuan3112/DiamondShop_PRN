@@ -127,7 +127,7 @@ insert into [Product]([Name], [Type], Material, Gender, Price, Point, WarrantyPe
 	('Female Ring Gold 14K Arternos 1CT', 'Ring', 'White Gold', 0, 79505000, 795050, 15, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Grandeur 5C', 'Ring', 'White Gold', 0, 48201000, 482010, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Grandeur 1CT', 'Ring', 'White Gold', 0, 62855000, 628550, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	('Female Ring Gold 14K Amalia N 5C', 'Ring', 'White Gold', 0, 30894000, 308940, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Female Ring Gold 14K Amalia N 5C', 'Ring', 'Platinum', 0, 30894000, 308940, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Amalia N 1CT', 'Ring', 'White Gold', 0, 61959000, 619590, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Abby DN 5C', 'Ring', 'White Gold', 0, 33287000, 332870, 13, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Female Ring Gold 14K Abby DN 3C', 'Ring', 'White Gold', 0, 89965000, 899650, 11, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
@@ -184,8 +184,8 @@ insert into [Product]([Name], [Type], Material, Price, Point, WarrantyPeriod, Ca
 -- Bracelets
 	('Bracelet Gold 14K Dacing S 1CT', 'Bracelet', 'White Gold', 77084000, 770840, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
 	('Bracelet Gold 14K Lucky U S 2C', 'Bracelet', 'White Gold', 6351000, 63510, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	('Bracelet Gold 14K Benicia N 5C', 'Bracelet', 'White Gold', 89954000, 899540, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
-	('Bracelet Gold 14K Gerberas 1CT', 'Bracelet', 'White Gold', 42937000, 429370, 12, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
+	('Bracelet Gold 14K Dacing N 5C', 'Bracelet', 'White Gold', 45555000, 455550, 18, (select Id from [Category] where [Name] = 'Diamond Jewelry')),
+	('Bracelet Gold 14K Lucky 1CT', 'Bracelet', 'White Gold', 3351000, 33510, 10, (select Id from [Category] where [Name] = 'Diamond Jewelry'));
 go
 
 --==============================[ CERTIFICATE ]==============================
@@ -485,9 +485,90 @@ go
 	insert into [ProductPart](IsMain, Point, ProductId, DiamondId) select 0, dia.Point + (pro.Point / 5), pro.Id, dia.Id from (select top 1 Id, Point from [Diamond] order by newid()) dia, [Product] pro where pro.[Name] = 'Bracelet Gold 14K Dacing S 1CT' and pro.[Type] = 'Bracelet' and pro.Price = 77084000;
 go
 
+--==============================[ PROMOTION ]==============================
+insert into [Promotion]([Name],[Description],ExpiredDate,DiscountPercent, [Status]) values
+	(N'Khuyến mãi mùa hè',						N'Giảm 20% cho tất cả sản phẩm', '2024-08-31', 20, 'available'),
+	(N'Ưu đãi sinh nhật',						N'Giảm 30% cho khách hàng khi mua sản phẩm trong ngày sinh nhật', '2024-09-15', 30, 'available'),
+	(N'Giảm giá cuối năm',						N'Giảm 15% cho tất cả sản phẩm', '2024-12-31', 15, 'available'),
+	(N'Khuyến mãi Tết',							N'Giảm 25% cho tất cả sản phẩm', '2025-01-31', 25, 'available'),
+	(N'Giảm giá đặc biệt',						N'Giảm 35% cho các sản phẩm được chọn', '2024-07-31', 35, 'available'),
+	(N'Ưu đãi mua 1 tặng 1',					N'Mua 1 sản phẩm tặng 1 sản phẩm', '2024-10-15', 50, 'available'),
+	(N'Khuyến mãi khai trương',					N'Giảm 40% cho tất cả sản phẩm', '2024-08-01', 40, 'available'),
+	(N'Giảm giá dịp lễ',						N'Giảm 20% cho tất cả sản phẩm', '2024-11-30', 20, 'available'),
+	(N'Ưu đãi mùa cưới',						N'Giảm 25% cho sản phẩm trang sức cưới', '2025-02-28', 25, 'available'),
+	(N'Khuyến mãi ngày phụ nữ',					N'Giảm 30% cho tất cả sản phẩm', '2024-03-08', 30, 'collected'),
+	(N'Khuyến mãi Valentine',					N'Giảm 35% cho sản phẩm trang sức đôi', '2025-02-14', 35, 'available'),
+	(N'Khuyến mãi Ngày Quốc tế Lao động',		N'Giảm 15% cho tất cả sản phẩm', '2025-05-01', 15, 'available'),
+	(N'Ưu đãi sinh nhật cửa hàng',				N'Giảm 40% cho tất cả sản phẩm', '2024-07-01', 40, 'collected'),
+	(N'Khuyến mãi mùa thu',						N'Giảm 20% cho tất cả sản phẩm', '2024-10-31', 20, 'available'),
+	(N'Ưu đãi ngày Phụ nữ Việt Nam',			N'Giảm 30% cho trang sức nữ', '2024-10-20', 30, 'available'),
+	(N'Khuyến mãi Giáng sinh',					N'Giảm 25% cho tất cả sản phẩm', '2024-12-25', 25, 'available'),
+	(N'Ưu đãi năm mới',							N'Giảm 35% cho trang sức chào năm mới', '2025-01-15', 35, 'available'),
+	(N'Khuyến mãi Valentine dành cho cặp đôi',	N'Giảm 40% cho trang sức cặp đôi', '2025-02-14', 40, 'available'),
+	(N'Ưu đãi Ngày Gia đình Việt Nam',			N'Giảg 20% cho trang sức gia đình', '2024-06-28', 20, 'collected'),
+	(N'Khuyến mãi Quốc khánh',					N'Giảm 25% cho tất cả sản phẩm', '2024-09-02', 25, 'available'),
+	(N'Ưu đãi Tháng Phụ nữ',					N'Giảm 30% cho trang sức nữ', '2024-03-31', 30, 'collected'),
+	(N'Khuyến mãi mùa lễ hội',					N'Giảm 35% cho trang sức đá quý', '2025-01-01', 35, 'available'),
+	(N'Ưu đãi mua 2 tặng 1',					N'Mua 2 sản phẩm tặng 1 sản phẩm', '2024-11-15', 33, 'available'),
+	(N'Khuyến mãi học sinh, sinh viên',			N'Giảm 15% cho tất cả sản phẩm', '2024-09-30', 15, 'available'),
+	(N'Ưu đãi Ngày Doanh nhân Việt Nam',		N'Giảm 20% cho trang sức doanh nhân', '2024-10-13', 20, 'available'),
+	(N'Khuyến mãi Ngày của Mẹ',					N'Giảm 25% cho trang sức nữ', '2024-05-12', 25, 'collected'),
+	(N'Ưu đãi cuối năm',						N'Giảm 35% cho tất cả sản phẩm', '2024-12-31', 35, 'available'),
+	(N'Khuyến mãi khai xuân',					N'Giảm 40% cho trang sức may mắn', '2025-02-05', 40, 'available'),
+	(N'Ưu đãi Ngày Phụ nữ Quốc tế',				N'Giảm 30% cho trang sức nữ', '2025-03-08', 30, 'available');
+go
+
+--==============================[ CUSTOMER PROMOTION ]==============================
+insert into [CustomerPromotion](PromotionId, CustomerId, CollectedDate, [Status]) values
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2023-01-01', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2023-03-21', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'phuong.tran@gmail.com'), '2023-03-27', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'phuong.tran@gmail.com'), '2023-04-15', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'), '2023-04-21', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'), '2023-05-05', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'nga.nguyen@gmail.com'), '2023-05-24', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'nga.nguyen@gmail.com'), '2023-05-24', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thanh.nguyen@gmail.com'), '2023-05-30', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thanh.nguyen@gmail.com'), '2023-06-04', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.ngo@gmail.com'), '2023-06-10', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.ngo@gmail.com'), '2023-06-29', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'duc.do@gmail.com'), '2023-07-10', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'duc.do@gmail.com'), '2023-07-16', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'bao.tran@gmail.com'), '2023-07-22', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'bao.tran@gmail.com'), '2023-08-08', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'van.truong@gmail.com'), '2023-08-13', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'van.truong@gmail.com'), '2023-08-19', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hai.ngo@gmail.com'), '2023-08-27', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hai.ngo@gmail.com'), '2023-09-04', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'bao.hoang@gmail.com'), '2023-09-10', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'bao.hoang@gmail.com'), '2023-09-16', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thuy.pham@gmail.com'), '2023-10-13', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thuy.pham@gmail.com'), '2023-10-28', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'), '2023-11-02', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'), '2023-11-07', 'collected'),
+    ((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'ha.tran@gmail.com'), '2023-11-07', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'ha.tran@gmail.com'), '2023-11-18', 'collected'),
+	((select Id from Promotion where [Name] = N'Khuyến mãi mùa hè'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'), '2023-12-03', 'collected'),
+	((select Id from Promotion where [Name] = N'Giảm giá đặc biệt'), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'), '2023-12-17', 'collected'),
+
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi khai trương' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'), '2024-01-03', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'phuong.tran@gmail.com'), '2024-03-22', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi khai trương' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'), '2024-02-02', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'), '2024-01-09', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi khai trương' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'), '2024-07-16', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'), '2024-07-20', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Ưu đãi mua 2 tặng 1' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2024-08-24', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2024-07-12', 'used'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi khai trương' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2024-07-19', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi mùa thu' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'), '2024-09-05', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thanh.nguyen@gmail.com'), '2024-03-02', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi học sinh, sinh viên' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'duc.do@gmail.com'), '2024-01-24', 'collected'),
+	((select top 1 Id from Promotion where [Name] = N'Khuyến mãi mùa thu' order by newid()), (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'duc.do@gmail.com'), '2024-02-28', 'collected');
+go
+
 --==============================[ ORDER ]==============================
 --InCart
-	insert into [Order](Code,[Status],CustomerId) values
+insert into [Order](Code,[Status],CustomerId) values
 	('ord00006', 'InCart', (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'phuong.tran@gmail.com')),
 	('ord00007', 'InCart', (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'nga.nguyen@gmail.com')),
 	('ord00008', 'InCart', (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'thanh.nguyen@gmail.com')),
@@ -510,69 +591,178 @@ go
 	('ord00025', 'InCart', (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'lan.nguyen@gmail.com'));
 go
 
-insert into [Order](Code, OrderDate, PayMethod, ShipDate, ShipAddress, Note, [Status], CustomerId, SalesStaffId, DeliveryStaffId) values
-	('ord00001','2024-6-25' , 'Cash', '2024-6-30', N'Hẻm 35 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP. HCM', N'Giao buổi tối sau 8h', 'Received',
+--Received
+insert into [Order](Code, OrderDate, PayMethod, ShipDate, ShipAddress, Note, [Status], CustomerId, SalesStaffId, DeliveryStaffId, PromotionPercent) values
+	('ord00001','2024-6-25' , N'Tiền Mặt', '2024-6-30', N'Hẻm 35 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP. HCM', N'Giao buổi tối sau 8h', 'Received',
 	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'),
 	(select top 1 cus.Id from [StakeHolder] cus join Account acc on cus.AccountId = acc.Id where acc.[Role] = 'SalesStaff' order by newid()),
-	(select top 1 cus.Id from [StakeHolder] cus join Account acc on cus.AccountId = acc.Id where acc.[Role] = 'DeliveryStaff' order by newid()));
+	(select top 1 cus.Id from [StakeHolder] cus join Account acc on cus.AccountId = acc.Id where acc.[Role] = 'DeliveryStaff' order by newid()),
+	(select DiscountPercent from Promotion where Id =(select PromotionId from CustomerPromotion where CustomerId =(select Id from Customer where AccountId =(select Id from Account where Email = 'an.nguyen@gmail.com'))and [Status] = 'used')));
 go
-	
-insert into [Order](Code, OrderDate, PayMethod, ShipAddress, Note, [Status], CustomerId) values
-	('ord00002','2024-6-25' , N'Tiền Mặt'		, N'Hẻm 35 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP. HCM', N'Giao buổi tối sau 8h', 'Pending_Confirm',
-	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'diem.le@gmail.com')),
 
-	('ord00003','2024-6-25' , N'Chuyển Khoản'	, N'92 Huỳnh Khương An, Phường 3, Tỉnh Bà Rịa Vũng Tàu', N'Giao giờ hành chính', 'Pending_Confirm',
+
+
+--Pending_Confirm
+insert into [Order](Code, OrderDate, PayMethod, ShipAddress, Note, [Status], CustomerId) values
+	('ord00002','2024-7-14' , N'Tiền Mặt'		, N'Hẻm 35 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP. HCM', N'Giao buổi tối sau 8h', 'Pending_Confirm',
+	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com')),
+
+	('ord00003','2024-7-15' , N'Chuyển Khoản'	, N'92 Huỳnh Khương An, Phường 3, Tỉnh Bà Rịa Vũng Tàu', N'Giao giờ hành chính', 'Pending_Confirm',
 	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com')),
 	
-	('ord00004','2024-6-25' , N'Chuyển Khoản'	, N'Số 11/20 Đồng Khởi, Phường Tân Hiệp, Huyện Biên Hòa, Tỉnh Đồng Nai', N'Gói hàng cẩn thận, giao tận tay', 'Pending_Confirm',
+	('ord00004','2024-7-13' , N'Chuyển Khoản'	, N'Số 11/20 Đồng Khởi, Phường Tân Hiệp, Huyện Biên Hòa, Tỉnh Đồng Nai', N'Gói hàng cẩn thận, giao tận tay', 'Pending_Confirm',
 	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com')),
 
-	('ord00005','2024-6-25' , N'Tiền Mặt'		, N'21 Bùi Thị Xuân, Phường Bến Thành, Quận 1, TP. HCM', N'Chỉ trả tiền sau khi kiểm hàng', 'Pending_Confirm',
+	('ord00005','2024-7-14' , N'Tiền Mặt'		, N'21 Bùi Thị Xuân, Phường Bến Thành, Quận 1, TP. HCM', N'Chỉ trả tiền sau khi kiểm hàng', 'Pending_Confirm',
 	(select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'));
 go
 
---insert into [OrderDetail]()
-
-insert into [Promotion]([Name],[Description],ExpiredDate,DiscountPercent, [Status]) values
-	(N'Khuyến mãi mùa hè',						N'Giảm 20% cho tất cả sản phẩm', '2024-08-31', 20, 'available'),
-	(N'Ưu đãi sinh nhật',						N'Giảm 30% cho khách hàng khi mua sản phẩm trong ngày sinh nhật', '2024-09-15', 30, 'available'),
-	(N'Giảm giá cuối năm',						N'Giảm 15% cho tất cả sản phẩm', '2024-12-31', 15, 'available'),
-	(N'Khuyến mãi Tết',							N'Giảm 25% cho tất cả sản phẩm', '2025-01-31', 25, 'available'),
-	(N'Giảm giá đặc biệt',						N'Giảm 35% cho các sản phẩm được chọn', '2024-07-31', 35, 'available'),
-	(N'Ưu đãi mua 1 tặng 1',					N'Mua 1 sản phẩm tặng 1 sản phẩm', '2024-10-15', 50, 'available'),
-	(N'Khuyến mãi khai trương',					N'Giảm 40% cho tất cả sản phẩm', '2024-08-01', 40, 'available'),
-	(N'Giảm giá dịp lễ',						N'Giảm 20% cho tất cả sản phẩm', '2024-11-30', 20, 'available'),
-	(N'Ưu đãi mùa cưới',						N'Giảm 25% cho sản phẩm trang sức cưới', '2025-02-28', 25, 'available'),
-	(N'Khuyến mãi ngày phụ nữ',					N'Giảm 30% cho tất cả sản phẩm', '2024-03-08', 30, 'expired'),
-	(N'Khuyến mãi Valentine',					N'Giảm 35% cho sản phẩm trang sức đôi', '2025-02-14', 35, 'available'),
-	(N'Khuyến mãi Ngày Quốc tế Lao động',		N'Giảm 15% cho tất cả sản phẩm', '2025-05-01', 15, 'available'),
-	(N'Ưu đãi sinh nhật cửa hàng',				N'Giảm 40% cho tất cả sản phẩm', '2024-07-01', 40, 'expired'),
-	(N'Khuyến mãi mùa thu',						N'Giảm 20% cho tất cả sản phẩm', '2024-10-31', 20, 'available'),
-	(N'Ưu đãi ngày Phụ nữ Việt Nam',			N'Giảm 30% cho trang sức nữ', '2024-10-20', 30, 'available'),
-	(N'Khuyến mãi Giáng sinh',					N'Giảm 25% cho tất cả sản phẩm', '2024-12-25', 25, 'available'),
-	(N'Ưu đãi năm mới',							N'Giảm 35% cho trang sức chào năm mới', '2025-01-15', 35, 'available'),
-	(N'Khuyến mãi Valentine dành cho cặp đôi',	N'Giảm 40% cho trang sức cặp đôi', '2025-02-14', 40, 'available'),
-	(N'Ưu đãi Ngày Gia đình Việt Nam',			N'Giảg 20% cho trang sức gia đình', '2024-06-28', 20, 'expired'),
-	(N'Khuyến mãi Quốc khánh',					N'Giảm 25% cho tất cả sản phẩm', '2024-09-02', 25, 'available'),
-	(N'Ưu đãi Tháng Phụ nữ',					N'Giảm 30% cho trang sức nữ', '2024-03-31', 30, 'expired'),
-	(N'Khuyến mãi mùa lễ hội',					N'Giảm 35% cho trang sức đá quý', '2025-01-01', 35, 'available'),
-	(N'Ưu đãi mua 2 tặng 1',					N'Mua 2 sản phẩm tặng 1 sản phẩm', '2024-11-15', 33, 'available'),
-	(N'Khuyến mãi học sinh, sinh viên',			N'Giảm 15% cho tất cả sản phẩm', '2024-09-30', 15, 'available'),
-	(N'Ưu đãi Ngày Doanh nhân Việt Nam',		N'Giảm 20% cho trang sức doanh nhân', '2024-10-13', 20, 'available'),
-	(N'Khuyến mãi Ngày của Mẹ',					N'Giảm 25% cho trang sức nữ', '2024-05-12', 25, 'expired'),
-	(N'Ưu đãi cuối năm',						N'Giảm 35% cho tất cả sản phẩm', '2024-12-31', 35, 'available'),
-	(N'Khuyến mãi khai xuân',					N'Giảm 40% cho trang sức may mắn', '2025-02-05', 40, 'available'),
-	(N'Ưu đãi Ngày Phụ nữ Quốc tế',				N'Giảm 30% cho trang sức nữ', '2025-03-08', 30, 'available');
+--==============================[ ORDER DETAIL ]==============================
+--Received
+insert into [OrderDetail](ComplexProduction, Quantity, SubTotal, OrderId, ProductId, [Status]) values
+	(1, 1,
+	((select Price  from Product where Name = 'Earring Platinum 950 Basque S 5C')) + (select sum(dia.Price) from [ProductPart] pro join [Diamond] dia on pro.DiamondId = dia.Id where pro.ProductId = (select Id from Product where [Name] = 'Earring Platinum 950 Basque S 5C')),
+	(select Id from [Order] where Code = 'ord00001' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com')),
+	(select Id from Product where [Name] = 'Earring Platinum 950 Basque S 5C'),
+	'Received');
 go
 
+update [Order] set Total = (
+	(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+		(select Id from [Order] where Code = 'ord00001' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'))
+	) - ((
+		(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+			(select Id from [Order] where Code = 'ord00001' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'))
+		)
+	* PromotionPercent)/100)
+)where Id = (select Id from [Order] where Code = 'ord00001' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'));
+go
+
+--Pending_Confirm
+insert into [OrderDetail](ComplexProduction, Quantity, SubTotal, OrderId, DiamondId, [Status]) values
+	(0, 2,
+	(select Price  from Diamond where Origin='AGS' and Shape='Triangle' and Color='J' and Clarity='VS1' and CaratWeight='0.19 carat'),
+	(select Id from [Order] where Code = 'ord00002' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com')),
+	(select Id  from Diamond where Origin='AGS' and Shape='Triangle' and Color='J' and Clarity='VS1' and CaratWeight='0.19 carat'),
+	'Pending_Confirm'),
+	
+	(0, 1,
+	(select Price  from Diamond where Origin='GIA' and Shape='Triangle' and Color='J' and Clarity='I2' and CaratWeight='0.65 carat'),
+	(select Id from [Order] where Code = 'ord00003' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com')),
+	(select Id  from Diamond where Origin='GIA' and Shape='Triangle' and Color='J' and Clarity='I2' and CaratWeight='0.65 carat'),
+	'Pending_Confirm'),
+	
+	(0, 4,
+	(select Price  from Diamond where Origin='EGL' and Shape='Square' and Color='G' and Clarity='IF' and CaratWeight='4.82 carat'),
+	(select Id from [Order] where Code = 'ord00004' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com')),
+	(select Id  from Diamond where Origin='EGL' and Shape='Square' and Color='G' and Clarity='IF' and CaratWeight='4.82 carat'),
+	'Pending_Confirm'),
+	
+	(0, 2,
+	(select Price  from Diamond where Origin='HRD' and Shape='Square' and Color='O' and Clarity='VVS2' and CaratWeight='1.01 carat'),
+	(select Id from [Order] where Code = 'ord00005' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com')),
+	(select Id from Diamond where Origin='HRD' and Shape='Square' and Color='O' and Clarity='VVS2' and CaratWeight='1.01 carat'),
+	'Pending_Confirm');
+go
+
+update [Order] set Total = (
+	(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+		(select Id from [Order] where Code = 'ord00002' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'))
+	) - ((
+		(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+			(select Id from [Order] where Code = 'ord00002' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'))
+		)
+	* PromotionPercent)/100)
+)where Id = (select Id from [Order] where Code = 'ord00002' and [Status] = 'Received' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'an.nguyen@gmail.com'));
+go
+
+update [Order] set Total = (
+	(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+		(select Id from [Order] where Code = 'ord00003' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'))
+	) - ((
+		(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+			(select Id from [Order] where Code = 'ord00003' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'))
+		)
+	* PromotionPercent)/100)
+)where Id = (select Id from [Order] where Code = 'ord00003' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'hong.le@gmail.com'));
+go
+
+update [Order] set Total = (
+	(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+		(select Id from [Order] where Code = 'ord00004' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'))
+	) - ((
+		(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+			(select Id from [Order] where Code = 'ord00004' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'))
+		)
+	* PromotionPercent)/100)
+)where Id = (select Id from [Order] where Code = 'ord00004' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'my.nguyen@gmail.com'));
+go
+
+update [Order] set Total = (
+	(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+		(select Id from [Order] where Code = 'ord00005' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'))
+	) - ((
+		(select sum(od.SubTotal* od.Quantity) from [OrderDetail] od where od.OrderId =
+			(select Id from [Order] where Code = 'ord00005' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'))
+		)
+	* PromotionPercent)/100)
+)where Id = (select Id from [Order] where Code = 'ord00005' and [Status] = 'Pending_Confirm' and CustomerId = (select cus.Id from [Customer] cus join Account acc on cus.AccountId = acc.Id where acc.Email = 'tuan.le@gmail.com'));
+go
 
 --=================[PICTURES]=================
 --Diamond
-	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/PreviewDiamond.png?alt=media', Id, null from [Diamond];
+	--Round
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/PreviewDiamond.png?alt=media', Id, null from [Diamond] where Shape ='Round';
 	go
-	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/OverViewDiamond.png?alt=media', Id, null from [Diamond];
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/OverViewDiamond.png?alt=media', Id, null from [Diamond] where Shape ='Round';
 	go
-	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/SideViewDiamond.png?alt=media', Id, null from [Diamond];
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/SideViewDiamond.png?alt=media', Id, null from [Diamond] where Shape ='Round';
+	go
+
+	--Marquise
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/MarquisePreview.png?alt=media', Id, null from [Diamond] where Shape ='Marquise';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/MarquiseLay.png?alt=media', Id, null from [Diamond] where Shape ='Marquise';
+	go
+
+	--Heart
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/HeartPreview.png?alt=media', Id, null from [Diamond] where Shape ='Heart';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Heart2.png?alt=media', Id, null from [Diamond] where Shape ='Heart';
+	go
+
+	--Octagonal
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/OctagonalPreview.png?alt=media', Id, null from [Diamond] where Shape ='Octagonal';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Octagonal2.png?alt=media', Id, null from [Diamond] where Shape ='Octagonal';
+	go
+
+	--Oval
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/OvalPreview.png?alt=media', Id, null from [Diamond] where Shape ='Oval';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Oval2.png?alt=media', Id, null from [Diamond] where Shape ='Oval';
+	go
+
+	--Pear
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Pear.png?alt=media', Id, null from [Diamond] where Shape ='Pear';
+	go
+
+	--Rectangle
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/RectanglePreview.png?alt=media', Id, null from [Diamond] where Shape ='Rectangle';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/RectanglePoor.png?alt=media', Id, null from [Diamond] where Shape ='Rectangle';
+	go
+
+	--Square
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/SquarePreview.png?alt=media', Id, null from [Diamond] where Shape ='Square';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/SquareDetail.png?alt=media', Id, null from [Diamond] where Shape ='Square';
+	go
+
+	--Triangle
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/TrianglePreview.png?alt=media', Id, null from [Diamond] where Shape ='Triangle';
+	go
+	insert into [Picture] (UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/TriangleDown.png?alt=media', Id, null from [Diamond] where Shape ='Triangle';
 	go
 
 --Clavia Rings
@@ -585,263 +775,189 @@ go
 
 
 --Caste Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Caste_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Caste_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Caste_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caste_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caste_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caste_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caste%';
+	go
+	
+	
 --Flourishing Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Flourishing_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Flourishing_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Flourishing_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Flourishing_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Flourishing%';
+	go
+	
+	
 --Bellamy Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Bellamy_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Bellamy_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Bellamy_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Bellamy_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Bellamy%';
+	go
+	
+	
 --Amalia Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Amalia_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Amalia_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Amalia_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Amalia_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Amalia_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Amalia_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Amalia%';
+	go
+	
+	
 --Arternos Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Arternos_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Arternos_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Arternos_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Arternos%';
+	go
+	
+	
 --Abby Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Arternos_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Abby_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Abby_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Abby_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Abby%';
+	go
+	
+	
 --Grandeur Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Grandeur_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Grandeur_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Grandeur_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Grandeur_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Grandeur%';
+	go
+	
+	
 --Adivity Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Adivity_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Adivity_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Female/Adivity_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Adivity_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Adivity_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Adivity_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Adivity%';
+	go
+	
 --A8 Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/A8_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/A8_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/A8_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/A8_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/A8_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/A8_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%A8%';
+	go
+	
+	
 --Aventador Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Aventador_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Aventador_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Aventador_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Aventador_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Aventador_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Aventador_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Aventador%';
+	go
+	
 --Authentic Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Authentic_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Authentic_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Authentic_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Authentic_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Authentic_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Authentic_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Authentic%';
+	go
+	
 --Caddie Rings
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Caddie_Preview.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Caddie_Stand.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId) select 'imgs/DiamondJewelry/Rings/Male/Caddie_Lay.png', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caddie_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caddie_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Caddie_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Caddie%';
+	go
+	
+	
 --Candid Rings
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Candid_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Candid_Stand.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Candid_Lay.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
-go
-
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Candid_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Candid_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Candid_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Candid%';
+	go
+	
+	
 --Pinnacle Rings
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Stand.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-select 'imgs/DiamondJewelry/Rings/Male/Pinnacle_Lay.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Pinnacle_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Pinnacle_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Pinnacle_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Ring' and [Product].[Name] like '%Pinnacle%';
+	go
+	
 --Basque Earring
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Basque_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Earring' and [Product].[Name] like '%Basque%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Basque_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Earring' and [Product].[Name] like '%Basque%';
+	go
+	
 --Canzon Earring
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Canzon_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Earring' and [Product].[Name] like '%Canzon%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Canzon_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Earring' and [Product].[Name] like '%Canzon%';
+	go
+	
 --Jasmine Earring
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Jasmine_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Earring' and [Product].[Name] like '%Jasmine%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Jasmine_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Earring' and [Product].[Name] like '%Jasmine%';
+	go
+	
 --Flowery Earring
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Flowery_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Earring' and [Product].[Name] like '%Flowery%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Flowery_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Earring' and [Product].[Name] like '%Flowery%';
+	go
+	
 --Ratline Earring
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Earrings/Ratline_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Earring' and [Product].[Name] like '%Ratline%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Ratline_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Earring' and [Product].[Name] like '%Ratline%';
+	go
+	
 --Flowery Pendant
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Flowery.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Pendant' and [Product].[Name] like '%Flowery%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Flowery.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Pendant' and [Product].[Name] like '%Flowery%';
+	go
+	
 --Gerberas Pendant
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Gerberas.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Pendant' and [Product].[Name] like '%Gerberas%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Gerberas.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Pendant' and [Product].[Name] like '%Gerberas%';
+	go
+	
 --Benicia Pendant
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Pendants/Benicia.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Pendant' and [Product].[Name] like '%Benicia%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Benicia.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Pendant' and [Product].[Name] like '%Benicia%';
+	go
+	
 --Dacing Bracelet
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Dacing_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Dacing_Stand.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelet/Dacing_Lay.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Dacing_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Dacing_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Dacing_Lay.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bracelet' and [Product].[Name] like '%Dacing%';
+	go
+	
 --Lucky Bracelet
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Lucky_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
-go
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bracelets/Lucky_Stand.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Lucky_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Lucky_Stand.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bracelet' and [Product].[Name] like '%Lucky%';
+	go
+	
 --Bambina Bangles
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Bambina.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bangles' and [Product].[Name] like '%Bambina%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Bambina.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bangles' and [Product].[Name] like '%Bambina%';
+	go
+	
 --Gratify Bangles
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Gratify.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bangles' and [Product].[Name] like '%Gratify%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Gratify.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bangles' and [Product].[Name] like '%Gratify%';
+	go
+	
 --Naiya Bangles
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Naiya.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bangles' and [Product].[Name] like '%Naiya%';
-go
-
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Naiya.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bangles' and [Product].[Name] like '%Naiya%';
+	go
+	
 --Hilarial Bangles
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Hilarial_Open.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
-go
-
---Hilarial Bangles
-insert into [Picture](UrlPath, DiamondId, ProductId)
-	select 'imgs/DiamondJewelry/Bangles/Hilarial_Preview.png', null, [Product].Id
-from [Product]
-where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
-go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Hilarial_Open.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
+	go
+	insert into [Picture](UrlPath, DiamondId, ProductId) select 'https://firebasestorage.googleapis.com/v0/b/diamondshop-253ae.appspot.com/o/Hilarial_Preview.png?alt=media', null, [Product].Id from [Product] where [Product].[Type]='Bangles' and [Product].[Name] like '%Hilarial%';
+	go
 
 use master;
