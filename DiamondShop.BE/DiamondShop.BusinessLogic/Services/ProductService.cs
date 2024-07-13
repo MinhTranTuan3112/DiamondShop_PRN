@@ -116,9 +116,9 @@ namespace DiamondShop.BusinessLogic.Services
 
             product.Status = status switch
             {
-                ProductStatus.Available => ProductStatus.Available.ToString(),
-                ProductStatus.Unavailable => ProductStatus.Unavailable.ToString(),
-                ProductStatus.Deleted => ProductStatus.Deleted.ToString(),
+                ProductStatus.Available => ProductStatus.Available.ToString().ToLower(),
+                ProductStatus.OutOfStock => ProductStatus.OutOfStock.ToString().ToLower(),
+                ProductStatus.Deleted => ProductStatus.Deleted.ToString().ToLower(),
                 _ => product.Status
             };
 

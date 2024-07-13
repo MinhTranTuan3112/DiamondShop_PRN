@@ -78,8 +78,9 @@ public class AccountService : IAccountService
 
         account.Status = status switch
         {
-            AccountStatus.Available => AccountStatus.Available.ToString(),
-            AccountStatus.Deleted => AccountStatus.Deleted.ToString(),
+            AccountStatus.Available => AccountStatus.Available.ToString().ToLower(),
+            AccountStatus.Working => AccountStatus.Working.ToString().ToLower(),
+            AccountStatus.Deleted => AccountStatus.Deleted.ToString().ToLower(),
             _ => account.Status
         };
         await _unitOfWork.SaveChangesAsync();

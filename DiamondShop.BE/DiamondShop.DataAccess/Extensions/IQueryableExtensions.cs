@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.DTOs.Certificate;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
@@ -101,6 +102,31 @@ namespace DiamondShop.DataAccess.Extensions
             {
                 query = query.Where(p => cuts.Contains(p.Cut!));
             }
+            return query;
+        }
+
+        public static IQueryable<Certificate> ApplyCertificateFilter(this IQueryable<Certificate> query,
+            QueryCertificateDto queryCertificateDto)
+        {
+            var startDateOfIssue = queryCertificateDto.StartDateOfIssue;
+            var endDateOfIssue = queryCertificateDto.EndDateOfIssue;
+            var reportNumber = queryCertificateDto.ReportNumber;
+            var diamondId = queryCertificateDto.DiamondId;
+            if (startDateOfIssue < endDateOfIssue)
+            {
+                query = query.Where(c => c.DateOfIssue >= startDateOfIssue && c.DateOfIssue <= endDateOfIssue);
+            }
+
+            if (!string.IsNullOrEmpty(reportNumber))
+            {
+                query = query.Where(c => !string.IsNullOrEmpty(c.ReportNumber) && c.ReportNumber == reportNumber);
+            }
+
+            if (diamondId is not null)
+            {
+                query = query.Where(c => c.Diamond != null && c.Diamond.Id == diamondId);
+            }
+
             return query;
         }
     }

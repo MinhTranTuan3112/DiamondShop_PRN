@@ -64,21 +64,26 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task ChangStatusDiamond(Guid diamondId, ProductStatus status)
         {
-            var diamond = await _unitOfWork.GetDiamondRepository().GetByIdAsync(diamondId);
+            var diamond = await _unitOfWork.GetDiamondRepository().GetDiamondWithPicturesById(diamondId);
             if (diamond is null)
             {
                 throw new NotFoundException("Diamond not found");
             }
-
+            
             diamond.Status = status switch
             {
-                ProductStatus.Available => ProductStatus.Available.ToString(),
-                ProductStatus.Unavailable => ProductStatus.Unavailable.ToString(),
-                ProductStatus.Deleted => ProductStatus.Deleted.ToString(),
+                ProductStatus.Available => ProductStatus.Available.ToString().ToLower(),
+                ProductStatus.OutOfStock => ProductStatus.OutOfStock.ToString().ToLower(),
+                ProductStatus.Deleted => ProductStatus.Deleted.ToString().ToLower(),
                 _ => diamond.Status
             };
-
             diamond.LastUpdate = DateTime.Now;
+            diamond.Certificate.Status = status switch
+            {
+                ProductStatus.Available => CertificateStatus.Available.ToString().ToLower(),
+                ProductStatus.Deleted => CertificateStatus.Deleted.ToString().ToLower(),
+                _ => diamond.Certificate.Status
+            };
             await _unitOfWork.SaveChangesAsync();
         }
 

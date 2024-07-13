@@ -1,7 +1,7 @@
-﻿
-
-using DiamondShop.BusinessLogic.Interfaces;
+﻿using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Certificate;
+using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
@@ -75,10 +75,54 @@ public class CertificateService : ICertificateService
         return certificate.Adapt<GetCertificateDetailDto>();
     }
 
-    public async Task<List<GetListCertificateDto>> GetAllCertificates()
+    public async Task<PagedResult<GetListCertificateDto>> GetPageCertificates(QueryCertificateDto queryCertificateDto)
     {
-        var certificates = await _unitOfWork.GetCertificateRepository().GetAllAsync();
-        return certificates.Adapt<List<GetListCertificateDto>>();
+        if (queryCertificateDto.StartDateOfIssue > queryCertificateDto.EndDateOfIssue)
+        {
+            throw new BadRequestException("Start date must be less than the end date ");
+        }
+
+        return (await _unitOfWork.GetCertificateRepository().GetPagedCertificates(queryCertificateDto))
+            .Adapt<PagedResult<GetListCertificateDto>>();
     }
-    
+
+    public async Task<GetCertificateByIdDto> GetCertificateById(Guid id)
+    {
+        var certificate = await _unitOfWork.GetCertificateRepository().GetCertificateById(id);
+        if (certificate is null)
+        {
+            throw new NotFoundException("Certificate is not existed");
+        }
+
+        return certificate.Adapt<GetCertificateByIdDto>();
+    }
+
+    public async Task ChangStatusCertificate(Guid id, CertificateStatus status)
+    {
+        var certificate = await _unitOfWork.GetCertificateRepository().GetCertificateById(id);
+        if (certificate is null)
+        {
+            throw new NotFoundException("Certificate is not existed");
+        }
+
+        certificate.Status = status switch
+        {
+            CertificateStatus.Available => CertificateStatus.Available.ToString().ToLower(),
+            CertificateStatus.Unavailable => CertificateStatus.Unavailable.ToString().ToLower(),
+            CertificateStatus.Deleted => CertificateStatus.Deleted.ToString().ToLower(),
+            _ => certificate.Status
+        };
+
+        if (certificate.Diamond != null)
+        {
+            certificate.Diamond.Status = status switch
+            {
+                CertificateStatus.Available => ProductStatus.Available.ToString().ToLower(),
+                CertificateStatus.Deleted => ProductStatus.Deleted.ToString().ToLower(),
+                _ => certificate.Diamond.Status
+            };
+            certificate.Diamond.LastUpdate = DateTime.Now;
+        }
+        await _unitOfWork.SaveChangesAsync();
+    }
 }
