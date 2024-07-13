@@ -87,7 +87,14 @@ namespace DiamondShop.Api.Controllers
         [HttpGet("dashboard-stats")]
         public async Task<IActionResult> GetDashboardStats()
         {
-            return Ok(await _serviceFactory.GetOrderService().getDashBoardStats());
+            return Ok(await _serviceFactory.GetOrderService().GetDashBoardStats());
+        }
+
+        [HttpGet("cart-info")]
+        [Authorize(Roles = "Customer")]
+        public async Task<ActionResult<GetCartOrderDto>> ViewCartInfo()
+        {
+            return await _serviceFactory.GetOrderService().GetCustomerCartInfo(HttpContext.User);
         }
     }
 }

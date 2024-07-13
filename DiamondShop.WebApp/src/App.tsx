@@ -28,9 +28,9 @@ function App() {
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
-            }
-          />
-          <Route element={<TestPage />} path="/test" />
+            }>
+            <Route element={<TestPage />} path="/test" />
+          </Route>
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductDetailsPage />}></Route>
           <Route path="*" element={<NotFoundPage />} />

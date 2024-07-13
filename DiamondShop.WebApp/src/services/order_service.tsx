@@ -28,7 +28,20 @@ export const fetchAddToCart = async (accessToken: string, request: AddToCartRequ
 };
 
 export const fetchCartInfo = async (accessToken: string) => {
+    
     try {
+        const response = await customFetch({
+            options: {
+                'method': 'GET'
+            },
+            endpointPath: '/orders/cart-info',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        return response;
 
     } catch (error) {
         console.error(`Error occurred while fetching cart info: ${error}`);

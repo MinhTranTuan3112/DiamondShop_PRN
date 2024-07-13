@@ -52,7 +52,7 @@ export default function Header() {
   const { authAccount, logout } = useAuth();
   const [isActive, setIsActive] = useState("");
 
-  console.log(authAccount);
+  // console.log(authAccount);
 
   return (
     <header className="header fixed">
