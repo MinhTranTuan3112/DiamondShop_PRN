@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Thumbnail from "../../assets/img/Anhcuatoi.png";
-import Thumbnail2 from "../../assets/img/Anhcuatoi.png";
+import Thumbnail from "../../assets/img/Thumbnail.png";
+import Thumbnail2 from "../../assets/img/Thumbnail2.png";
 import Footer from "../../Components/Layout/Footer";
 import Header from "../../Components/Layout/Header";
 
