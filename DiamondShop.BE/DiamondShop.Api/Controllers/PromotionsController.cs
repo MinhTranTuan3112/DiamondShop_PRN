@@ -16,10 +16,18 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPromotions(int pageIndex = 1, int pageSize = 10, string searchString = "")
+        public async Task<IActionResult> GetPromotions(int pageIndex = 1, int pageSize = 10, string searchString = "", DateTime ExpireDate = new DateTime())
         {
-            var promotions = await _serviceFactory.GetPromotionService().GetPromotions(pageIndex, pageSize, searchString);
+            var promotions = await _serviceFactory.GetPromotionService().GetPromotions(pageIndex, pageSize, searchString, ExpireDate);
             return Ok(promotions);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPromotionById(Guid id)
+        {
+            var promotion = await _serviceFactory.GetPromotionService().GetPromotionById(id);
+            return Ok(promotion);
         }
 
         [HttpPost]

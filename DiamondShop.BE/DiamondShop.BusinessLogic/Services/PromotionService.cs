@@ -22,7 +22,7 @@ namespace DiamondShop.BusinessLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Promotion>> GetPromotions(int pageIndex, int pageSize, string searchString)
+        public async Task<List<Promotion>> GetPromotions(int pageIndex, int pageSize, string searchString, DateTime ExpireDate)
         {
             if (pageIndex == 0) pageIndex = 1;
             if (pageSize == 0) pageSize = 10;
@@ -31,8 +31,21 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 promotions = promotions.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || (int.TryParse(searchString, out int discountPercent) && x.DiscountPercent == discountPercent)).ToList();
             }
-
+            if(ExpireDate != default)
+            {
+                promotions = promotions.Where(x => x.ExpiredDate.Date == ExpireDate.Date).ToList();
+            }
             return promotions.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+
+        public async Task<Promotion> GetPromotionById(Guid id)
+        {
+            var promotion = await _unitOfWork.GetPromotionRepository().GetByIdAsync(id);
+            if (promotion == null)
+            {
+                throw new NotFoundException("Promotion not found");
+            }
+            return promotion;
         }
 
         public async Task CreatePromotion(CreatePromotion createPromotion)

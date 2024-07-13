@@ -17,7 +17,6 @@ namespace DiamondShop.DataAccess.DTOs.Promotion
         public string? Description { get; set; }
 
         [Required]
-        [Range(typeof(DateTime), nameof(DateTime.Now), nameof(DateTime.MaxValue), ErrorMessage = "Expired date must be a future date.")]
         public DateTime ExpiredDate { get; set; } = DateTime.Now;
         [Required]
         public int DiscountPercent { get; set; }
