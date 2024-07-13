@@ -93,6 +93,7 @@ namespace DiamondShop.BusinessLogic.Services
                 order = await _unitOfWork.GetOrderRepository().AddAsync(new Order
                 {
                     CustomerId = customer.Id,
+                    Code = $"OD{Guid.NewGuid().ToString()}",
                     Status = orderStatus.ToString()
                 });
 
