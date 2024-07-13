@@ -32,7 +32,7 @@ const Header: React.FC = () => {
                 <li>
                   <Link
                     to="/"
-                    className="px-[21px] py-[4px] text-[16px] font-light text-[#2e2e2e] text-shadow"
+                    className="px-[21px] py-[4px] text-[17px] font-semibold  text-[#2e2e2e] text-shadow"
                   >
                     Trang chủ
                   </Link>
@@ -40,7 +40,7 @@ const Header: React.FC = () => {
                 <li>
                   <Link
                     to="/products"
-                    className="px-[21px] py-[4px] text-[16px] font-light text-[#2e2e2e]"
+                    className="px-[21px] py-[4px] text-[17px] font-semibold text-[#2e2e2e]"
                   >
                     Trang sức
                   </Link>
@@ -60,13 +60,12 @@ const Header: React.FC = () => {
                     </Link>
                   </div>
                   <Link to={"/user"}>
-                    <img
-                      src={authAccount?.avatarUrl || Avatar}
-                      alt=""
-                      className="border-3 border-solid border-ccc w-28 aspect-w-1 aspect-h-1 rounded-full object-contain"
-                    />
+                    <p>Hello {authAccount?.email}</p>
                   </Link>
-                  <button className="mr-[7px] text-[#2e2e2e]" onClick={logout}>
+                  <button
+                    className="min-h-[44px] min-w-[104px] inline-block px-[20px] rounded-full border border-[#1A1A1A] text-[16px] font-normal text-center leading-[44px] text-white bg-[#1A1A1A] cursor-pointer"
+                    onClick={logout}
+                  >
                     Logout
                   </button>
                 </>
