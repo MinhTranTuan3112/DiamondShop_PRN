@@ -25,7 +25,7 @@ const ProductPageContent = (props: Props) => {
   const pageParam = searchParams.get("page") ? +searchParams.get("page")! : 1;
   const pageSize = searchParams.get("pageSize")
     ? +searchParams.get("pageSize")!
-    : 10;
+    : 8;
 
   const sortColumn = searchParams.get("sort")
     ? searchParams.get("sort")!
@@ -63,7 +63,7 @@ const ProductPageContent = (props: Props) => {
         nameParam,
         typesParam
       ).then((data) => setPagedResult(data));
-    }, 500);
+    }, 400);
 
     setIsLoading(false);
 
@@ -154,84 +154,92 @@ const ProductPageContent = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-row">
-      <aside className="left_content ml-5 mt-5 text-3xl">
-        <p className="font-bold">Loại sản phẩm</p>
-        <FormGroup>
-          {productTypes.map((type, index) => (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={handleTypeChange}
-                  checked={typesParam?.includes(type)}
-                  sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                />
-              }
-              label={type}
-              value={type}
-              key={index}
-            />
-          ))}
-        </FormGroup>
-      </aside>
-      <aside className="right_content">
-        <section className="">
-          <div className="filter_section flex justify-center gap-2 my-7">
-            <input
-              type="search"
-              value={searchParams.get("name") || ""}
-              onChange={handleNameChange}
-              name="name"
-              placeholder="Tên sản phẩm..."
-              className="text-[#141313] p-7 text-[1.8rem] font-['Be_Vietnam_Pro',_sans-serif] h-[50px] font-normal w-[300px] outline-none rounded-[8px]"
-            />
-
-            {/* <p className="flex items-center">Từ</p>
-                        <input type="number" className="p-2" placeholder="Giá bắt đầu"
-                        value={searchParams.get('startPrice') || ''}
-                        onChange={handleStartPriceChange} />
-                        <p className="flex items-center">Đến</p>
-                        <input type="number" className="p-2" value={searchParams.get('endPrice') || ''}
-                        onChange={handleEndPriceChange}
-                        placeholder="Giá kết thúc"
-                        name="" id="" /> */}
-          </div>
-          <Box sx={{ width: 300, margin: "0 auto" }}>
-            <Slider
-              getAriaLabel={() => "Minimum distance"}
-              value={[startPriceParam || 0, endPriceParam || 100000000]}
-              onChange={handlePriceChange}
-              min={0}
-              max={100000000}
-              step={1000000}
-              valueLabelDisplay="auto"
-              getAriaValueText={valuetext}
-              disableSwap
-            />
-          </Box>
-        </section>
-        <section className="products_content">
-          {isLoading ? (
-            <div className="text-center">Đang tải dữ liệu...</div>
-          ) : pagedResult?.results.length === 0 ? (
-            <div className="text-center">Không tìm thấy sản phẩm</div>
-          ) : (
-            <div className="product-container">
-              {pagedResult?.results.map((product, index) => (
-                <ProductCard product={product} key={index} />
-              ))}
+    <div className="w-[1170px] max-w-[calc(100%-48px)] mx-auto">
+      <div className="flex flex-row">
+        <aside className="left_content ml-5 mt-5 text-3xl">
+          <p className="font-bold">Loại sản phẩm</p>
+          <FormGroup>
+            {productTypes.map((type, index) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    onChange={handleTypeChange}
+                    checked={typesParam?.includes(type)}
+                    sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                  />
+                }
+                label={type}
+                value={type}
+                key={index}
+              />
+            ))}
+          </FormGroup>
+        </aside>
+        <aside className="right_content">
+          <section className="">
+            <div className="filter_section flex justify-center gap-2 my-7">
+              <input
+                type="search"
+                value={searchParams.get("name") || ""}
+                onChange={handleNameChange}
+                name="name"
+                placeholder="Tên sản phẩm..."
+                className="text-[#141313] p-7 text-[1.8rem] font-['Be_Vietnam_Pro',_sans-serif] h-[50px] font-normal w-[300px] outline-none rounded-[8px]"
+              />
             </div>
-          )}
-          <Pagination
-            size="large"
-            className="my-5 inline-center"
-            color="primary"
-            count={pagedResult?.totalPages}
-            onChange={handlePageChanged}
-            page={searchParams.get("page") ? +searchParams.get("page")! : 1}
-          />
-        </section>
-      </aside>
+            <Box sx={{ width: 300, margin: "0 auto" }}>
+              <Slider
+                getAriaLabel={() => "Minimum distance"}
+                value={[startPriceParam || 0, endPriceParam || 100000000]}
+                onChange={handlePriceChange}
+                min={0}
+                max={100000000}
+                step={1000000}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+                disableSwap
+              />
+            </Box>
+          </section>
+          <section className="products_content">
+            {isLoading ? (
+              <div className="text-center">Đang tải dữ liệu...</div>
+            ) : pagedResult?.results.length === 0 ? (
+              <div className="text-center">Không tìm thấy sản phẩm</div>
+            ) : (
+              <div className="grid grid-cols-4 gap-10">
+                {pagedResult?.results.map((product, index) => (
+                  <ProductCard
+                    product={product}
+                    key={index}
+                    className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-[250px] h-[300px]"
+                  />
+                ))}
+              </div>
+            )}
+            <Pagination
+              size="large"
+              className="my-5 inline-center"
+              color="primary"
+              count={pagedResult?.totalPages}
+              onChange={handlePageChanged}
+              page={searchParams.get("page") ? +searchParams.get("page")! : 1}
+              sx={{
+                marginTop: "40px",
+                "& .MuiPaginationItem-root": {
+                  fontSize: "1.2rem",
+                  fontWeight: "500",
+                },
+                "& .Mui-selected": {
+                  background: "#1a1a1a !important",
+                  color: "white",
+                  fontSize: "1.5rem",
+                },
+              }}
+            />
+          </section>
+        </aside>
+      </div>
     </div>
   );
 };

@@ -1,32 +1,42 @@
 import { useState } from "react";
-import "./LoginForm.css";
-import { fetchLogin } from "../../../services/auth_service";
-import useAuth from "../../../hooks/useAuth";
+import { fetchRegister } from "../../../services/auth_service"; // Assuming you have a service for registration
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
 import Favicon from "../../../assets/icons/icon.png";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [formState, setFormState] = useState({
     email: "",
+    fullname: "",
     password: "",
+    repassword: "",
   });
-
-  const { setAccessToken, setExpirationDate } = useAuth();
 
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetchLogin(formState.email, formState.password);
+
+    // Ensure passwords match
+    if (formState.password !== formState.repassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    const response = await fetchRegister(
+      formState.email,
+      formState.fullname,
+      formState.password
+    );
 
     if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setAccessToken(data.accessToken);
-      setExpirationDate(new Date(data.expireIn));
-      navigate("/");
+      // Handle successful registration
+      navigate("/login");
+    } else {
+      // Handle registration failure
+      alert("Registration failed. Please try again.");
     }
   };
 
@@ -42,9 +52,24 @@ const LoginForm = () => {
         <h1 className="mt-8 mb-8 text-4xl font-medium">
           Welcome to MAPTH diamond
         </h1>
-        <p className="mt-2 text-orange-600">Enter your account</p>
+        <p className="mt-2 text-orange-600">Create your account</p>
         <form className="w-full mt-8" onSubmit={handleFormSubmit} method="POST">
           <div className="flex flex-col gap-8">
+            <div className="relative flex items-center h-12 mb-8">
+              <input
+                type="text"
+                className="flex-1 h-full px-4 rounded-lg border border-gray-300 text-lg font-medium"
+                name="fullname"
+                placeholder="Full Name"
+                id="fullname"
+                value={formState.fullname}
+                onChange={(e) =>
+                  setFormState({ ...formState, fullname: e.target.value })
+                }
+                required
+              />
+              <CiUser className="absolute right-4 text-2xl" />
+            </div>
             <div className="relative flex items-center h-12 mb-8">
               <input
                 type="email"
@@ -67,8 +92,24 @@ const LoginForm = () => {
                 name="password"
                 placeholder="Password"
                 id="password"
+                value={formState.password}
                 onChange={(e) =>
                   setFormState({ ...formState, password: e.target.value })
+                }
+                required
+              />
+              <CiLock className="absolute right-4 text-2xl" />
+            </div>
+            <div className="relative flex items-center h-12 mb-8">
+              <input
+                type="password"
+                className="flex-1 h-full px-4 rounded-lg border border-gray-300 text-lg font-medium"
+                name="repassword"
+                placeholder="Confirm Password"
+                id="repassword"
+                value={formState.repassword}
+                onChange={(e) =>
+                  setFormState({ ...formState, repassword: e.target.value })
                 }
                 required
               />
@@ -79,13 +120,13 @@ const LoginForm = () => {
             type="submit"
             className="w-full h-11 mb-4 rounded-full border-2 border-gray-200 bg-[#FFC085] text-lg font-semibold text-gray-800 hover:bg-gray-300"
           >
-            Login
+            Register
           </button>
         </form>
         <div className="flex items-center">
-          <span className="text-gray-600">You don't have an account?</span>
-          <Link to="/register" className="ml-2 text-orange-600">
-            Register
+          <span className="text-gray-600">Already have an account?</span>
+          <Link to="/login" className="ml-2 text-orange-600">
+            Login
           </Link>
         </div>
       </div>
@@ -93,4 +134,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

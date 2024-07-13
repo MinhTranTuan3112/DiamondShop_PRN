@@ -1,27 +1,27 @@
 import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
-import LoginForm from "../../Components/Layout/Auth/LoginForm";
+import Register from "../../Components/Layout/Auth/RegisterForm";
 
 type Props = {};
 
-const LoginPage = (props: Props) => {
+const RegisterPage = (props: Props) => {
   return (
     <>
       <Header />
       <div
         style={{
-          height: "500px",
+          height: "600px",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           background: "linear-gradient(to right, #FFE5B4, #FFC085)",
         }}
       >
-        <LoginForm />
+        <Register />
       </div>
       <Footer />
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
