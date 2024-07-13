@@ -18,7 +18,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 //Add serilog
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
 
-Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"C:\Users\trinh\Downloads\diamondshop-253ae-firebase-adminsdk-1l4ve-7b18a585f3.json");
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"J:\developer\studying\PRN221\DiamondShop_PRN\DiamondShop.BE\DiamondShop.Api\diamondshop-253ae-firebase-adminsdk-1l4ve-7b18a585f3.json");
 
 var app = builder.Build();
 

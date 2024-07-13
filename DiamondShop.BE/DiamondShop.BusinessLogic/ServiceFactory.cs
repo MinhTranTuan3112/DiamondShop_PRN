@@ -19,6 +19,7 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IDiamondService> _diamondService;
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<IOrderDetailService> _orderDetailService;
+        private readonly Lazy<IWarrantyService> _warrantyService;
         private readonly Lazy<IFirebaseStorageService> _firebaseStorageService;
         private readonly Lazy<IPictureService> _pictureService;
         private readonly Lazy<IProductPartService> _productPartService;
@@ -33,6 +34,7 @@ namespace DiamondShop.BusinessLogic
             _diamondService = new Lazy<IDiamondService>(() => new DiamondService(unitOfWork, this));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(unitOfWork));
             _orderDetailService = new Lazy<IOrderDetailService>(() => new OrderDetailService(unitOfWork));
+            _warrantyService = new Lazy<IWarrantyService>(() => new WarrantyService(unitOfWork));
             _firebaseStorageService = new Lazy<IFirebaseStorageService>(() => new FirebaseStorageService(storageClient, configuration));
             _pictureService = new Lazy<IPictureService>(() => new PictureService(unitOfWork, this));
             _productPartService = new Lazy<IProductPartService>(() => new ProductPartService(unitOfWork));
@@ -98,6 +100,10 @@ namespace DiamondShop.BusinessLogic
         public IPromotionService GetPromotionService()
         {
             return promotionService.Value;
+        }
+        public IWarrantyService GetWarrantyService()
+        {
+            return _warrantyService.Value;
         }
     }
 }

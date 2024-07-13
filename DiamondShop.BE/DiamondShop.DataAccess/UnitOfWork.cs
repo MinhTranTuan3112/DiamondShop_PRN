@@ -13,11 +13,12 @@ namespace DiamondShop.DataAccess
         private readonly Lazy<IAccountRepository> _accountRepository;
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<IOrderRepository> _orderRepository;
-        private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IOrderDetailRepository> _orderDetailRepository;
+        private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IDiamondRepository> _diamondRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
         private readonly Lazy<IProductPartRepository> _productPartRepository;
+        private readonly Lazy<IWarrantyRepository> _warrantyRepository;
         private readonly Lazy<IPictureRepository> _pictureRepository;
         private readonly Lazy<IStakeHolderRepository> _stakeHolderRepository;
         private readonly Lazy<ICertificateRepository> _certificateRepository;
@@ -28,11 +29,12 @@ namespace DiamondShop.DataAccess
             _accountRepository = new Lazy<IAccountRepository>(() => new AccountRepository(context));
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(context));
-            _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
             _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(context));
+            _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(context));
             _diamondRepository = new Lazy<IDiamondRepository>(() => new DiamondRepository(context));
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
             _productPartRepository = new Lazy<IProductPartRepository>(() => new ProductPartRepository(context));
+            _warrantyRepository = new Lazy<IWarrantyRepository>(() => new WarrantyRepository(context));
             _pictureRepository = new Lazy<IPictureRepository>(() => new PictureRepository(context));
             _stakeHolderRepository = new Lazy<IStakeHolderRepository>(() => new StakeHolderRepository(context));
             _certificateRepository = new Lazy<ICertificateRepository>(() => new CertificateRepository(context));
@@ -92,6 +94,10 @@ namespace DiamondShop.DataAccess
         public IProductRepository GetProductRepository()
         {
             return _productRepository.Value;
+        }
+        public IWarrantyRepository GetWarrantyRepository()
+        {
+            return _warrantyRepository.Value;
         }
 
         public async Task<int> SaveChangesAsync()

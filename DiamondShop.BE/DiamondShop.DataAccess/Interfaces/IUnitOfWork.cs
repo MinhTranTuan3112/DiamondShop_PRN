@@ -15,6 +15,7 @@ namespace DiamondShop.DataAccess.Interfaces
         IDiamondRepository GetDiamondRepository(); 
         ICategoryRepository GetCategoryRepository();
         IProductPartRepository GetProductPartRepository();
+        IWarrantyRepository GetWarrantyRepository();
         IPictureRepository GetPictureRepository();
         IStakeHolderRepository GetStakeHolderRepository();
         ICertificateRepository GetCertificateRepository();

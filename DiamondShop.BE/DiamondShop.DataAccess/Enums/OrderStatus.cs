@@ -5,9 +5,10 @@ namespace DiamondShop.DataAccess.Enums
         InCart,
         Pending_Confirm,
         Confirmed,
-        Pay,
+        Pending_Deliver,        //After pay
         Delivering,
         Deliveried,
+        Received,
         Pending_Refund,
         Refunded,
         Deleted

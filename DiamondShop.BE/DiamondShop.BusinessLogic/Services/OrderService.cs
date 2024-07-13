@@ -2,6 +2,7 @@ using System.Security.Claims;
 using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
@@ -24,16 +25,18 @@ namespace DiamondShop.BusinessLogic.Services
             _serviceFactory = serviceFactory;
         }
 
-        public async Task<List<Order>> GetOrdersByUserId(ClaimsPrincipal claims)
+        public async Task<List<Order>> GetOrdersByStatus(ClaimsPrincipal claims, OrderStatus status)
         {
-            var accountId = claims.GetAccountId();
+            var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(claims.GetAccountId())
+                ?? throw new NotFoundException("Unknow account currently request this!");
 
-            var account = await _unitOfWork.GetAccountRepository().GetAccountDetail(accountId);
+            if (account.Customer is null) throw new NotFoundException("Unknow customer to load out the orders");
 
             var customerId = account.Customer.Id;
 
-            var list = await _unitOfWork.GetOrderRepository().GetAllAsync();
-            list = list.Where(o => o.CustomerId == customerId).ToList();
+            var list = await _unitOfWork.GetOrderRepository().FindAsync(ord => ord.CustomerId == customerId && ord.Status.ToLower()!.Equals(status.ToString().ToLower()));
+            
+            if (list.Count() == 0) throw new NotFoundException("Not Found Any Order");
             return list;
         }
 
@@ -43,12 +46,14 @@ namespace DiamondShop.BusinessLogic.Services
                 ?? throw new NotFoundException("Not found this order");
             return foundOrder;
         }
-        public async Task<IEnumerable<Order>?> GetList(QueryOrderDto query)
+
+        public async Task<PagedResult<Order>?> GetList(QueryOrderDto query)
         {
             var foundOrder = await _unitOfWork.GetOrderRepository().GetListAsync(query)
-                ??throw new NotFoundException("Not found available order");
+                ?? throw new NotFoundException("Not found available order");
             return foundOrder;
         }
+
         public async Task AddToCart(AddToCartDto addToCartDto, ClaimsPrincipal claims)
         {
             var accountId = claims.GetAccountId();
@@ -141,7 +146,7 @@ namespace DiamondShop.BusinessLogic.Services
             currentOrder.Status = newStatus;
 
             //Save Change
-            return await _unitOfWork.SaveChangesAsync()>0;
+            return await _unitOfWork.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> UpdateOrder(OrderInfoDto order)
@@ -232,7 +237,7 @@ namespace DiamondShop.BusinessLogic.Services
             OrderStatus.Confirmed.ToString().ToLower(),
 
             //Confirm Pay
-            OrderStatus.Pay.ToString().ToLower(),
+            OrderStatus.Pending_Deliver.ToString().ToLower(),
 
             //Refund
             OrderStatus.Refunded.ToString().ToLower()
