@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./LoginForm.css";
-import { fetchLogin } from "../../../services/auth_service";
+import { fetchLogin, fetchWhoAmI } from "../../../services/auth_service";
 import useAuth from "../../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 import Favicon from "../../../assets/icons/icon.png";
+import { AuthAccount } from "../../../types/account";
 
 const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -26,7 +27,16 @@ const LoginForm = () => {
       console.log(data);
       setAccessToken(data.accessToken);
       setExpirationDate(new Date(data.expireIn));
-      navigate("/");
+      const userInfoResponse = await fetchWhoAmI(data.accessToken);
+      if (userInfoResponse.ok) {
+        const userInfo: AuthAccount = await userInfoResponse.json();
+        const userRole = userInfo.role;
+        if (userRole === "Customer") {
+          navigate("/");
+        } else {
+          navigate("/dashboard");
+        }
+      }
     }
   };
 

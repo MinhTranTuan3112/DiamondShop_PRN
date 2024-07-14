@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Thumbnail from "../../assets/img/Thumbnail.png";
 import Thumbnail2 from "../../assets/img/Thumbnail2.png";
 import Footer from "../../Components/Layout/Footer";
 import Header from "../../Components/Layout/Header";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { fetchWhoAmI } from "../../services/auth_service";
+import { AuthAccount } from "../../types/account";
 
 const Home: React.FC = () => {
+  const { accessToken } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const handleAuth = async () => {
+      const userInfoResponse = await fetchWhoAmI(accessToken);
+      if (userInfoResponse.ok) {
+        const userInfo: AuthAccount = await userInfoResponse.json();
+        const userRole = userInfo.role;
+        if (userRole === "Customer") {
+          navigate("/");
+        } else {
+          navigate("/dashboard");
+        }
+      }
+    };
+
+    handleAuth();
+  }, [accessToken, navigate]);
   return (
     <>
       <div className="min-h-screen bg-gradient-to-r from-[#FFE5B4] to-[#FFC085] ">

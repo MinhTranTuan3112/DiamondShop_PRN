@@ -12,8 +12,10 @@ import {
   FormControlLabel,
   FormGroup,
   Slider,
+  Typography,
 } from "@mui/material";
 import { formatPrice } from "../../utils/priceUtils";
+
 type Props = {};
 
 const ProductPageContent = (props: Props) => {
@@ -112,16 +114,6 @@ const ProductPageContent = (props: Props) => {
     });
   };
 
-  // const handleStartPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const newStartPrice = +e.target.value;
-  //     setSearchParams({ ...searchParams, startPrice: newStartPrice.toString() });
-  // };
-
-  // const handleEndPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const newEndPrice = +e.target.value;
-  //     setSearchParams({ ...searchParams, endPrice: newEndPrice.toString() });
-  // };
-
   const handlePageChanged = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -133,21 +125,17 @@ const ProductPageContent = (props: Props) => {
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    // Assuming typesParam is an array. If it's a comma-separated string, you would first split it into an array.
     let newTypesParam = typesParam ? [...typesParam] : [];
     const newValue = event.target.value;
 
     if (checked) {
-      // Add the new type if it's checked and not already present
       if (!newTypesParam.includes(newValue)) {
         newTypesParam.push(newValue);
       }
     } else {
-      // Remove the type if it's unchecked
       newTypesParam = newTypesParam.filter((type) => type !== newValue);
     }
 
-    // Assuming you need to convert the array back to a comma-separated string for setSearchParams
     const newTypesString = newTypesParam.join(",");
 
     setSearchParams({ ...searchParams, types: newTypesString });
@@ -165,7 +153,10 @@ const ProductPageContent = (props: Props) => {
                   <Checkbox
                     onChange={handleTypeChange}
                     checked={typesParam?.includes(type)}
-                    sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                    sx={{
+                      "& .MuiSvgIcon-root": { fontSize: 28, color: "#141313" },
+                      color: "#141313",
+                    }}
                   />
                 }
                 label={type}
@@ -175,9 +166,9 @@ const ProductPageContent = (props: Props) => {
             ))}
           </FormGroup>
         </aside>
-        <aside className="right_content">
+        <aside className="right_content flex-1">
           <section className="">
-            <div className="filter_section flex justify-center gap-2 my-7">
+            <div className="filter_section flex flex-col justify-center items-center gap-2 my-7">
               <input
                 type="search"
                 value={searchParams.get("name") || ""}
@@ -186,33 +177,52 @@ const ProductPageContent = (props: Props) => {
                 placeholder="Tên sản phẩm..."
                 className="text-[#141313] p-7 text-[1.8rem] font-['Be_Vietnam_Pro',_sans-serif] h-[50px] font-normal w-[300px] outline-none rounded-[8px]"
               />
+
+              <Box sx={{ width: 300, margin: "0 auto" }}>
+                <Slider
+                  getAriaLabel={() => "Minimum distance"}
+                  value={[startPriceParam || 0, endPriceParam || 100000000]}
+                  onChange={handlePriceChange}
+                  min={0}
+                  max={100000000}
+                  step={1000000}
+                  valueLabelDisplay="auto"
+                  getAriaValueText={valuetext}
+                  disableSwap
+                  sx={{
+                    color: "#141313",
+                    "& .MuiSlider-thumb": {
+                      borderRadius: "50%",
+                      width: "24px",
+                      height: "24px",
+                      color: "#141313",
+                    },
+                    "& .MuiSlider-track": {
+                      color: "#141313",
+                    },
+                    "& .MuiSlider-rail": {
+                      color: "#141313",
+                    },
+                  }}
+                />
+                <Typography variant="h6" className="mt-4">
+                  Lọc theo giá
+                </Typography>
+              </Box>
             </div>
-            <Box sx={{ width: 300, margin: "0 auto" }}>
-              <Slider
-                getAriaLabel={() => "Minimum distance"}
-                value={[startPriceParam || 0, endPriceParam || 100000000]}
-                onChange={handlePriceChange}
-                min={0}
-                max={100000000}
-                step={1000000}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
-                disableSwap
-              />
-            </Box>
           </section>
-          <section className="products_content">
+          <section className="products_content mt-10">
             {isLoading ? (
               <div className="text-center">Đang tải dữ liệu...</div>
             ) : pagedResult?.results.length === 0 ? (
               <div className="text-center">Không tìm thấy sản phẩm</div>
             ) : (
-              <div className="grid grid-cols-4 gap-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {pagedResult?.results.map((product, index) => (
                   <ProductCard
                     product={product}
                     key={index}
-                    className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-[250px] h-[300px]"
+                    className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-full h-[300px]"
                   />
                 ))}
               </div>
