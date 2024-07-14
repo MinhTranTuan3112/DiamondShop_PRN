@@ -25,7 +25,6 @@ const LoginForm = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setAccessToken(data.accessToken);
         setExpirationDate(new Date(data.expireIn));
 

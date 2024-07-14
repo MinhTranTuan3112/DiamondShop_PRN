@@ -67,7 +67,6 @@ const Checkout: React.FC = () => {
   //       "https://cdn.pnj.io/images/thumbnails/300/300/detailed/204/sp-gd0000w001070-day-chuyen-vang-trang-y-18k-pnj-1.png",
   //   },
   // ]);
-
   const [orderInCart, setOrderInCart] = useState<OrderCartInfo | null>(null);
   const [cartItems, setCartItems] = useState<OrderDetail[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
@@ -93,11 +92,11 @@ const Checkout: React.FC = () => {
   const fetchOrderInCart = async () => {
     try {
       const response = await fetchCartInfo(accessToken);
-      if (response?.ok) {
-        const data = await response.json();
+      if (response) {
+        const data = await JSON.parse(response);
         console.log(`Order in cart:`);
-        console.log({ data });
-        return data;
+        console.log(data);
+        return data;  
       }
 
       return null;
@@ -108,19 +107,15 @@ const Checkout: React.FC = () => {
   };
 
   useEffect(() => {
-
-    fetchOrderInCart().then(data => {
-      if (data) {
-        setOrderInCart(data);
-        setCartItems(data.orderDetails);
+    const fetchData = async () => {
+      const orderInCart = await fetchOrderInCart();
+      if (orderInCart) {
+        setOrderInCart(orderInCart);
+        setCartItems(orderInCart.orderDetails);
       }
-    });
-
-    return () => {
-
-    }
+    };
+    fetchData();
   }, []);
-
 
   // useEffect(() => {
   //   const newSubtotal = cartItems.reduce(
@@ -162,12 +157,8 @@ const Checkout: React.FC = () => {
   const handleQuantityChange = (newQuantity: number, productId?: string, diamondId?: string) => {
     setCartItems((prevItems) =>
       prevItems.map((item) => {
-        // Determine the ID to use for comparison
         const comparisonId = productId || diamondId;
-  
-        // Check if the item's productId or diamondId matches the comparisonId
         const isMatch = item.productId === comparisonId || item.diamondId === comparisonId;
-  
         return isMatch
           ? {
               ...item,
@@ -181,11 +172,7 @@ const Checkout: React.FC = () => {
   const handleRemoveItem = (productId?: string, diamondId?: string) => {
     setCartItems((prevItems) =>
       prevItems.filter((item) => {
-        // Determine the ID to use for comparison
         const comparisonId = productId || diamondId;
-  
-        // Check if the item's productId or diamondId matches the comparisonId
-        // If it does not match, the item is kept in the array
         return !(item.productId === comparisonId || item.diamondId === comparisonId);
       })
     );
@@ -195,7 +182,7 @@ const Checkout: React.FC = () => {
     <>
       <Header />
       <div className="checkout-container">
-        {/* <div className="col-8">
+         {/* <div className="col-8">
           <div className="cart-info">
             <div className="cart-info-list">
               {cartItems.map((item) => (
@@ -250,13 +237,12 @@ const Checkout: React.FC = () => {
             </div>
           </div>
         </div> */}
-
         <section className="col-8 product_section">
           <div className="cart_info">
             <div className="cart_info_list">
               {cartItems.map((item) => (
                 <article key={item.id} className="cart-item flex">
-                  <img src={item.product.pictures[0]?.urlPath} alt={item.product.name} className="item-img" />
+                  <img src={item.product?.pictures[0]?.urlPath ?? "https://dictionary.cambridge.org/vi/images/thumb/diamon_noun_002_10599.jpg?version=6.0.25"} alt={item.product?.name ?? "Unknown product"} className="item-img" />
                   <div className="cart-info">
                     <div
                       className="flex"
@@ -265,15 +251,15 @@ const Checkout: React.FC = () => {
                         marginBottom: "30px",
                       }}
                     >
-                      <h3 className="cart-title">{item.product.name}</h3>
+                      <h3 className="cart-title">{item.product?.name ?? "Unknown product"}</h3>
                       <div className="cart-price">
                         ${item.subTotal}
                       </div>
                     </div>
                     <div className="cart-desc">
-                      ${item.product.price} |{" "}
+                      ${item.product?.price ?? "N/A"} |{" "}
                       <label style={{ color: "#67B044" }}>
-                        {item.product.status}
+                        {item.product?.status ?? "Unknown status"}
                       </label>
                     </div>
                     <div
