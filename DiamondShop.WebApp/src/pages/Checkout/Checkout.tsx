@@ -256,7 +256,7 @@ const Checkout: React.FC = () => {
             <div className="cart_info_list">
               {cartItems.map((item) => (
                 <article key={item.id} className="cart-item flex">
-                  {/* <img src={item.product.pictures[0].urlPath} alt={item.product.name} className="item-img" /> */}
+                  <img src={item.product.pictures[0]?.urlPath} alt={item.product.name} className="item-img" />
                   <div className="cart-info">
                     <div
                       className="flex"
@@ -319,7 +319,7 @@ const Checkout: React.FC = () => {
               <div className="space flex">
                 <div className="checkout-counter-item">Price (Total)</div>
                 <div className="checkout-counter-amount">
-                  ${formatPrice(orderInCart?.total)}
+                  ${formatPrice(total)}
                 </div>
               </div>
               <div className="space flex">
@@ -329,7 +329,7 @@ const Checkout: React.FC = () => {
             </div>
             <div className="checkout-group space flex">
               <div className="checkout-total">Total</div>
-              <div className="checkout-counter-amount">${formatPrice(orderInCart?.total)}</div>
+              <div className="checkout-counter-amount">${formatPrice(total)}</div>
             </div>
             <div className="checkout-group flex">
               <div className="checkout-total">Coupon</div>
