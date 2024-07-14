@@ -1,4 +1,5 @@
 ﻿using DiamondShop.DataAccess.DTOs.Account;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Models;
 
@@ -10,4 +11,5 @@ public interface IAccountService
     Task<List<GetAccountDto>> GetAllAccounts();
     Task<GetAccountDetailDto> GetAccountById(Guid id);
     Task ChangeAccountStatus(Guid accountId, AccountStatus status);
+    Task<PagedResult<GetAccountDto>> GetPagedAccounts(QueryAccountDto queryAccountDto);
 }
