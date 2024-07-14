@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.DTOs.Account;
 using DiamondShop.DataAccess.DTOs.Certificate;
 using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Product;
 using DiamondShop.DataAccess.DTOs.Query;
+using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -125,6 +127,40 @@ namespace DiamondShop.DataAccess.Extensions
             if (diamondId is not null)
             {
                 query = query.Where(c => c.Diamond != null && c.Diamond.Id == diamondId);
+            }
+
+            return query;
+        }
+
+        public static IQueryable<Account> ApplyAccountFilter(this IQueryable<Account> query,
+            QueryAccountDto queryAccountDto)
+        {
+            var role = queryAccountDto.Role;
+            var email = queryAccountDto.Email;
+            var fullName = queryAccountDto.FullName;
+            if (role is not null)
+            {
+                query = role switch
+                {
+                    Role.Customer => query.Where(a => a.Role == Role.Customer.ToString().ToLower()),
+                    Role.Admin => query.Where(a => a.Role == Role.Admin.ToString().ToLower()),
+                    Role.Manager => query.Where(a => a.Role == Role.Manager.ToString().ToLower()),
+                    Role.DeliveryStaff => query.Where(a => a.Role == Role.DeliveryStaff.ToString().ToLower()),
+                    Role.SalesStaff => query.Where(a => a.Role == Role.SalesStaff.ToString().ToLower()),
+                    _ => query
+                };
+            }
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(a => !string.IsNullOrEmpty(a.Email) && a.Email == email);
+            }
+
+            if (!string.IsNullOrEmpty(fullName))
+            {
+                query = query.Where(a =>
+                    (!string.IsNullOrEmpty(a.Customer.Fullname) && a.Customer.Fullname.ToLower().Contains(fullName) ) ||
+                    (!string.IsNullOrEmpty(a.StakeHolder.Fullname) && a.StakeHolder.Fullname.ToLower().Contains(fullName)));
             }
 
             return query;
