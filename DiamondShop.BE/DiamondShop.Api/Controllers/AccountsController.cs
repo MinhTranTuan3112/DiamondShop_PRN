@@ -35,7 +35,7 @@ namespace DiamondShop.Api.Controllers
 
         }
         [HttpPut("{accountId:guid}/{status}")]
-        public async Task<ActionResult> ChangeStatusProduct(Guid accountId, AccountStatus status)
+        public async Task<ActionResult> ChangeStatusAccount(Guid accountId, AccountStatus status)
         {
             await _serviceFactory.GetAccountService().ChangeAccountStatus(accountId, status);
             return NoContent();

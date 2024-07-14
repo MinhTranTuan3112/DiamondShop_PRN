@@ -41,17 +41,24 @@ namespace DiamondShop.Api.Controllers
             return Ok();
         }
         
-        [HttpPut("update-password/{id:guid}")]
-        public async Task<ActionResult> UpdatePassword(Guid id, [FromBody]UpdatePasswordDto updatePasswordDto)
+        [HttpPut("update-password")]
+        [Authorize]
+        public async Task<ActionResult> UpdatePassword([FromBody]UpdatePasswordDto updatePasswordDto)
         {
-            await _serviceFactory.GetAuthService().UpdatePassword(id, updatePasswordDto);
-            return Ok();
+            await _serviceFactory.GetAuthService().UpdatePassword(HttpContext.User, updatePasswordDto);
+            return NoContent();
         }
         [HttpGet("who-am-i")]
         [Authorize]
         public async Task<ActionResult<GetAccountDetailDto>> WhoAmI()
         {
             return await _serviceFactory.GetAuthService().GetAccountInfoByClaims(HttpContext.User);
+        }
+        [HttpGet("check-password/{password}")]
+        [Authorize]
+        public async Task<ActionResult<bool>> CheckCurrentPassword(string password)
+        {
+            return await _serviceFactory.GetAuthService().IsCorrectPassword(HttpContext.User, password);
         }
     }
 }

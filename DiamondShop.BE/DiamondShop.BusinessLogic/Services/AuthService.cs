@@ -77,16 +77,12 @@ namespace DiamondShop.BusinessLogic.Services
 
         
 
-        public async Task UpdatePassword(Guid id, UpdatePasswordDto updatePasswordDto)
+        public async Task UpdatePassword(ClaimsPrincipal claims, UpdatePasswordDto updatePasswordDto)
         {
-            var account = await _unitOfWork.GetAccountRepository().FindOneAsync(x => x.Id == id);
+            var account = await _unitOfWork.GetAccountRepository().FindOneAsync(x => x.Id == claims.GetAccountId());
             if (account is null)
             {
-                throw new NotFoundException("Account is not existed");
-            }
-            if (HashPassword(updatePasswordDto.CurrentPassword) != account.Password)
-            {
-                throw new UnauthorizedException("Current password is not correct");
+                throw new UnauthorizedException("Account is not authorized");
             }
             if (updatePasswordDto.RetypeNewPassword != updatePasswordDto.NewPassword)
             {
@@ -94,6 +90,18 @@ namespace DiamondShop.BusinessLogic.Services
             }
             account.Password = HashPassword(updatePasswordDto.NewPassword);
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsCorrectPassword(ClaimsPrincipal claims, string password)
+        {
+            var account = await _unitOfWork.GetAccountRepository()
+                .FindOneAsync(x => x.Id == claims.GetAccountId());
+            if (account is null)
+            {
+                throw new UnauthorizedException("Account is not authorized!!");
+            }
+
+            return account.Password == HashPassword(password);
         }
 
 
