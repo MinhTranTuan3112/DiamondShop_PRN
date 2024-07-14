@@ -13,7 +13,7 @@ import Dashboard from "./Dashboard";
 import DiamondManagement from "./DiamondManagement";
 import OrderManagement from "./OrderManagement";
 import ProductManagement from "./ProductManagement";
-import PromotionManagement from "./PromotionManagement";
+// import PromotionManagement from "./PromotionManagement";
 import AccountManagement from "./AccountManagement";
 import { fetchWhoAmI } from "../../services/auth_service";
 import useAuth from "../../hooks/useAuth";

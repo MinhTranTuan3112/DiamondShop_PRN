@@ -77,7 +77,7 @@ const ProductDetailsPage = (props: Props) => {
           <div className="main_img h-[20rem] w-[20rem inline-center">
             <img
               className="h-full w-full"
-              src={data?.pictures[0].urlPath}
+              src={data?.pictures[0]?.urlPath}
               alt=""
             />
           </div>
