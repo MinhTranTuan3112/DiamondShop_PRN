@@ -20,23 +20,36 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetchLogin(formState.email, formState.password);
+    try {
+      const response = await fetchLogin(formState.email, formState.password);
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setAccessToken(data.accessToken);
-      setExpirationDate(new Date(data.expireIn));
-      const userInfoResponse = await fetchWhoAmI(data.accessToken);
-      if (userInfoResponse.ok) {
-        const userInfo: AuthAccount = await userInfoResponse.json();
-        const userRole = userInfo.role;
-        if (userRole === "Customer") {
-          navigate("/");
-        } else {
-          navigate("/dashboard");
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setAccessToken(data.accessToken);
+        setExpirationDate(new Date(data.expireIn));
+
+        try {
+          const userInfoResponse = await fetchWhoAmI(data.accessToken);
+          console.log("user response:", userInfoResponse);
+
+          if (userInfoResponse) {
+            const userInfo: AuthAccount = JSON.parse(userInfoResponse);
+            const userRole = userInfo.role;
+            if (userRole === "Customer") {
+              navigate("/");
+            } else {
+              navigate("/dashboard");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user info:", error);
         }
+      } else {
+        console.error("Login failed:", response.statusText);
       }
+    } catch (error) {
+      console.error("Error during login:", error);
     }
   };
 
