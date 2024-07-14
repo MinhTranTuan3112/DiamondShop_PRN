@@ -23,10 +23,10 @@ namespace DiamondShop.Api.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPromotionById(Guid id)
+        [HttpGet("{code}")]
+        public async Task<IActionResult> GetPromotionByCode(string code)
         {
-            var promotion = await _serviceFactory.GetPromotionService().GetPromotionById(id);
+            var promotion = await _serviceFactory.GetPromotionService().GetPromotionByCode(code);
             return Ok(promotion);
         }
 

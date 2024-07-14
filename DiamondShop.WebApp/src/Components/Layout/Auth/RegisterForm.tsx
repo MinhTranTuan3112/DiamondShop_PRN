@@ -32,7 +32,6 @@ const RegisterForm = () => {
     );
 
     if (response.ok) {
-      // Handle successful registration
       navigate("/login");
     } else {
       // Handle registration failure

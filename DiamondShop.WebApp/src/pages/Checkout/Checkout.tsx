@@ -4,6 +4,7 @@ import Header from "../../Components/Layout/Header";
 import Footer from "../../Components/Layout/Footer";
 import { FiMinusSquare, FiPlusSquare } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { customFetch } from "../../services/custom_fetch";
 
 interface CartItem {
   id: number;
@@ -12,6 +13,15 @@ interface CartItem {
   quantity: number;
   available: string;
   imgSrc: string;
+}
+
+interface Promotion {
+  id: string;
+  name: string;
+  description: string;
+  expiredDate: string;
+  discountPercent: number;
+  status: string;
 }
 
 const Checkout: React.FC = () => {
@@ -55,6 +65,24 @@ const Checkout: React.FC = () => {
   ]);
 
   const [subtotal, setSubtotal] = useState<number>(0);
+  const [coupon, setCoupon] = useState<string>("");
+  const [promotion, setPromotion] = useState<Promotion | null>(null);
+  const [total, setTotal] = useState<number>(0);
+
+  const handleCoupon = async (code: string) => {
+    try {
+      const response = await customFetch({
+        options: { method: "GET" },
+        endpointPath: `/Promotions/${code}`,
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPromotion(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch promotion:", error);
+    }
+  };
 
   useEffect(() => {
     const newSubtotal = cartItems.reduce(
@@ -63,6 +91,14 @@ const Checkout: React.FC = () => {
     );
     setSubtotal(newSubtotal);
   }, [cartItems]);
+
+  useEffect(() => {
+    const discount = promotion
+      ? (promotion.discountPercent / 100) * subtotal
+      : 0;
+    const newTotal = subtotal - discount + 10; // Adding fixed shipping cost of $10
+    setTotal(newTotal);
+  }, [subtotal, promotion]);
 
   const handleQuantityChange = (id: number, delta: number) => {
     setCartItems((prevItems) =>
@@ -162,9 +198,23 @@ const Checkout: React.FC = () => {
             </div>
             <div className="checkout-group space flex">
               <div className="checkout-total">Total</div>
-              <div className="checkout-counter-amount">
-                ${(subtotal + 10).toFixed(2)}
-              </div>
+              <div className="checkout-counter-amount">${total.toFixed(2)}</div>
+            </div>
+            <div className="checkout-group flex">
+              <div className="checkout-total">Coupon</div>
+              <input
+                className="checkout-coupon"
+                type="text"
+                value={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+              />
+              <button
+                className="checkout-coupon-btn"
+                onClick={() => handleCoupon(coupon)}
+              >
+                Apply
+              </button>
+              {promotion && <span>{promotion.discountPercent}%</span>}
             </div>
             <button className="checkout-btn">Checkout</button>
           </div>
