@@ -39,11 +39,11 @@ const ProductCard = ({ product }: Props) => {
         {product.name}
       </h3>
       <p className="text-xl text-gray-600">{formatPrice(product.price)} VNĐ</p>
-      <Button
+      <Button onClick={navigateToProductDetails}
         variant="contained"
         style={{ width: "100px", marginTop: "auto", background: "#1c1c1c" }}
       >
-        Thêm vào giỏ hàng
+        Chi tiết
       </Button>
     </div>
   );

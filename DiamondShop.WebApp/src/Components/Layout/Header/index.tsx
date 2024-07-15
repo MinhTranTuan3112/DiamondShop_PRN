@@ -49,6 +49,14 @@ const Header: React.FC = () => {
                 </li>
                 <li>
                   <Link
+                    to="/diamonds"
+                    className="px-[21px] py-[4px] text-[17px] font-semibold text-[#2e2e2e]"
+                  >
+                    Kim cương
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/pricing"
                     className="px-[21px] py-[4px] text-[17px] font-semibold text-[#2e2e2e]"
                   >

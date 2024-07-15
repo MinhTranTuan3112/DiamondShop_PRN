@@ -222,7 +222,7 @@ const ProductPageContent = (props: Props) => {
                   <ProductCard
                     product={product}
                     key={index}
-                    className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-full h-[300px]"
+                    // className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-full h-[300px]"
                   />
                 ))}
               </div>

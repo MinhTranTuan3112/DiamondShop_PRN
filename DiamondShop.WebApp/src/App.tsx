@@ -13,6 +13,7 @@ import NotFoundPage from "./pages/NotFound";
 import ProductsPage from "./pages/Product";
 import Order from "./pages/Order/Order";
 import DiamondPricingPage from "./pricing/DiamondPricing";
+import DiamondsPage from "./pages/Diamond";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="/dashboard" element={<Admin />} />
           <Route path="/order" element={<Order />} />
           <Route path="/pricing" element={<DiamondPricingPage/>}/>
+          <Route path="/diamonds" element={<DiamondsPage/>}/>
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />
