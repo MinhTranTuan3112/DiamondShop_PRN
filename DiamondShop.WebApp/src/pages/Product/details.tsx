@@ -13,6 +13,7 @@ import { fetchAddToCart } from "../../services/order_service";
 import useAuth from "../../hooks/useAuth";
 import { ProductType } from "../../enums/ProductType";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import { OrderStatus } from "../../enums/OrderStatus";
 
 type Props = {};
 
@@ -39,6 +40,9 @@ const fetchData = async (id: string) => {
 const ProductDetailsPage = (props: Props) => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  console.log(OrderStatus.Pending_Confirm.toString());
+  
 
   if (!id) {
     return <div>Invalid product id</div>;
@@ -93,7 +97,7 @@ const ProductDetailsPage = (props: Props) => {
       productId: productId,
       quantity: quantity,
       ringSize: ringSize,
-      sumSizePrice: data?.type == ProductType.Ring.toString() ? getRingSizePrice(ringSize!, data.material) : 0,
+      sumSizePrice: data?.type.toLowerCase() == "ring" ? getRingSizePrice(ringSize!, data.material) : 0,
     };
 
     const response = await fetchAddToCart(accessToken, request);
@@ -163,7 +167,7 @@ const ProductDetailsPage = (props: Props) => {
                 </option>
               </select>
             </div>
-            {data?.type === ProductType.Ring.toString() && (
+            {data?.type.toLowerCase() === "ring" && (
               <div className="form-group">
                 <label htmlFor="size" className="block w-[15%] mb-2">
                   Ni

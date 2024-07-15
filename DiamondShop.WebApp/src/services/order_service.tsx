@@ -1,3 +1,4 @@
+import { OrderStatus } from "../enums/OrderStatus";
 import { AddToCartRequest } from "../types/addToCartRequest";
 import { customFetch } from "./custom_fetch";
 
@@ -29,7 +30,7 @@ export const fetchAddToCart = async (accessToken: string, request: AddToCartRequ
 
 export const fetchCartInfo = async (accessToken: string) => {
   try {
-    
+
     const response = await customFetch({
       endpointPath: '/orders/cart-info',
       options: {
@@ -52,3 +53,28 @@ export const fetchCartInfo = async (accessToken: string) => {
     throw error;
   }
 };
+
+export const fetchConfirmOrder = async (accessToken: string, orderId: string) => {
+  console.log(`Confirming order with id: ${orderId}`);
+  try {
+    const response = await customFetch({
+      endpointPath: '/orders/status',
+      options: {
+        method: 'PATCH'
+      },
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      body: {
+        id: orderId,
+        status: "Pending_Confirm"
+      }
+    });
+
+    return response;
+    
+  } catch (error) {
+    console.error(`Error occurred while confirming order: ${error}`);
+  }
+}

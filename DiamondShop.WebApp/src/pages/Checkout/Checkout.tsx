@@ -6,8 +6,9 @@ import { FiMinusSquare, FiPlusSquare } from "react-icons/fi";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { customFetch } from "../../services/custom_fetch";
 import useAuth from "../../hooks/useAuth";
-import { fetchCartInfo } from "../../services/order_service";
+import { fetchCartInfo, fetchConfirmOrder } from "../../services/order_service";
 import { formatPrice } from "../../utils/priceUtils";
+import Swal from "sweetalert2";
 
 // interface CartItem {
 //   id: number;
@@ -178,6 +179,36 @@ const Checkout: React.FC = () => {
     );
   };
 
+  const handleConfirmOrder = async () => {
+
+    try {
+      const result = await Swal.fire({
+        icon: 'question',
+        confirmButtonText: 'Ok',
+        title: 'Xác nhận đặt hàng?',
+        showCancelButton: true,
+        cancelButtonText: 'Hủy',
+      });
+
+      if (!result.isConfirmed) {
+        return;
+      }
+
+      const response = await fetchConfirmOrder(accessToken, orderInCart?.id || "");
+
+      if (response?.ok) {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Đặt hàng thành công!',
+          text: 'Cảm ơn bạn đã mua hàng tại MAPTH Diamond Shop!',
+        });
+      }
+
+    } catch (error) {
+      console.error("Failed to confirm order:", error);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -281,7 +312,7 @@ const Checkout: React.FC = () => {
                 </button>
                 {promotion && <span>{promotion.discountPercent}%</span>}
               </div>
-              <button className="checkout-btn">Checkout</button>
+              <button className="checkout-btn" onClick={handleConfirmOrder}>Xác nhận đặt hàng</button>
             </div>
           </div>
         </div>
