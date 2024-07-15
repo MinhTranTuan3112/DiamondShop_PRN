@@ -42,7 +42,10 @@ namespace DiamondShop.DataAccess.Repositories
 
         public async Task<PagedResult<Diamond>> GetPagedDiamonds(QueryDiamondDto queryDiamondDto)
         {
-            var (pageNumber, pageSize, sortBy, orderByDesc) = queryDiamondDto.QueryDto;
+            int pageNumber = queryDiamondDto.PageNumber;
+            int pageSize = queryDiamondDto.PageSize;
+            string sortBy = queryDiamondDto.SortColumn;
+            bool orderByDesc = queryDiamondDto.OrderByDesc;
             var query = _context.Diamonds.AsNoTracking()
                                          .Include(d => d.Pictures)
                                          .AsSplitQuery()
