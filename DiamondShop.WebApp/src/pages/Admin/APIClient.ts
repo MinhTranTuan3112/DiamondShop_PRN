@@ -118,38 +118,42 @@ export const fetchCategories = async () => {
 export const fetchOrders = async (
   Size: number, Page: number,
   Code?: string, PayMethod?: string, ShipAddress?: string, Note?: string, Status?: string,
-  IsDescendingCode?: boolean, IsDescendingTime?: boolean,
+  OrderByCode?: boolean, IsDescendingCode?: boolean, IsDescendingTime?: boolean,
   accessToken?: string):
+
   Promise<{ results: any[]; totalCount: number }> => {
   let url = `${BASE_URL}/Orders/list`;
 
-  Size = Size === 0 ? 5 : Size;
-  Page = Page === 0 ? 1 : Page;
+  Size = (Size === 0) ? 5 : Size;
+  Page = (Page === 0) ? 1 : Page;
+  OrderByCode = (OrderByCode === undefined) ? true : OrderByCode;
+  IsDescendingCode = (IsDescendingCode === undefined) ? true : IsDescendingCode;
+  IsDescendingTime = (IsDescendingTime === undefined) ? true : IsDescendingTime;
 
-  const response = await fetch(url,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-      },
-      body: JSON.stringify({
-        Size,
-        Page,
-        Code,
-        PayMethod,
-        ShipAddress,
-        Note,
-        Status,
-        IsDescendingCode,
-        IsDescendingTime,
-      }),
-    });
+  console.log("page before to server:" +Page);
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({
+      Size,
+      Page,
+      Code,
+      PayMethod,
+      ShipAddress,
+      Note,
+      Status,
+      OrderByCode,
+      IsDescendingCode,
+      IsDescendingTime,
+    })
+  });
 
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}\nMessage: ${response.text()}`);
   }
-
   return await response.json();
 };
 

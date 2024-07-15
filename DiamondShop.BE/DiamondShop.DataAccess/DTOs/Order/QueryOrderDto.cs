@@ -8,8 +8,6 @@ namespace DiamondShop.DataAccess.DTOs.Order
         public int Page {  get; set; }
         public Guid SalesStaffId { get; set; } = Guid.Empty;
         public Guid DeliveryStaffId { get; set; } = Guid.Empty;
-
-        public string? PayMethod { get; set; }
         public string? Code { get; set; }
         public string? PayMethod { get; set; }
         public string? ShipAddress { get; set; }

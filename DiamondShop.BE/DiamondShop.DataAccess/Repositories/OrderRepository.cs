@@ -56,7 +56,7 @@ namespace DiamondShop.DataAccess.Repositories
             }
             if (!input.Status.IsNullOrEmpty())
             {
-                query = query.Where(ord => ord.Code.ToLower().Equals(input.Status!.ToLower()));
+                query = query.Where(ord => ord.Status.ToLower().Equals(input.Status!.ToLower()));
             }
 
             // Sort
