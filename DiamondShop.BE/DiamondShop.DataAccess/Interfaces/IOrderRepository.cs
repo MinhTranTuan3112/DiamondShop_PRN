@@ -14,8 +14,6 @@ namespace DiamondShop.DataAccess.Interfaces
     {
         Task<Order?> GetOrderWithOrderDetails(Expression<Func<Order, bool>> predicate);
         public Task<PagedResult<Order>?> GetListAsync(QueryOrderDto query);
-        public Task<IEnumerable<Order>?> GetListAsync(QueryOrderDto query);
-
         Task<Order?> GetCustomerCartInfo(Guid customerId);
     }
 }

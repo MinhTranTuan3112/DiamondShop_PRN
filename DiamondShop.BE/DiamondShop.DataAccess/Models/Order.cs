@@ -8,6 +8,10 @@ public partial class Order
 
     public DateTime OrderDate { get; set; }
 
+    public int Point { get; set; }
+
+    public int PromotionPercent { get; set; }
+
     public decimal Total { get; set; }
 
     public string? PayMethod { get; set; }

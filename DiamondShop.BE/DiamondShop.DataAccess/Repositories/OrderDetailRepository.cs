@@ -18,6 +18,7 @@ namespace DiamondShop.DataAccess.Repositories
         {
             return await _context.OrderDetails
                 .Include(odtl => odtl.Product)
+                .Include(odtl => odtl.Diamond)
                 .Include(odtl => odtl.Order)
                 .Include(odtl => odtl.Warranties)
                 .FirstOrDefaultAsync(odtl => odtl.Id == orderDetailId);

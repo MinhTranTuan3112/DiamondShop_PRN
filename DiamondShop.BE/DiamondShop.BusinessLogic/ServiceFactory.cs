@@ -100,6 +100,7 @@ namespace DiamondShop.BusinessLogic
         public IWarrantyService GetWarrantyService()
         {
             return _warrantyService.Value;
+        }
         public IPromotionService GetPromotionService()
         {
             return promotionService.Value;
