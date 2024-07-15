@@ -9,14 +9,14 @@ import useAuth from "../../hooks/useAuth";
 import { fetchCartInfo } from "../../services/order_service";
 import { formatPrice } from "../../utils/priceUtils";
 
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  available: string;
-  imgSrc: string;
-}
+// interface CartItem {
+//   id: number;
+//   name: string;
+//   price: number;
+//   quantity: number;
+//   available: string;
+//   imgSrc: string;
+// }
 
 interface Promotion {
   id: string;
@@ -92,14 +92,14 @@ const Checkout: React.FC = () => {
   const fetchOrderInCart = async () => {
     try {
       const response = await fetchCartInfo(accessToken);
-      if (response) {
-        const data = await JSON.parse(response);
-        console.log(`Order in cart:`);
-        console.log(data);
-        return data;  
+
+      if (response.status === 404) {
+        return null;
       }
 
-      return null;
+      const data = await response.json();
+
+      return data;
     } catch (error) {
       console.error("Failed to fetch order in cart:", error);
       return null;
@@ -161,9 +161,9 @@ const Checkout: React.FC = () => {
         const isMatch = item.productId === comparisonId || item.diamondId === comparisonId;
         return isMatch
           ? {
-              ...item,
-              quantity: Math.max(1, item.quantity + newQuantity),
-            }
+            ...item,
+            quantity: Math.max(1, item.quantity + newQuantity),
+          }
           : item;
       })
     );
@@ -181,162 +181,111 @@ const Checkout: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="checkout-container">
-         {/* <div className="col-8">
-          <div className="cart-info">
-            <div className="cart-info-list">
-              {cartItems.map((item) => (
-                <article key={item.id} className="cart-item flex">
-                  <img src={item.imgSrc} alt={item.name} className="item-img" />
-                  <div className="cart-info">
-                    <div
-                      className="flex"
-                      style={{
-                        justifyContent: "space-between",
-                        marginBottom: "30px",
-                      }}
-                    >
-                      <h3 className="cart-title">{item.name}</h3>
-                      <div className="cart-price">
-                        ${item.price * item.quantity}
+      {!orderInCart ? (
+        <p className="text-center font-bold text-3xl">Giỏ hàng của bạn đang trống</p>
+      ) : (
+        <div className="checkout-container">
+          <section className="col-8 product_section">
+            <div className="cart_info">
+              <div className="cart_info_list">
+                {cartItems.map((item) => (
+                  <article key={item.id} className="cart-item flex">
+                    <img src={item.product?.pictures[0]?.urlPath ?? "https://dictionary.cambridge.org/vi/images/thumb/diamon_noun_002_10599.jpg?version=6.0.25"} alt={item.product?.name ?? "Unknown product"} className="item-img" />
+                    <div className="cart-info">
+                      <div
+                        className="flex"
+                        style={{
+                          justifyContent: "space-between",
+                          marginBottom: "30px",
+                        }}
+                      >
+                        <h3 className="cart-title">{item.product?.name ?? "Unknown product"}</h3>
+                        <div className="cart-price">
+                          ${formatPrice(item.subTotal)}
+                        </div>
                       </div>
-                    </div>
-                    <div className="cart-desc">
-                      ${item.price} |{" "}
-                      <label style={{ color: "#67B044" }}>
-                        {item.available}
-                      </label>
-                    </div>
-                    <div
-                      className="flex"
-                      style={{ justifyContent: "space-between" }}
-                    >
-                      <div className="action-item-value flex">
-                        <FiMinusSquare
-                          onClick={() => handleQuantityChange(item.id, -1)}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <label style={{ color: "#000" }}>{item.quantity}</label>
-                        <FiPlusSquare
-                          onClick={() => handleQuantityChange(item.id, 1)}
-                          style={{ cursor: "pointer" }}
-                        />
+                      <div className="cart-desc">
+                        ${formatPrice(item.product?.price) ?? "N/A"} |{" "}
+                        <label style={{ color: "#67B044" }}>
+                          {item.product?.status ?? "Unknown status"}
+                        </label>
                       </div>
                       <div
-                        className="cart-remove flex"
-                        onClick={() => handleRemoveItem(item.id)}
-                        style={{ cursor: "pointer" }}
+                        className="flex"
+                        style={{ justifyContent: "space-between" }}
                       >
-                        <FaRegTrashCan />
-                        <label>Remove</label>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div> */}
-        <section className="col-8 product_section">
-          <div className="cart_info">
-            <div className="cart_info_list">
-              {cartItems.map((item) => (
-                <article key={item.id} className="cart-item flex">
-                  <img src={item.product?.pictures[0]?.urlPath ?? "https://dictionary.cambridge.org/vi/images/thumb/diamon_noun_002_10599.jpg?version=6.0.25"} alt={item.product?.name ?? "Unknown product"} className="item-img" />
-                  <div className="cart-info">
-                    <div
-                      className="flex"
-                      style={{
-                        justifyContent: "space-between",
-                        marginBottom: "30px",
-                      }}
-                    >
-                      <h3 className="cart-title">{item.product?.name ?? "Unknown product"}</h3>
-                      <div className="cart-price">
-                        ${item.subTotal}
-                      </div>
-                    </div>
-                    <div className="cart-desc">
-                      ${item.product?.price ?? "N/A"} |{" "}
-                      <label style={{ color: "#67B044" }}>
-                        {item.product?.status ?? "Unknown status"}
-                      </label>
-                    </div>
-                    <div
-                      className="flex"
-                      style={{ justifyContent: "space-between" }}
-                    >
-                      <div className="action-item-value flex">
-                        <FiMinusSquare
-                          onClick={() => handleQuantityChange(-1, item.productId, item.diamondId)}
+                        <div className="action-item-value flex">
+                          <FiMinusSquare
+                            onClick={() => handleQuantityChange(-1, item.productId, item.diamondId)}
+                            style={{ cursor: "pointer" }}
+                          />
+                          <label style={{ color: "#000" }}>{item.quantity}</label>
+                          <FiPlusSquare
+                            onClick={() => handleQuantityChange(1, item.productId, item.diamondId)}
+                            style={{ cursor: "pointer" }}
+                          />
+                        </div>
+                        <div
+                          className="cart-remove flex"
+                          onClick={() => handleRemoveItem(item.productId, item.diamondId)}
                           style={{ cursor: "pointer" }}
-                        />
-                        <label style={{ color: "#000" }}>{item.quantity}</label>
-                        <FiPlusSquare
-                          onClick={() => handleQuantityChange(1, item.productId, item.diamondId)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </div>
-                      <div
-                        className="cart-remove flex"
-                        onClick={() => handleRemoveItem(item.productId, item.diamondId)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <FaRegTrashCan />
-                        <label>Remove</label>
+                        >
+                          <FaRegTrashCan />
+                          <label>Remove</label>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <div className="col-4">
-          <div className="checkout-inner">
-            <div className="checkout-counter">
-              <div className="space flex">
-                <div className="checkout-counter-item">Subtotal (items)</div>
-                <div className="checkout-counter-amount">
-                  {cartItems.length}
+          <div className="col-4">
+            <div className="checkout-inner">
+              <div className="checkout-counter">
+                <div className="space flex">
+                  <div className="checkout-counter-item">Subtotal (items)</div>
+                  <div className="checkout-counter-amount">
+                    {cartItems.length}
+                  </div>
+                </div>
+                <div className="space flex">
+                  <div className="checkout-counter-item">Price (Total)</div>
+                  <div className="checkout-counter-amount">
+                    ${formatPrice(total)}
+                  </div>
+                </div>
+                <div className="space flex">
+                  <div className="checkout-counter-item">Shipping</div>
+                  <div className="checkout-counter-amount">$10.00</div>
                 </div>
               </div>
-              <div className="space flex">
-                <div className="checkout-counter-item">Price (Total)</div>
-                <div className="checkout-counter-amount">
-                  ${formatPrice(total)}
-                </div>
+              <div className="checkout-group space flex">
+                <div className="checkout-total">Total</div>
+                <div className="checkout-counter-amount">${formatPrice(total)}</div>
               </div>
-              <div className="space flex">
-                <div className="checkout-counter-item">Shipping</div>
-                <div className="checkout-counter-amount">$10.00</div>
+              <div className="checkout-group flex">
+                <div className="checkout-total">Coupon</div>
+                <input
+                  className="checkout-coupon"
+                  type="text"
+                  value={coupon}
+                  onChange={(e) => setCoupon(e.target.value)}
+                />
+                <button
+                  className="checkout-coupon-btn"
+                  onClick={() => handleCoupon(coupon)}
+                >
+                  Apply
+                </button>
+                {promotion && <span>{promotion.discountPercent}%</span>}
               </div>
+              <button className="checkout-btn">Checkout</button>
             </div>
-            <div className="checkout-group space flex">
-              <div className="checkout-total">Total</div>
-              <div className="checkout-counter-amount">${formatPrice(total)}</div>
-            </div>
-            <div className="checkout-group flex">
-              <div className="checkout-total">Coupon</div>
-              <input
-                className="checkout-coupon"
-                type="text"
-                value={coupon}
-                onChange={(e) => setCoupon(e.target.value)}
-              />
-              <button
-                className="checkout-coupon-btn"
-                onClick={() => handleCoupon(coupon)}
-              >
-                Apply
-              </button>
-              {promotion && <span>{promotion.discountPercent}%</span>}
-            </div>
-            <button className="checkout-btn">Checkout</button>
           </div>
         </div>
-      </div>
+      )}
       <Footer />
     </>
   );

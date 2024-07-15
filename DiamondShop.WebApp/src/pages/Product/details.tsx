@@ -44,6 +44,11 @@ const ProductDetailsPage = (props: Props) => {
     return <div>Invalid product id</div>;
   }
 
+  const { accessToken } = useAuth();
+
+  const [quantity, setQuantity] = useState(1);
+  const [ringSize, setRingSize] = useState<number | undefined>(undefined);
+
   const { isPending, error, data } = useQuery({
     queryKey: ["product_details", id],
     queryFn: async () => await fetchData(id),
@@ -62,6 +67,43 @@ const ProductDetailsPage = (props: Props) => {
 
   if (isPending) {
     <div>Loading...</div>;
+  }
+
+  const handleAddToCart = async () => {
+    if (accessToken === null || accessToken === "") {
+      navigate("/login");
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Thêm sản phẩm này vào giỏ hàng?',
+      icon: 'question',
+      confirmButtonText: 'Thêm vào giỏ hàng',
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    const productId = data?.id;
+
+    let request: AddToCartRequest = {
+      productId: productId,
+      quantity: quantity,
+      ringSize: ringSize,
+      sumSizePrice: data?.type == ProductType.Ring.toString() ? getRingSizePrice(ringSize!, data.material) : 0,
+    };
+
+    const response = await fetchAddToCart(accessToken, request);
+    if (response.ok) {
+      await Swal.fire({
+        title: 'Đã thêm vào giỏ hàng',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+    }
   }
 
   return (
@@ -121,15 +163,26 @@ const ProductDetailsPage = (props: Props) => {
                 </option>
               </select>
             </div>
+            {data?.type === ProductType.Ring.toString() && (
+              <div className="form-group">
+                <label htmlFor="size" className="block w-[15%] mb-2">
+                  Ni
+                </label>
+                <input type="number" className="w-[40%]" name="size" id="size"
+                  value={ringSize ?? 1}
+                  onChange={(e) => setRingSize(+e.target.value)} required />
+              </div>
+            )}
             <div className="form-group">
-              <label htmlFor="size" className="block w-[15%] mb-2">
-                Ni
-              </label>
-              <input type="number" className="w-[40%]" name="size" id="size" />
+              <label htmlFor="quantity" className="block w-[15%] mb-2">Số lượng</label>
+              <input type="number" className="w-[40%]" name="quantity"
+                id="quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(+e.target.value)} required />
             </div>
           </div>
 
-          <button type="button" className="add_to_cart_btn mt-10">
+          <button type="button" onClick={handleAddToCart} className="add_to_cart_btn mt-10">
             <ShoppingCartIcon className="mr-2" />
             Thêm vào giỏ hàng
           </button>
