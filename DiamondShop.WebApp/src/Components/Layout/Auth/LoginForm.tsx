@@ -14,7 +14,7 @@ const LoginForm = () => {
     password: "",
   });
 
-  const { setAccessToken, setExpirationDate } = useAuth();
+  const { setAccessToken, setExpirationDate, setAuthAccount } = useAuth();
 
   const navigate = useNavigate();
 
@@ -29,16 +29,21 @@ const LoginForm = () => {
         setExpirationDate(new Date(data.expireIn));
 
         try {
-          const userInfoResponse = await fetchWhoAmI(data.accessToken);
-          console.log("user response:", userInfoResponse);
+          const response = await fetchWhoAmI(data.accessToken);
+          if (response.ok) {
+            
+            const authAccount: AuthAccount = await response.json();
 
-          if (userInfoResponse) {
-            const userInfo: AuthAccount = JSON.parse(userInfoResponse);
-            const userRole = userInfo.role;
-            if (userRole === "Customer") {
-              navigate("/");
-            } else {
-              navigate("/dashboard");
+            console.log("user response:", authAccount);
+
+            if (authAccount) {
+              setAuthAccount(authAccount);
+              const userRole = authAccount.role;
+              if (userRole === "Customer") {
+                navigate("/");
+              } else {
+                navigate("/dashboard");
+              }
             }
           }
         } catch (error) {

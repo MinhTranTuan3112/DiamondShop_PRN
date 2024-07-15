@@ -97,13 +97,13 @@ namespace DiamondShop.BusinessLogic
         {
             return _productService.Value;
         }
-        public IPromotionService GetPromotionService()
-        {
-            return promotionService.Value;
-        }
         public IWarrantyService GetWarrantyService()
         {
             return _warrantyService.Value;
+        }
+        public IPromotionService GetPromotionService()
+        {
+            return promotionService.Value;
         }
     }
 }

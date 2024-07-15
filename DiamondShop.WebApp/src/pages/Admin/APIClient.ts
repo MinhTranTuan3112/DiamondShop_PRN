@@ -53,6 +53,31 @@ export const fetchDiamonds = async (
   return response.json();
 };
 
+export const fetchDiamondById = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/Diamonds/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch diamond data');
+  }
+  return await response.json();
+};
+
+export const updateDiamond = async (id: string, diamondData: FormData) => {
+  try {
+    const response = await fetch(`${BASE_URL}/Diamonds/${id}`, {
+      method: 'PUT',
+      body: diamondData,
+    });
+
+    if (response.status !== 204) {
+      throw new Error('Failed to update diamond');
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error('Failed to update diamond');
+  }
+};
+
 // Mock API Client
 export interface DashboardStats {
   numberOfDiamonds: number;
@@ -135,6 +160,36 @@ export const deleteOrder = async (orderId: string) => {
   if (response.status === 204) {
     return;
   } else {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+};
+
+
+export const fetchPromotions = async (
+  name: string,
+  pageNumber: number,
+  pageSize: number,
+): Promise<{ results: Promotion[]; totalPage: number }> => {
+  let url = `${BASE_URL}/Promotions?pageIndex=${pageNumber}&pageSize=${pageSize}`;
+
+  if (name.trim() !== "") {
+    url += `&name=${name}`;
+  }
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const deletePromotion = async (promotionId: string) => {
+  const response = await fetch(`${BASE_URL}/Promotions?id=${promotionId}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 };

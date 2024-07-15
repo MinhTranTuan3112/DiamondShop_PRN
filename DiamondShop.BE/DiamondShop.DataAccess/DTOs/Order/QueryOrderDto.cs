@@ -11,9 +11,12 @@ namespace DiamondShop.DataAccess.DTOs.Order
 
         public string? PayMethod { get; set; }
         public string? Code { get; set; }
+        public string? PayMethod { get; set; }
         public string? ShipAddress { get; set; }
         public string? Note { get; set; }
         public string? Status { get; set; }
-        public bool IsDescending { get; set; } = true;
+        public bool OrderByCode { get; set; } = true;
+        public bool IsDescendingCode { get; set; } = true;
+        public bool IsDescendingDate { get; set; } = true;
     }
 }

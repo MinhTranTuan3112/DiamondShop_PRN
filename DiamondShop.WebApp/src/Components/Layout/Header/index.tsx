@@ -2,11 +2,13 @@ import useAuth from "../../../hooks/useAuth";
 
 import React from "react";
 import { Link } from "react-router-dom";
-import Avatar from "../../../assets/img/non-user.png";
 import { CiShoppingCart } from "react-icons/ci";
 
 const Header: React.FC = () => {
   const { authAccount, logout } = useAuth();
+  // console.log(`Auth account on navbar`);
+  // console.log({authAccount});
+
   return (
     <>
       <header className="h-[100px] pt-[30px] bg-gradient-to-r from-[#FFE5B4] to-[#FFC085]">
