@@ -22,6 +22,7 @@ namespace DiamondShop.DataAccess
         private readonly Lazy<IPictureRepository> _pictureRepository;
         private readonly Lazy<IStakeHolderRepository> _stakeHolderRepository;
         private readonly Lazy<ICertificateRepository> _certificateRepository;
+        private readonly Lazy<IPromotionRepository> _promotionRepository;
         public UnitOfWork(FlashyCarbonDbContext context)
         {
             _context = context;
@@ -37,6 +38,7 @@ namespace DiamondShop.DataAccess
             _pictureRepository = new Lazy<IPictureRepository>(() => new PictureRepository(context));
             _stakeHolderRepository = new Lazy<IStakeHolderRepository>(() => new StakeHolderRepository(context));
             _certificateRepository = new Lazy<ICertificateRepository>(() => new CertificateRepository(context));
+            _promotionRepository = new Lazy<IPromotionRepository>(() => new PromotionRepository(context));
         }
 
         public IAccountRepository GetAccountRepository()
@@ -101,6 +103,11 @@ namespace DiamondShop.DataAccess
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        public IPromotionRepository GetPromotionRepository()
+        {
+            return _promotionRepository.Value;
         }
     }
 }

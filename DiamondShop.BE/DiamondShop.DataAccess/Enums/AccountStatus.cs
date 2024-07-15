@@ -3,5 +3,6 @@
 public enum AccountStatus
 {
     Available,
+    Working,
     Deleted
 }

@@ -14,6 +14,7 @@ const LoginPage = (props: Props) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          background: "linear-gradient(to right, #FFE5B4, #FFC085)",
         }}
       >
         <LoginForm />

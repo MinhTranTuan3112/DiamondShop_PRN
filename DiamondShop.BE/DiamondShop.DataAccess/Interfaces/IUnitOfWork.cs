@@ -20,5 +20,6 @@ namespace DiamondShop.DataAccess.Interfaces
         IStakeHolderRepository GetStakeHolderRepository();
         ICertificateRepository GetCertificateRepository();
         Task<int> SaveChangesAsync();
+        IPromotionRepository GetPromotionRepository();
     }
 }

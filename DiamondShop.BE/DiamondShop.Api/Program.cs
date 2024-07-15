@@ -3,6 +3,9 @@ using DiamondShop.Api.Middlewares;
 using DiamondShop.BusinessLogic.Extensions;
 using DiamondShop.DataAccess.Extensions;
 using Serilog;
+using System.Text.Json.Serialization;
+// using DotEnv.Core;
+// EnvFile.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +15,12 @@ builder.Services.AddApiDependencies(configuration)
                 .AddBusinessLogicDependencies()
                 .AddDataAccessDependencies();
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 //Add serilog
 builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().ReadFrom.Configuration(ctx.Configuration));
 
-Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"J:\developer\studying\PRN221\DiamondShop_PRN\DiamondShop.BE\DiamondShop.Api\diamondshop-253ae-firebase-adminsdk-1l4ve-7b18a585f3.json");
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", configuration["FirebaseCredentials:Path"]);
 
 var app = builder.Build();
 

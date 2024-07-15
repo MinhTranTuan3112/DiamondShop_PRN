@@ -1,5 +1,6 @@
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Account;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,7 @@ namespace DiamondShop.Api.Controllers
             await _serviceFactory.GetAccountService().UpdateAccount(id, updateAccountDto);
             return NoContent();
         }
-        [HttpGet]
-        public async Task<ActionResult<List<GetAccountDto>>> GetAllAccount()
-        {
-            return await _serviceFactory.GetAccountService().GetAllAccounts();
-           
-        }
+        
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<GetAccountDetailDto>> GetAccountById(Guid id)
         {
@@ -35,10 +31,15 @@ namespace DiamondShop.Api.Controllers
 
         }
         [HttpPut("{accountId:guid}/{status}")]
-        public async Task<ActionResult> ChangeStatusProduct(Guid accountId, AccountStatus status)
+        public async Task<ActionResult> ChangeStatusAccount(Guid accountId, AccountStatus status)
         {
             await _serviceFactory.GetAccountService().ChangeAccountStatus(accountId, status);
             return NoContent();
+        }
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<GetAccountDto>>> GetPagedProducts([FromQuery] QueryAccountDto queryAccountDto)
+        {
+            return await _serviceFactory.GetAccountService().GetPagedAccounts(queryAccountDto);
         }
     }
 }

@@ -10,7 +10,7 @@ import {
 
 interface Diamond {
   id: string;
-  name: string;
+  shape: string;
   color: string;
   origin: string;
   certificationUrl: string | null;
@@ -42,7 +42,7 @@ const DiamondModal: React.FC<DiamondModalProps> = ({
   initialData,
 }) => {
   const [diamondData, setDiamondData] = useState<Partial<Diamond>>({
-    name: "",
+    shape: "",
     color: "",
     origin: "",
     certificationUrl: null,
@@ -82,7 +82,7 @@ const DiamondModal: React.FC<DiamondModalProps> = ({
           label="Name"
           name="name"
           fullWidth
-          value={diamondData.name || ""}
+          value={diamondData.shape || ""}
           onChange={handleChange}
         />
         <TextField

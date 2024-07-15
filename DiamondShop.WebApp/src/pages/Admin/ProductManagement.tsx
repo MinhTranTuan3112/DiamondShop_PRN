@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts, deleteObject } from "./APIClient";
+import { fetchProducts, deleteObject, fetchCategories } from "./APIClient";
 import { Empty } from "antd";
 import ProductModal from "./Modal/ProductModal";
 
@@ -56,6 +56,9 @@ const theme = createTheme({
 
 const ProductManagement: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [totalProducts, setTotalProducts] = useState<number>(0);
@@ -113,6 +116,19 @@ const ProductManagement: React.FC = () => {
   }, [page, rowsPerPage, search, sortColumn, orderByDesc]);
 
   useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    getCategories();
+  }, []);
+
+  useEffect(() => {
     setPage(1);
   }, [search, rowsPerPage, sortColumn, orderByDesc]);
 
@@ -142,7 +158,10 @@ const ProductManagement: React.FC = () => {
     setCurrentProduct(null);
   };
 
-  const handleSaveProduct = () => {};
+  const handleSaveProduct = (product: Partial<Product>) => {
+    // Add logic to save the product
+    setModalOpen(false);
+  };
 
   const handleDeleteProduct = async (productId: string) => {
     try {
@@ -383,6 +402,7 @@ const ProductManagement: React.FC = () => {
         handleClose={handleCloseModal}
         handleSave={handleSaveProduct}
         initialData={currentProduct}
+        categories={categories}
       />
     </ThemeProvider>
   );

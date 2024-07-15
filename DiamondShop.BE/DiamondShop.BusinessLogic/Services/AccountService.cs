@@ -1,5 +1,6 @@
 ﻿using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.DataAccess.DTOs.Account;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.Shared.Exceptions;
@@ -78,10 +79,17 @@ public class AccountService : IAccountService
 
         account.Status = status switch
         {
-            AccountStatus.Available => AccountStatus.Available.ToString(),
-            AccountStatus.Deleted => AccountStatus.Deleted.ToString(),
+            AccountStatus.Available => AccountStatus.Available.ToString().ToLower(),
+            AccountStatus.Working => AccountStatus.Working.ToString().ToLower(),
+            AccountStatus.Deleted => AccountStatus.Deleted.ToString().ToLower(),
             _ => account.Status
         };
         await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<PagedResult<GetAccountDto>> GetPagedAccounts(QueryAccountDto queryAccountDto)
+    {
+        return (await _unitOfWork.GetAccountRepository().GetPagedAccount(queryAccountDto))
+            .Adapt<PagedResult<GetAccountDto>>();
     }
 }

@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, TextField, Button } from "@mui/material";
+import {
+  Modal,
+  Box,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 
 interface ProductModalProps {
   open: boolean;
   handleClose: () => void;
-  handleSave: () => void;
+  handleSave: (product: Partial<Product>) => void;
   initialData?: Partial<Product>;
+  categories: { id: string; name: string }[];
 }
 
 const style = {
@@ -24,6 +34,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
   handleClose,
   handleSave,
   initialData,
+  categories,
 }) => {
   const [product, setProduct] = useState<Partial<Product>>({
     name: "",
@@ -59,9 +70,22 @@ const ProductModal: React.FC<ProductModalProps> = ({
     }
   }, [initialData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
+    >
+  ) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
+    setProduct((prev) => ({ ...prev, [name as string]: value }));
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setProduct((prev) => ({
+      ...prev,
+      category: { ...prev.category, name: event.target.value as string },
+    }));
   };
 
   return (
@@ -81,14 +105,26 @@ const ProductModal: React.FC<ProductModalProps> = ({
           value={product.name}
           onChange={handleChange}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          name="type"
-          label="Type"
-          value={product.type}
-          onChange={handleChange}
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="type-label">Type</InputLabel>
+          <Select
+            labelId="type-label"
+            name="type"
+            value={product.type}
+            onChange={() => handleChange}
+            label="Type"
+          >
+            <MenuItem value={"Ring"}>Ring</MenuItem>
+            <MenuItem value={"Necklace"}>Necklace</MenuItem>
+            <MenuItem value={"Bracelet"}>Bracelet</MenuItem>
+            <MenuItem value={"Earring"}>Earring</MenuItem>
+            <MenuItem value={"Watch"}>Watch</MenuItem>
+            <MenuItem value={"Diamond"}>Diamond</MenuItem>
+            <MenuItem value={"Gemstone"}>Gemstone</MenuItem>
+            <MenuItem value={"Pearl"}>Pearl</MenuItem>
+            <MenuItem value={"Other"}>Other</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           fullWidth
           margin="normal"
@@ -132,19 +168,20 @@ const ProductModal: React.FC<ProductModalProps> = ({
           value={product.quantity}
           onChange={handleChange}
         />
-        <TextField
-          fullWidth
-          margin="normal"
-          name="category.name"
-          label="Category"
-          value={product.category?.name}
-          onChange={(e) =>
-            setProduct((prev) => ({
-              ...prev,
-              category: { ...prev.category, name: e.target.value },
-            }))
-          }
-        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="category-label">Category</InputLabel>
+          <Select
+            labelId="category-label"
+            value={product.category?.name || ""}
+            onChange={() => handleCategoryChange}
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.name}>
+                {category.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <div
           style={{
             display: "flex",
