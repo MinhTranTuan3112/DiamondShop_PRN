@@ -14,7 +14,7 @@ import useAuth from "../../hooks/useAuth";
 import { ProductType } from "../../enums/ProductType";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { OrderStatus } from "../../enums/OrderStatus";
-
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 type Props = {};
 
 const fetchData = async (id: string) => {
@@ -42,7 +42,7 @@ const ProductDetailsPage = (props: Props) => {
   const navigate = useNavigate();
 
   console.log(OrderStatus.Pending_Confirm.toString());
-  
+
 
   if (!id) {
     return <div>Invalid product id</div>;
@@ -110,6 +110,16 @@ const ProductDetailsPage = (props: Props) => {
     }
   }
 
+  const openRingSizeGuide = async () => {
+    await Swal.fire({
+      title: "Hướng dẫn đo ni",
+      imageUrl: "https://lh3.googleusercontent.com/proxy/5ZgJAHTYXJJvQVU-hIOcsvyZfs32izzmWy_OXwNiR-uSfdq2sD7i93Df067OKVVoxBC3HtlQRz28U25dibtsQ6Zmbalez0yeSaDCiZ952xefc6bHeimV0fXTSiALLphFhc9FjwXjSG0KPEOL",
+      imageWidth: 500,
+      imageHeight: 300,
+      imageAlt: "Hướng dẫn đo ni"
+    });
+  };
+
   return (
     <>
       <Header />
@@ -168,14 +178,20 @@ const ProductDetailsPage = (props: Props) => {
               </select>
             </div>
             {data?.type.toLowerCase() === "ring" && (
-              <div className="form-group">
-                <label htmlFor="size" className="block w-[15%] mb-2">
-                  Ni
-                </label>
-                <input type="number" className="w-[40%]" name="size" id="size"
-                  value={ringSize ?? 1}
-                  onChange={(e) => setRingSize(+e.target.value)} required />
-              </div>
+              <>
+                <div className="form-group">
+                  <label htmlFor="size" className="block w-[15%] mb-2">
+                    Ni
+                  </label>
+                  <input type="number" className="w-[40%]" name="size" id="size"
+                    value={ringSize ?? 1}
+                    onChange={(e) => setRingSize(+e.target.value)} required />
+                  <button type="button" className="bg-black text-white w-[20%] rounded-md"
+                  onClick={openRingSizeGuide}>
+                    <HelpOutlineIcon /> Hướng dẫn đo ni
+                  </button>
+                </div>
+              </>
             )}
             <div className="form-group">
               <label htmlFor="quantity" className="block w-[15%] mb-2">Số lượng</label>
