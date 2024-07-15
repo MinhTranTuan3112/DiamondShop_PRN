@@ -2,7 +2,6 @@ import useAuth from "../../../hooks/useAuth";
 
 import React from "react";
 import { Link } from "react-router-dom";
-import Avatar from "../../../assets/img/non-user.png";
 import { CiShoppingCart } from "react-icons/ci";
 
 const Header: React.FC = () => {

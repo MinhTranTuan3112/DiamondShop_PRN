@@ -402,7 +402,7 @@ const ProductManagement: React.FC = () => {
         handleClose={handleCloseModal}
         handleSave={handleSaveProduct}
         initialData={currentProduct}
-        categories={categories} // Truyền danh sách category vào modal
+        categories={categories}
       />
     </ThemeProvider>
   );

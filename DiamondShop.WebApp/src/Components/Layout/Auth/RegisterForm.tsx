@@ -18,8 +18,6 @@ const RegisterForm = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // Ensure passwords match
     if (formState.password !== formState.repassword) {
       alert("Passwords do not match.");
       return;
@@ -34,7 +32,6 @@ const RegisterForm = () => {
     if (response.ok) {
       navigate("/login");
     } else {
-      // Handle registration failure
       alert("Registration failed. Please try again.");
     }
   };
