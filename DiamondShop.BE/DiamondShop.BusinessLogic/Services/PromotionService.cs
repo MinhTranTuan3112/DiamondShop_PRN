@@ -22,11 +22,12 @@ namespace DiamondShop.BusinessLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<(List<Promotion> Promotions, int TotalPage)> GetPromotions(int pageIndex, int pageSize, string searchString, DateTime ExpireDate)
+        public async Task<(List<Promotion> Promotions, int TotalCount)> GetPromotions(int pageIndex, int pageSize, string searchString, DateTime ExpireDate)
         {
             if (pageIndex == 0) pageIndex = 1;
             if (pageSize == 0) pageSize = 10;
             var promotions = await _unitOfWork.GetPromotionRepository().GetAllAsync();
+            var TotalCount = promotions.Count();
             if (!string.IsNullOrEmpty(searchString))
             {
                 promotions = promotions.Where(x => x.Name.ToLower().Contains(searchString.ToLower()) || (int.TryParse(searchString, out int discountPercent) && x.DiscountPercent == discountPercent)).ToList();
@@ -35,9 +36,8 @@ namespace DiamondShop.BusinessLogic.Services
             {
                 promotions = promotions.Where(x => x.ExpiredDate.Date == ExpireDate.Date).ToList();
             }
-            var totalPage = (int)Math.Ceiling(promotions.Count / (double)pageSize);
             var paginatedPromotions = promotions.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            return ( paginatedPromotions, totalPage );
+            return ( paginatedPromotions, TotalCount);
         }
 
 

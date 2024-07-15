@@ -43,12 +43,12 @@ type OrderDetail = {
 //     status: string;
 // };
 
-type Product = {
+export type Product = {
     id: string;
     name: string;
     type: string;
     material: string;
-    gender: boolean;
+    gender: string;
     price: number;
     point: number;
     quantity: number;

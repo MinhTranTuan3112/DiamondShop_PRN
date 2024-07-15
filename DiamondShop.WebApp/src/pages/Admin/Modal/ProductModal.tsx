@@ -16,6 +16,8 @@ interface ProductModalProps {
   handleSave: (product: Partial<Product>) => void;
   initialData?: Partial<Product>;
   categories: { id: string; name: string }[];
+  productId?: string;
+  fetchProductById: (id: string) => Promise<Partial<Product>>;
 }
 
 const style = {
@@ -35,6 +37,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
   handleSave,
   initialData,
   categories,
+  productId,
+  fetchProductById,
 }) => {
   const [product, setProduct] = useState<Partial<Product>>({
     name: "",
@@ -45,13 +49,16 @@ const ProductModal: React.FC<ProductModalProps> = ({
     point: 0,
     quantity: 0,
     category: {
+      id: "",
       name: "",
     },
     pictures: [],
   });
 
   useEffect(() => {
-    if (initialData) {
+    if (productId) {
+      fetchProductById(productId).then(setProduct);
+    } else if (initialData) {
       setProduct(initialData);
     } else {
       setProduct({
@@ -63,12 +70,13 @@ const ProductModal: React.FC<ProductModalProps> = ({
         point: 0,
         quantity: 0,
         category: {
+          id: "",
           name: "",
         },
         pictures: [],
       });
     }
-  }, [initialData]);
+  }, [productId, initialData, fetchProductById]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -82,9 +90,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
   const handleCategoryChange = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
+    const selectedCategory = categories.find(
+      (category) => category.id === event.target.value
+    );
     setProduct((prev) => ({
       ...prev,
-      category: { ...prev.category, name: event.target.value as string },
+      category: {
+        id: selectedCategory?.id,
+        name: selectedCategory?.name,
+      },
     }));
   };
 
@@ -102,7 +116,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           margin="normal"
           name="name"
           label="Name"
-          value={product.name}
+          value={product.name || ""}
           onChange={handleChange}
         />
         <FormControl fullWidth margin="normal">
@@ -111,7 +125,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             labelId="type-label"
             name="type"
             value={product.type}
-            onChange={() => handleChange}
+            onChange={handleChange}
             label="Type"
           >
             <MenuItem value={"Ring"}>Ring</MenuItem>
@@ -130,7 +144,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           margin="normal"
           name="material"
           label="Material"
-          value={product.material}
+          value={product.material || ""}
           onChange={handleChange}
         />
         <TextField
@@ -138,7 +152,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           margin="normal"
           name="gender"
           label="Gender"
-          value={product.gender}
+          value={product.gender || ""}
           onChange={handleChange}
         />
         <TextField
@@ -147,7 +161,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           name="price"
           label="Price"
           type="number"
-          value={product.price}
+          value={product.price || ""}
           onChange={handleChange}
         />
         <TextField
@@ -156,7 +170,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
           name="point"
           label="Point"
           type="number"
-          value={product.point}
+          value={product.point || ""}
           onChange={handleChange}
         />
         <TextField
@@ -165,18 +179,18 @@ const ProductModal: React.FC<ProductModalProps> = ({
           name="quantity"
           label="Quantity"
           type="number"
-          value={product.quantity}
+          value={product.quantity || ""}
           onChange={handleChange}
         />
         <FormControl fullWidth margin="normal">
           <InputLabel id="category-label">Category</InputLabel>
           <Select
             labelId="category-label"
-            value={product.category?.name || ""}
-            onChange={() => handleCategoryChange}
+            value={product.category?.id || ""}
+            onChange={handleCategoryChange}
           >
             {categories.map((category) => (
-              <MenuItem key={category.id} value={category.name}>
+              <MenuItem key={category.id} value={category.id}>
                 {category.name}
               </MenuItem>
             ))}

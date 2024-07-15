@@ -127,10 +127,11 @@ const Checkout: React.FC = () => {
   // }, [cartItems]);
 
   useEffect(() => {
-    const newSubtotal = orderInCart?.orderDetails.reduce(
-      (total, item) => total + item.subTotal * item.quantity,
-      0
-    ) || 0;
+    const newSubtotal =
+      orderInCart?.orderDetails.reduce(
+        (total, item) => total + item.subTotal * item.quantity,
+        0
+      ) || 0;
     setSubtotal(newSubtotal);
   }, [orderInCart?.orderDetails]);
 
@@ -155,16 +156,21 @@ const Checkout: React.FC = () => {
   //   );
   // };
 
-  const handleQuantityChange = (newQuantity: number, productId?: string, diamondId?: string) => {
+  const handleQuantityChange = (
+    newQuantity: number,
+    productId?: string,
+    diamondId?: string
+  ) => {
     setCartItems((prevItems) =>
       prevItems.map((item) => {
         const comparisonId = productId || diamondId;
-        const isMatch = item.productId === comparisonId || item.diamondId === comparisonId;
+        const isMatch =
+          item.productId === comparisonId || item.diamondId === comparisonId;
         return isMatch
           ? {
-            ...item,
-            quantity: Math.max(1, item.quantity + newQuantity),
-          }
+              ...item,
+              quantity: Math.max(1, item.quantity + newQuantity),
+            }
           : item;
       })
     );
@@ -174,46 +180,51 @@ const Checkout: React.FC = () => {
     setCartItems((prevItems) =>
       prevItems.filter((item) => {
         const comparisonId = productId || diamondId;
-        return !(item.productId === comparisonId || item.diamondId === comparisonId);
+        return !(
+          item.productId === comparisonId || item.diamondId === comparisonId
+        );
       })
     );
   };
 
   const handleConfirmOrder = async () => {
-
     try {
       const result = await Swal.fire({
-        icon: 'question',
-        confirmButtonText: 'Ok',
-        title: 'Xác nhận đặt hàng?',
+        icon: "question",
+        confirmButtonText: "Ok",
+        title: "Xác nhận đặt hàng?",
         showCancelButton: true,
-        cancelButtonText: 'Hủy',
+        cancelButtonText: "Hủy",
       });
 
       if (!result.isConfirmed) {
         return;
       }
 
-      const response = await fetchConfirmOrder(accessToken, orderInCart?.id || "");
+      const response = await fetchConfirmOrder(
+        accessToken,
+        orderInCart?.id || ""
+      );
 
       if (response?.ok) {
         await Swal.fire({
-          icon: 'success',
-          title: 'Đặt hàng thành công!',
-          text: 'Cảm ơn bạn đã mua hàng tại MAPTH Diamond Shop!',
+          icon: "success",
+          title: "Đặt hàng thành công!",
+          text: "Cảm ơn bạn đã mua hàng tại MAPTH Diamond Shop!",
         });
       }
-
     } catch (error) {
       console.error("Failed to confirm order:", error);
     }
-  }
+  };
 
   return (
     <>
       <Header />
       {!orderInCart ? (
-        <p className="text-center font-bold text-3xl">Giỏ hàng của bạn đang trống</p>
+        <p className="text-center font-bold text-3xl">
+          Giỏ hàng của bạn đang trống
+        </p>
       ) : (
         <div className="checkout-container">
           <section className="col-8 product_section">
@@ -221,7 +232,14 @@ const Checkout: React.FC = () => {
               <div className="cart_info_list">
                 {cartItems.map((item) => (
                   <article key={item.id} className="cart-item flex">
-                    <img src={item.product?.pictures[0]?.urlPath ?? "https://dictionary.cambridge.org/vi/images/thumb/diamon_noun_002_10599.jpg?version=6.0.25"} alt={item.product?.name ?? "Unknown product"} className="item-img" />
+                    <img
+                      src={
+                        item.product?.pictures[0]?.urlPath ??
+                        "https://dictionary.cambridge.org/vi/images/thumb/diamon_noun_002_10599.jpg?version=6.0.25"
+                      }
+                      alt={item.product?.name ?? "Unknown product"}
+                      className="item-img"
+                    />
                     <div className="cart-info">
                       <div
                         className="flex"
@@ -230,7 +248,9 @@ const Checkout: React.FC = () => {
                           marginBottom: "30px",
                         }}
                       >
-                        <h3 className="cart-title">{item.product?.name ?? "Unknown product"}</h3>
+                        <h3 className="cart-title">
+                          {item.product?.name ?? "Unknown product"}
+                        </h3>
                         <div className="cart-price">
                           ${formatPrice(item.subTotal)}
                         </div>
@@ -247,18 +267,34 @@ const Checkout: React.FC = () => {
                       >
                         <div className="action-item-value flex">
                           <FiMinusSquare
-                            onClick={() => handleQuantityChange(-1, item.productId, item.diamondId)}
+                            onClick={() =>
+                              handleQuantityChange(
+                                -1,
+                                item.productId,
+                                item.diamondId
+                              )
+                            }
                             style={{ cursor: "pointer" }}
                           />
-                          <label style={{ color: "#000" }}>{item.quantity}</label>
+                          <label style={{ color: "#000" }}>
+                            {item.quantity}
+                          </label>
                           <FiPlusSquare
-                            onClick={() => handleQuantityChange(1, item.productId, item.diamondId)}
+                            onClick={() =>
+                              handleQuantityChange(
+                                1,
+                                item.productId,
+                                item.diamondId
+                              )
+                            }
                             style={{ cursor: "pointer" }}
                           />
                         </div>
                         <div
                           className="cart-remove flex"
-                          onClick={() => handleRemoveItem(item.productId, item.diamondId)}
+                          onClick={() =>
+                            handleRemoveItem(item.productId, item.diamondId)
+                          }
                           style={{ cursor: "pointer" }}
                         >
                           <FaRegTrashCan />
@@ -294,7 +330,9 @@ const Checkout: React.FC = () => {
               </div>
               <div className="checkout-group space flex">
                 <div className="checkout-total">Total</div>
-                <div className="checkout-counter-amount">${formatPrice(total)}</div>
+                <div className="checkout-counter-amount">
+                  ${formatPrice(total)}
+                </div>
               </div>
               <div className="checkout-group flex">
                 <div className="checkout-total">Coupon</div>
@@ -312,7 +350,9 @@ const Checkout: React.FC = () => {
                 </button>
                 {promotion && <span>{promotion.discountPercent}%</span>}
               </div>
-              <button className="checkout-btn" onClick={handleConfirmOrder}>Xác nhận đặt hàng</button>
+              <button className="checkout-btn" onClick={handleConfirmOrder}>
+                Xác nhận đặt hàng
+              </button>
             </div>
           </div>
         </div>

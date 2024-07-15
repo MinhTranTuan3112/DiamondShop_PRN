@@ -26,6 +26,65 @@ export const fetchProducts = async (
   return data;
 };
 
+export const fetchProductById = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/Products/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch diamond data');
+  }
+  return await response.json();
+};
+
+const buildProductFormData = (product: Partial<Product>): FormData => {
+  const formData = new FormData();
+  formData.append("Gender", product.gender || "");
+  formData.append("Material", product.material || "");
+  formData.append("Price", product.price ? product.price.toString() : "");
+  formData.append("Quantity", product.quantity ? product.quantity.toString() : "");
+  formData.append("Name", product.name || "");
+  formData.append("Point", product.point ? product.point.toString() : "");
+  formData.append("CategoryId", product.category?.id || "");
+  formData.append("Type", product.type || "");
+  formData.append("WarrantyPeriod", product.warrantyPeriod || "");
+
+  return formData;
+};
+
+export const updateProduct = async (product: Partial<Product>) => {
+  const formData = buildProductFormData(product);
+
+  const response = await fetch(`${BASE_URL}/Products/${product.id}`, {
+    method: 'PUT',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update product');
+  }
+
+  return await response;
+};
+
+export const createProduct = async (product: Partial<Product>) => {
+  const formData = buildProductFormData(product);
+
+  const response = await fetch(`${BASE_URL}/Products`, {
+    method: 'POST',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create product');
+  }
+
+  return await response;
+};
+
 export const deleteObject = async (object: string, objectId: string) => {
   const response = await fetch(`${BASE_URL}/${object}/${objectId}/2`, {
     method: 'PUT'
@@ -36,6 +95,8 @@ export const deleteObject = async (object: string, objectId: string) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 };
+
+// Fetch Diamond
 
 export const fetchDiamonds = async (
   search: string,
@@ -61,24 +122,59 @@ export const fetchDiamondById = async (id: string) => {
   return await response.json();
 };
 
-export const updateDiamond = async (id: string, diamondData: FormData) => {
-  try {
-    const response = await fetch(`${BASE_URL}/Diamonds/${id}`, {
-      method: 'PUT',
-      body: diamondData,
-    });
+const buildDiamondFormData = (diamond: Partial<Diamond>): FormData => {
+  const formData = new FormData();
+  formData.append("Shape", diamond.shape || "");
+  formData.append("Color", diamond.color || "");
+  formData.append("Origin", diamond.origin || "");
+  formData.append("CertificateId", diamond.certificationUrl || "");
+  formData.append("CaratWeight", diamond.caratWeight || "");
+  formData.append("Clarity", diamond.clarity || "");
+  formData.append("Cut", diamond.cut || "");
+  formData.append("Price", diamond.price ? diamond.price.toString() : "");
+  formData.append("Quantity", diamond.quantity ? diamond.quantity.toString() : "");
+  formData.append("WarrantyPeriod", diamond.warrantyPeriod ? diamond.warrantyPeriod.toString() : "");
 
-    if (response.status !== 204) {
-      throw new Error('Failed to update diamond');
-    }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error('Failed to update diamond');
-  }
+  return formData;
 };
 
-// Mock API Client
+export const updateDiamond = async (diamond: Partial<Diamond>) => {
+  const formData = buildDiamondFormData(diamond);
+
+  const response = await fetch(`${BASE_URL}/Diamonds/${diamond.id}`, {
+    method: 'PUT',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update diamond');
+  }
+
+  return await response;
+};
+
+export const createDiamond = async (diamond: Partial<Diamond>) => {
+  const formData = buildDiamondFormData(diamond);
+
+  const response = await fetch(`${BASE_URL}/Diamonds`, {
+    method: 'POST',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create diamond');
+  }
+
+  return await response;
+};
+
+// Fetch Dashboard
 export interface DashboardStats {
   numberOfDiamonds: number;
   numberOfProducts: number;
@@ -157,7 +253,7 @@ export const fetchPromotions = async (
   name: string,
   pageNumber: number,
   pageSize: number,
-): Promise<{ results: Promotion[]; totalPage: number }> => {
+): Promise<{ results: Promotion[]; totalCount: number }> => {
   let url = `${BASE_URL}/Promotions?pageIndex=${pageNumber}&pageSize=${pageSize}`;
 
   if (name.trim() !== "") {
@@ -181,3 +277,54 @@ export const deletePromotion = async (promotionId: string) => {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 };
+
+// const buildPromotionFormData = (promotion: Partial<Promotion>): FormData => {
+//   const formData = new FormData();
+//   formData.append("Name", promotion.name || "");
+//   formData.append("Description", promotion.description || "");
+//   formData.append("ExpiredDate", promotion.expiredDate || "");
+//   formData.append("DiscountPercent", promotion.discountPercent ? promotion.discountPercent.toString() : "");
+//   formData.append("Status", promotion.status || "");
+
+//   return formData;
+// };
+
+// export const createPromotion = async (promotion: Partial<Promotion>) => {
+//   const formData = buildPromotionFormData(promotion);
+
+//   const response = await fetch(`${BASE_URL}/Promotions`, {
+//     method: 'POST',
+//     headers: {
+//       'accept': '*/*',
+//     },
+//     body: formData,
+//   });
+
+//   if (!response.ok) {
+//     throw new Error('Failed to create promotion');
+//   }
+
+//   return await response.json();
+// };
+
+// export const updatePromotion = async (promotion: Partial<Promotion>) => {
+//   if (!promotion.id) {
+//     throw new Error('Promotion ID is required for updating');
+//   }
+  
+//   const formData = buildPromotionFormData(promotion);
+
+//   const response = await fetch(`${BASE_URL}/Promotions/${promotion.id}`, {
+//     method: 'PUT',
+//     headers: {
+//       'accept': '*/*',
+//     },
+//     body: formData,
+//   });
+
+//   if (!response.ok) {
+//     throw new Error('Failed to update promotion');
+//   }
+
+//   return await response.json();
+// };

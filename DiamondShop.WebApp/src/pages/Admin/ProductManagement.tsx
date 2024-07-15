@@ -14,29 +14,18 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import {
+  fetchProducts,
+  deleteObject,
+  fetchCategories,
+  fetchProductById,
+  updateProduct,
+  createProduct,
+} from "./APIClient";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchProducts, deleteObject, fetchCategories } from "./APIClient";
 import { Empty } from "antd";
 import ProductModal from "./Modal/ProductModal";
-
-interface Product {
-  id: string;
-  name: string;
-  type: string;
-  material: string;
-  gender: string | null;
-  price: number;
-  point: number;
-  quantity: number;
-  category: {
-    name: string;
-  };
-  pictures: {
-    id: string;
-    urlPath: string;
-  }[];
-}
 
 const theme = createTheme({
   typography: {
@@ -60,7 +49,7 @@ const ProductManagement: React.FC = () => {
     []
   );
   const [page, setPage] = useState<number>(1);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -70,44 +59,25 @@ const ProductManagement: React.FC = () => {
   const [currentProduct, setCurrentProduct] = useState<Partial<Product> | null>(
     null
   );
-
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchProducts(
+        search,
+        page,
+        rowsPerPage,
+        sortColumn,
+        orderByDesc
+      );
+      setProducts(data.results);
+      setTotalProducts(data.totalCount);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchProducts(
-          search,
-          page,
-          rowsPerPage,
-          sortColumn,
-          orderByDesc
-        );
-        const mappedProducts: Product[] = data.results.map((result: any) => ({
-          id: result.id,
-          name: result.name,
-          type: result.type,
-          material: result.material,
-          gender: result.gender,
-          price: result.price,
-          point: result.point,
-          quantity: result.quantity,
-          category: {
-            name: result.category.name,
-          },
-          pictures: result.pictures.map((pic: any) => ({
-            id: pic.id,
-            urlPath: pic.urlPath,
-          })),
-        }));
-        setProducts(mappedProducts);
-        setTotalProducts(data.totalCount);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     const timeoutId = setTimeout(() => {
       fetchData();
     }, 400);
@@ -130,7 +100,7 @@ const ProductManagement: React.FC = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [search, rowsPerPage, sortColumn, orderByDesc]);
+  }, []);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -158,9 +128,16 @@ const ProductManagement: React.FC = () => {
     setCurrentProduct(null);
   };
 
-  const handleSaveProduct = (product: Partial<Product>) => {
-    // Add logic to save the product
+  const handleSaveProduct = async (product: Partial<Product>) => {
     setModalOpen(false);
+    if (product.id) {
+      await updateProduct(product);
+    } else {
+      await createProduct(product);
+      setTotalProducts(totalProducts + 1);
+    }
+    fetchData();
+    console.log("ngu ac");
   };
 
   const handleDeleteProduct = async (productId: string) => {
@@ -239,7 +216,7 @@ const ProductManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("name")}
                 >
-                  Name {sortColumn === "name" && (orderByDesc ? "↓" : "↑")}
+                  Tên {sortColumn === "name" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -250,7 +227,7 @@ const ProductManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("type")}
                 >
-                  Type {sortColumn === "type" && (orderByDesc ? "↓" : "↑")}
+                  Loại {sortColumn === "type" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -261,7 +238,7 @@ const ProductManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("material")}
                 >
-                  Material{" "}
+                  Chất liệu{" "}
                   {sortColumn === "material" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
@@ -273,8 +250,7 @@ const ProductManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("price")}
                 >
-                  Price ($){" "}
-                  {sortColumn === "price" && (orderByDesc ? "↓" : "↑")}
+                  Giá ($) {sortColumn === "price" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -285,7 +261,7 @@ const ProductManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("point")}
                 >
-                  Point {sortColumn === "point" && (orderByDesc ? "↓" : "↑")}
+                  Điểm {sortColumn === "point" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -294,7 +270,7 @@ const ProductManagement: React.FC = () => {
                     width: "15%",
                   }}
                 >
-                  Category
+                  Danh mục
                 </TableCell>
                 <TableCell
                   sx={{
@@ -303,7 +279,7 @@ const ProductManagement: React.FC = () => {
                     width: "20%",
                   }}
                 >
-                  Picture
+                  Ảnh
                 </TableCell>
                 <TableCell
                   sx={{
@@ -401,8 +377,10 @@ const ProductManagement: React.FC = () => {
         open={modalOpen}
         handleClose={handleCloseModal}
         handleSave={handleSaveProduct}
-        initialData={currentProduct}
+        initialData={currentProduct || undefined}
         categories={categories}
+        productId={currentProduct?.id || undefined}
+        fetchProductById={fetchProductById}
       />
     </ThemeProvider>
   );

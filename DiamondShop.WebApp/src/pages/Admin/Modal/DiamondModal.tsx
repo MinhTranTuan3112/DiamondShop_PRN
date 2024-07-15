@@ -1,51 +1,56 @@
 import React, { useState, useEffect } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
+  Modal,
+  Box,
   TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+  Grid,
 } from "@mui/material";
-
-interface Diamond {
-  id: string;
-  shape: string;
-  color: string;
-  origin: string;
-  certificationUrl: string | null;
-  caratWeight: string;
-  clarity: string;
-  cut: string;
-  price: number;
-  quantity: number;
-  warrantyPeriod: number;
-  lastUpdate: string;
-  status: string;
-  pictures: {
-    id: string;
-    urlPath: string;
-  }[];
-}
+import {
+  DiamondShape,
+  DiamondOrigin,
+  DiamondClarity,
+  DiamondCut,
+  DiamondColor,
+} from "./DiamondEnums"; // Import enums
 
 interface DiamondModalProps {
   open: boolean;
   handleClose: () => void;
   handleSave: (diamond: Partial<Diamond>) => void;
-  initialData: Partial<Diamond> | null;
+  initialData?: Partial<Diamond>;
+  diamondId?: string;
+  fetchDiamondById: (id: string) => Promise<Partial<Diamond>>;
 }
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 600,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const DiamondModal: React.FC<DiamondModalProps> = ({
   open,
   handleClose,
   handleSave,
   initialData,
+  diamondId,
+  fetchDiamondById,
 }) => {
-  const [diamondData, setDiamondData] = useState<Partial<Diamond>>({
+  const [diamond, setDiamond] = useState<Partial<Diamond>>({
     shape: "",
     color: "",
     origin: "",
-    certificationUrl: null,
+    certificationUrl: "",
     caratWeight: "",
     clarity: "",
     cut: "",
@@ -57,123 +62,223 @@ const DiamondModal: React.FC<DiamondModalProps> = ({
   });
 
   useEffect(() => {
-    if (initialData) {
-      setDiamondData(initialData);
+    if (diamondId) {
+      fetchDiamondById(diamondId).then((data) => {
+        setDiamond(data);
+      });
+    } else if (initialData) {
+      setDiamond(initialData);
+    } else {
+      setDiamond({
+        shape: "",
+        color: "",
+        origin: "",
+        certificationUrl: "",
+        caratWeight: "",
+        clarity: "",
+        cut: "",
+        price: 0,
+        quantity: 0,
+        warrantyPeriod: 0,
+        status: "",
+        pictures: [],
+      });
     }
-  }, [initialData]);
+  }, [diamondId, initialData, fetchDiamondById]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
+    >
+  ) => {
     const { name, value } = e.target;
-    setDiamondData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = () => {
-    handleSave(diamondData);
+    setDiamond((prev) => ({ ...prev, [name as string]: value }));
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>
-        {diamondData.id ? "Edit Diamond" : "Add Diamond"}
-      </DialogTitle>
-      <DialogContent>
-        <TextField
-          margin="dense"
-          label="Name"
-          name="name"
-          fullWidth
-          value={diamondData.shape || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Color"
-          name="color"
-          fullWidth
-          value={diamondData.color || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Origin"
-          name="origin"
-          fullWidth
-          value={diamondData.origin || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Certification URL"
-          name="certificationUrl"
-          fullWidth
-          value={diamondData.certificationUrl || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Carat Weight"
-          name="caratWeight"
-          fullWidth
-          value={diamondData.caratWeight || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Clarity"
-          name="clarity"
-          fullWidth
-          value={diamondData.clarity || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Cut"
-          name="cut"
-          fullWidth
-          value={diamondData.cut || ""}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Price"
-          name="price"
-          type="number"
-          fullWidth
-          value={diamondData.price || 0}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Quantity"
-          name="quantity"
-          type="number"
-          fullWidth
-          value={diamondData.quantity || 0}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Warranty Period"
-          name="warrantyPeriod"
-          type="number"
-          fullWidth
-          value={diamondData.warrantyPeriod || 0}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="dense"
-          label="Status"
-          name="status"
-          fullWidth
-          value={diamondData.status || ""}
-          onChange={handleChange}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
-      </DialogActions>
-    </Dialog>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <h2>{initialData ? "Edit Diamond" : "Add Diamond"}</h2>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="shape-label">Shape</InputLabel>
+              <Select
+                labelId="shape-label"
+                name="shape"
+                value={diamond.shape}
+                onChange={handleChange}
+                label="Shape"
+              >
+                {Object.values(DiamondShape).map((shape) => (
+                  <MenuItem key={shape} value={shape}>
+                    {shape}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="color-label">Color</InputLabel>
+              <Select
+                labelId="color-label"
+                name="color"
+                value={diamond.color}
+                onChange={handleChange}
+                label="color"
+              >
+                {Object.values(DiamondColor).map((color) => (
+                  <MenuItem key={color} value={color}>
+                    {color}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="origin-label">Origin</InputLabel>
+              <Select
+                labelId="origin-label"
+                name="origin"
+                value={diamond.origin}
+                onChange={handleChange}
+                label="Origin"
+              >
+                {Object.values(DiamondOrigin).map((origin) => (
+                  <MenuItem key={origin} value={origin}>
+                    {origin}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="clarity-label">Clarity</InputLabel>
+              <Select
+                labelId="clarity-label"
+                name="clarity"
+                value={diamond.clarity}
+                onChange={handleChange}
+                label="Clarity"
+              >
+                {Object.values(DiamondClarity).map((clarity) => (
+                  <MenuItem key={clarity} value={clarity}>
+                    {clarity}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="cut-label">Cut</InputLabel>
+              <Select
+                labelId="cut-label"
+                name="cut"
+                value={diamond.cut}
+                onChange={handleChange}
+                label="Cut"
+              >
+                {Object.values(DiamondCut).map((cut) => (
+                  <MenuItem key={cut} value={cut}>
+                    {cut}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          {/* Remaining fields like certificationUrl, caratWeight, price, quantity, warrantyPeriod */}
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              margin="normal"
+              name="certificationUrl"
+              label="Certification URL"
+              value={diamond.certificationUrl || ""}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              margin="normal"
+              name="caratWeight"
+              label="Carat Weight"
+              type="number"
+              value={diamond.caratWeight || ""}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              margin="normal"
+              name="price"
+              label="Price"
+              type="number"
+              value={diamond.price || ""}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              margin="normal"
+              name="quantity"
+              label="Quantity"
+              type="number"
+              value={diamond.quantity || ""}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              margin="normal"
+              name="warrantyPeriod"
+              label="Warranty Period"
+              type="number"
+              value={diamond.warrantyPeriod || ""}
+              onChange={handleChange}
+            />
+          </Grid>
+        </Grid>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: "1rem",
+          }}
+        >
+          <Button
+            variant="outlined"
+            style={{
+              border: "1px solid red",
+              color: "orangered",
+            }}
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            style={{ background: "#FFD700" }}
+            onClick={() => handleSave(diamond)}
+          >
+            Save
+          </Button>
+        </div>
+      </Box>
+    </Modal>
   );
 };
 
