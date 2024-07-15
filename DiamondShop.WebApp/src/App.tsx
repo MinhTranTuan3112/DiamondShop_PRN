@@ -11,7 +11,8 @@ import Checkout from "./pages/Checkout/Checkout";
 import Admin from "./pages/Admin/Admin";
 import NotFoundPage from "./pages/NotFound";
 import ProductsPage from "./pages/Product";
-import Order from "./pages/Order/Order";
+import OrdersPage from "./pages/Admin/OrderManagement";
+//import Order from "./pages/Order/Order";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +27,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<Admin />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/order" element={<OrdersPage />} />
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />

@@ -91,29 +91,41 @@ export const fetchCategories = async () => {
 };
 
 export const fetchOrders = async (
-  search: string,
-  page: number,
-  rowsPerPage: number,
-  sortColumn?: string,
-  orderByDesc?: boolean
-): Promise<{ results: any[]; totalCount: number }> => {
-  let url = `${BASE_URL}/Orders?pageNumber=${page}&pageSize=${rowsPerPage}`;
+  Size: number, Page: number,
+  Code?: string, PayMethod?: string, ShipAddress?: string, Note?: string, Status?: string,
+  IsDescendingCode?: boolean, IsDescendingTime?: boolean,
+  accessToken?: string):
+  Promise<{ results: any[]; totalCount: number }> => {
+  let url = `${BASE_URL}/Orders/list`;
 
-  if (search.trim() !== "") {
-    url += `&search=${search}`;
-  }
+  Size = Size === 0 ? 5 : Size;
+  Page = Page === 0 ? 1 : Page;
 
-  if (sortColumn) {
-    url += `&sortColumn=${sortColumn}&orderByDesc=${orderByDesc ? "true" : "false"}`;
-  }
+  const response = await fetch(url,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({
+        Size,
+        Page,
+        Code,
+        PayMethod,
+        ShipAddress,
+        Note,
+        Status,
+        IsDescendingCode,
+        IsDescendingTime,
+      }),
+    });
 
-  const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}\nMessage: ${response.text()}`);
   }
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
 export const deleteOrder = async (orderId: string) => {
