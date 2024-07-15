@@ -79,14 +79,24 @@ namespace DiamondShop.DataAccess.Extensions
         {
             var startPrice = queryDiamondDto.StartPrice;
             var endPrice = queryDiamondDto.EndPrice;
-            var name = queryDiamondDto.Name;
+            // var name = queryDiamondDto.Name;
             var colors = queryDiamondDto.Colors;
             var cuts = queryDiamondDto.Cuts;
             var clarities = queryDiamondDto.Clarities;
+
             if (startPrice < endPrice)
             {
-                query = query.Where(p => p.Price >= startPrice && p.Price <= endPrice);
+                if (startPrice.HasValue)
+                {
+                    query = query.Where(d => d.Price >= startPrice);
+                }
+
+                if (endPrice.HasValue)
+                {
+                    query = query.Where(d => d.Price <= endPrice);
+                }
             }
+
             // if (!string.IsNullOrEmpty(name))
             // {
             //     query = query.Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()));
@@ -159,7 +169,7 @@ namespace DiamondShop.DataAccess.Extensions
             if (!string.IsNullOrEmpty(fullName))
             {
                 query = query.Where(a =>
-                    (!string.IsNullOrEmpty(a.Customer.Fullname) && a.Customer.Fullname.ToLower().Contains(fullName) ) ||
+                    (!string.IsNullOrEmpty(a.Customer.Fullname) && a.Customer.Fullname.ToLower().Contains(fullName)) ||
                     (!string.IsNullOrEmpty(a.StakeHolder.Fullname) && a.StakeHolder.Fullname.ToLower().Contains(fullName)));
             }
 

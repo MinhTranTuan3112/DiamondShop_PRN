@@ -8,10 +8,10 @@ const NotFoundPage = (props: Props) => {
     return (
         <>
             <Header />
-            <div className='flex justify-center items-center my-44'>
-                <h1>404 NOT FOUND</h1>
+            <div className='flex justify-center items-center my-44 flex-col'>
+                <h1 className='font-bold text-5xl'>404 NOT FOUND</h1>
                 <br />
-                <p>The page you are looking for might have been removed had its name changed or is temporarily unavailable</p>
+                <p className='text-center'>The page you are looking for might have been removed had its name changed or is temporarily unavailable</p>
             </div>
             <Footer />
         </>
