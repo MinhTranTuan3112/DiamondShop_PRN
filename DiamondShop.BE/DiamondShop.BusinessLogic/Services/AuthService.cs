@@ -71,11 +71,11 @@ namespace DiamondShop.BusinessLogic.Services
                         Fullname = createAccountDto.FullName
                     });
                     break;
-            } 
+            }
             await _unitOfWork.SaveChangesAsync();
         }
 
-        
+
 
         public async Task UpdatePassword(ClaimsPrincipal claims, UpdatePasswordDto updatePasswordDto)
         {
@@ -168,34 +168,30 @@ namespace DiamondShop.BusinessLogic.Services
             var accountDb = await _unitOfWork.GetAccountRepository().FindOneAsync(x => x.Email == registerDto.Email);
             if (accountDb is not null)
             {
-                throw new BadRequestException("Email is already existed");
+                throw new BadRequestException("Email already exists");
             }
+
             registerDto.Password = HashPassword(registerDto.Password);
-            var account = await _unitOfWork.GetAccountRepository().AddAsync(registerDto.Adapt<Account>());
+            var account = registerDto.Adapt<Account>();
             account.Role = Role.Customer.ToString();
-            
+            await _unitOfWork.GetAccountRepository().AddAsync(account);
+
+            var acc = registerDto.Adapt<Account>();
+
+            await _unitOfWork.GetAccountRepository().AddAsync(account);
             await _unitOfWork.SaveChangesAsync();
-            await _unitOfWork.GetCustomerRepository().AddAsync(new Customer()
+
+            var customer = new Customer
             {
                 AccountId = account.Id,
-                Fullname = registerDto.Fullname
-            });
+                Fullname = registerDto.Fullname ?? string.Empty,
+                Address =  null,
+                PhoneNumber = "00000000",
+                Point = 0
+            };
+
+            await _unitOfWork.GetCustomerRepository().AddAsync(customer);
             await _unitOfWork.SaveChangesAsync();
-            // switch (account.Role)
-            // {
-            //     case var role when role == Role.Customer.ToString():
-            //         await _unitOfWork.GetCustomerRepository().AddAsync(new Customer
-            //         {
-            //             AccountId = account.Id,
-            //             Fullname = string.Empty
-            //         });
-            //
-            //         await _unitOfWork.SaveChangesAsync();
-            //         break;
-            //     default:
-            //         throw new BadRequestException("Invalid role or this role is not supported yet.");
-            //
-            // }
         }
     }
 }
