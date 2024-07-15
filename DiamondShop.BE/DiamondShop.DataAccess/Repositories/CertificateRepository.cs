@@ -36,7 +36,10 @@ public class CertificateRepository : GenericRepository<Certificate>, ICertificat
 
     public async Task<PagedResult<Certificate>> GetPagedCertificates(QueryCertificateDto queryCertificateDto)
     {
-        var (pageNumber, pageSize, sortBy, orderByDesc) = queryCertificateDto.QueryDto;
+        var pageNumber = queryCertificateDto.PageNumber;
+        var pageSize = queryCertificateDto.PageSize;
+        var sortBy = queryCertificateDto.SortColumn;
+        var orderByDesc = queryCertificateDto.OrderByDesc;
         var query = _context.Certificates.AsNoTracking().Include(x => x.Diamond).AsSplitQuery().AsQueryable();
         query = query.ApplyCertificateFilter(queryCertificateDto);
         query = orderByDesc ? query.OrderByDescending(GetSortProperty(sortBy)) : query.OrderBy(GetSortProperty(sortBy));
