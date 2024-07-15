@@ -84,5 +84,17 @@ namespace DiamondShop.DataAccess.Repositories
                 CurrentPage = pageIndex
             };
         }
+
+        public async Task<Order?> GetCustomerCartInfo(Guid customerId)
+        {
+            return await _context.Orders.AsNoTracking()
+                                        .Where(o => o.CustomerId == customerId && o.Status == OrderStatus.InCart.ToString())
+                                        .Include(o => o.OrderDetails)
+                                        .ThenInclude(od => od.Diamond)
+                                        .Include(o => o.OrderDetails)
+                                        .ThenInclude(od => od.Product)
+                                        .AsSplitQuery()
+                                        .FirstOrDefaultAsync();
+        }
     }
 }

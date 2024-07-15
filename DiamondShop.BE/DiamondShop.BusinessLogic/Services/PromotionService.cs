@@ -41,9 +41,9 @@ namespace DiamondShop.BusinessLogic.Services
         }
 
 
-        public async Task<Promotion> GetPromotionById(Guid id)
+        public async Task<Promotion> GetPromotionByCode(string code)
         {
-            var promotion = await _unitOfWork.GetPromotionRepository().GetByIdAsync(id);
+            var promotion = await _unitOfWork.GetPromotionRepository().GetByCode(code);
             if (promotion == null)
             {
                 throw new NotFoundException("Promotion not found");

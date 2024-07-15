@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./LoginForm.css";
-import { fetchLogin } from "../../../services/auth_service";
+import { fetchLogin, fetchWhoAmI } from "../../../services/auth_service";
 import useAuth from "../../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { CiLock } from "react-icons/ci";
 import Favicon from "../../../assets/icons/icon.png";
+import { AuthAccount } from "../../../types/account";
 
 const LoginForm = () => {
   const [formState, setFormState] = useState({
@@ -19,14 +20,35 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetchLogin(formState.email, formState.password);
+    try {
+      const response = await fetchLogin(formState.email, formState.password);
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-      setAccessToken(data.accessToken);
-      setExpirationDate(new Date(data.expireIn));
-      navigate("/");
+      if (response.ok) {
+        const data = await response.json();
+        setAccessToken(data.accessToken);
+        setExpirationDate(new Date(data.expireIn));
+
+        try {
+          const userInfoResponse = await fetchWhoAmI(data.accessToken);
+          console.log("user response:", userInfoResponse);
+
+          if (userInfoResponse) {
+            const userInfo: AuthAccount = JSON.parse(userInfoResponse);
+            const userRole = userInfo.role;
+            if (userRole === "Customer") {
+              navigate("/");
+            } else {
+              navigate("/dashboard");
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user info:", error);
+        }
+      } else {
+        console.error("Login failed:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
     }
   };
 

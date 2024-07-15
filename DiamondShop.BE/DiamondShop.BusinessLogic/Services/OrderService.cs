@@ -7,6 +7,7 @@ using DiamondShop.DataAccess.Enums;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using DiamondShop.Shared.Exceptions;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
@@ -98,6 +99,7 @@ namespace DiamondShop.BusinessLogic.Services
                 order = await _unitOfWork.GetOrderRepository().AddAsync(new Order
                 {
                     CustomerId = customer.Id,
+                    Code = $"OD{Guid.NewGuid().ToString()}",
                     Status = orderStatus.ToString()
                 });
 
@@ -204,7 +206,7 @@ namespace DiamondShop.BusinessLogic.Services
             };
         }
 
-        public async Task<DashboardStats> getDashBoardStats()
+        public async Task<DashboardStats> GetDashBoardStats()
         {
             var numberofDiamonds = _unitOfWork.GetDiamondRepository().GetAllAsync().Result.Count();
             var numberofProdducts = _unitOfWork.GetProductRepository().GetAllAsync().Result.Count();
@@ -256,5 +258,29 @@ namespace DiamondShop.BusinessLogic.Services
             if (orderStatus.ToLower().Equals("Deleted".ToLower())) throw new BadRequestException("This order already deleted!");
         }
 
+        public async Task<GetCartOrderDto> GetCustomerCartInfo(ClaimsPrincipal claims)
+        {
+            var accountId = claims.GetAccountId();
+
+            var account = await _unitOfWork.GetAccountRepository().FindOneAsync(a => a.Id == accountId);
+
+            if (account is null)
+            {
+                throw new NotFoundException("No account found");
+            }
+
+            var customer = await _unitOfWork.GetCustomerRepository().FindOneAsync(c => c.AccountId == accountId);
+
+            if (customer is null)
+            {
+                throw new UnauthorizedException("Unauthorized");
+            }
+
+            var order = await _unitOfWork.GetOrderRepository().Entities.ProjectToType<GetCartOrderDto>()
+                                                        .FirstOrDefaultAsync();
+            
+            return order is not null ? order : throw new NotFoundException("Empty cart");
+
+        }
     }
 }

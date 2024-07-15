@@ -19,6 +19,8 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task CreateAccount(CreateAccountDto createAccountDto);
         
         //Task UpdateStakeholderAccount()
-        Task UpdatePassword(Guid id, UpdatePasswordDto updatePasswordDto);
+        Task UpdatePassword(ClaimsPrincipal claims, UpdatePasswordDto updatePasswordDto);
+
+        Task<bool> IsCorrectPassword(ClaimsPrincipal claims,string password);
     }
 }

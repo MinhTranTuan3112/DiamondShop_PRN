@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiamondShop.DataAccess.Enums;
 
 namespace DiamondShop.BusinessLogic.Interfaces
 {
@@ -14,6 +15,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
 
         Task<GetCategoryDto> GetCategoryById(Guid id);
         Task <List<GetCategoryDto>> GetAllCategories();
-        Task DeleteCategory (Guid id);
+        //Task DeleteCategory (Guid id);
+        Task ChangStatusCategory(Guid categoryId, CategoryStatus status);
     }
 }

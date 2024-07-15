@@ -11,9 +11,9 @@ const MyLineChart = ({ totalOrderEachMonth, totalRevenueEachMonth,averageOrderVa
       width={500}
       height={300}
       series={[
-        { data: totalOrderEachMonth, label: "totalOrderEachMonth" },
-        { data: totalRevenueEachMonth, label: "totalRevenueEachMonth" },
-        { data: averageOrderValue, label: "averageOrderValue" },
+        { data: totalOrderEachMonth?? null, label: "totalOrderEachMonth" },
+        { data: totalRevenueEachMonth?? null, label: "totalRevenueEachMonth" },
+        { data: averageOrderValue ?? null, label: "averageOrderValue" },
       ]}
       xAxis={[
         { scaleType: "point", data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },

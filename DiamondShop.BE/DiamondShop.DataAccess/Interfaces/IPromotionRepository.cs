@@ -9,5 +9,6 @@ namespace DiamondShop.DataAccess.Interfaces
 {
     public interface IPromotionRepository : IGenericRepository<Promotion>
     {
+        Task<Promotion?> GetByCode(string code);
     }
 }

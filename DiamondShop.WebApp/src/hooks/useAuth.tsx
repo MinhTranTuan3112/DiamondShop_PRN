@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useLocalStorage from "./useLocalStorage";
-import { useQuery } from "@tanstack/react-query";
 import { fetchWhoAmI } from "../services/auth_service";
 import { AuthAccount } from "../types/account";
 
@@ -13,8 +12,6 @@ type Props = {
   setExpirationDate: (expirationDate: Date) => void;
   isTokenExpired: boolean;
   setIsTokenExpired: (isTokenExpired: boolean) => void;
-  isLoading: boolean;
-  isError: boolean;
   logout: () => void;
 };
 
@@ -23,29 +20,51 @@ const useAuth = (): Props => {
     "accessToken",
     ""
   );
+
   const [isTokenExpired, setIsTokenExpired] = useState(false);
   const [authAccount, setAuthAccount] = useState<AuthAccount | null>(null);
   const [expirationDate, setExpirationDate] = useState<Date | null>(null);
 
-  const { isLoading, isError } = useQuery({
-    queryKey: ["who-am-i"],
-    queryFn: async () => {
-      console.log("fetching who am i");
-      const response = await fetchWhoAmI(accessToken);
+  // const { isLoading, isError } = useQuery({
+  //   queryKey: ["who-am-i"],
+  //   queryFn: async () => {
+  //     console.log("fetching who am i");
+  //     const response = await fetchWhoAmI(accessToken);
 
-      if (response.ok && !authAccount) {
-        const data = await response.json();
-        setAuthAccount(data);
-        setIsTokenExpired(false);
-        return data;
-      } else {
-        setIsTokenExpired(true);
-        return null;
+  //     if (response.ok && !authAccount) {
+  //       const data = await response.json();
+  //       setAuthAccount(data);
+  //       setIsTokenExpired(false);
+  //       return data;
+  //     } else {
+  //       setIsTokenExpired(true);
+  //       return null;
+  //     }
+  //   },
+  //   staleTime: Infinity,
+  //   retry: false,
+  // });
+
+  useEffect(() => { // Step 2: Add useEffect hook
+    const fetchAccountDetails = async () => {
+      if (!authAccount && accessToken) { // Step 4: Check conditions
+        try {
+          console.log(`Call fetch who am i`);
+          const response = await fetchWhoAmI(accessToken); // Fetch user details
+          if (response.status === 200) {
+            const accountDetails = await response.json(); // Parse JSON
+            setAuthAccount(accountDetails); // Update authAccount
+          }
+          // Optionally update expirationDate here if the response includes it
+        } catch (error) {
+          console.error("Failed to fetch account details", error);
+          // Handle error (e.g., by logging out the user or showing an error message)
+        }
       }
-    },
-    staleTime: Infinity,
-    retry: false,
-  });
+    };
+
+    fetchAccountDetails(); // Call the async function
+  }, [accessToken, authAccount]); // Step 3: Dependency array
 
   const logout = () => {
     setAccessToken("");
@@ -64,8 +83,6 @@ const useAuth = (): Props => {
     setExpirationDate,
     isTokenExpired,
     setIsTokenExpired,
-    isLoading,
-    isError,
     logout,
   };
 };
