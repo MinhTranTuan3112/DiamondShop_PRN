@@ -29,7 +29,7 @@ create table [Customer]
 	Id uniqueidentifier default newid() primary key,
 	Fullname nvarchar(100) not null,
 	[Address] nvarchar(max),
-	PhoneNumber nvarchar(15) unique,
+	PhoneNumber nvarchar(15) null,
 	Point int default 0 not null,
 
 	AccountId uniqueidentifier not null unique foreign key references [Account](Id)

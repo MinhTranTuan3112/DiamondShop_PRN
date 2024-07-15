@@ -33,20 +33,19 @@ export const fetchRegister = async (
 
 export const fetchWhoAmI = async (accessToken: string) => {
   try {
-    const response = await fetch("https://localhost:7054/api/Auth/who-am-i", {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'accept': 'text/plain',
+    const response = await customFetch({
+      endpointPath: '/auth/who-am-i',
+      options: {
+        method: 'GET'
       },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      }
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.text();
-    return data;
+    return response;
+    
   } catch (error) {
     console.error("Error fetching who am I:", error);
     throw error;

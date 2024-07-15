@@ -47,6 +47,7 @@ const useAuth = (): Props => {
 
   useEffect(() => { // Step 2: Add useEffect hook
     const fetchAccountDetails = async () => {
+      console.log(`useAuth Access token: ${accessToken}`);
       if (!authAccount && accessToken) { // Step 4: Check conditions
         try {
           console.log(`Call fetch who am i`);
