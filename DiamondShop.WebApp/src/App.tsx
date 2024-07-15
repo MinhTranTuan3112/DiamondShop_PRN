@@ -12,6 +12,7 @@ import Admin from "./pages/Admin/Admin";
 import NotFoundPage from "./pages/NotFound";
 import ProductsPage from "./pages/Product";
 import Order from "./pages/Order/Order";
+import DiamondPricingPage from "./pricing/DiamondPricing";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<Admin />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/pricing" element={<DiamondPricingPage/>}/>
           <Route
             element={
               <AuthorizedRoute role={"customer"} redirectPath={"/login"} />

@@ -20,7 +20,7 @@ namespace DiamondShop.DataAccess.Repositories
 
         public DiamondRepository(FlashyCarbonDbContext context) : base(context)
         {
-            this._context = context;
+           _context = context;
         }
 
         public async Task<Diamond?> GetDiamondDetailsById(Guid id)
@@ -57,11 +57,11 @@ namespace DiamondShop.DataAccess.Repositories
             return await query.ToPaginationResultAsync(pageNumber, pageSize);
         }
 
-        private Expression<Func<Diamond, object>> GetSortProperty(string sortColumn)
+        private static Expression<Func<Diamond, object>> GetSortProperty(string sortColumn)
         {
             return sortColumn.ToLower() switch
             {
-                "lastUpdate" => diamond => (diamond.LastUpdate == null) ? diamond.Id : diamond.LastUpdate,
+                "lastUpdate" => diamond => diamond.LastUpdate,
                 "price" => diamond => diamond.Price,
                 //"name" => diamond => diamond.Name!,
                 _ => diamond => diamond.Id

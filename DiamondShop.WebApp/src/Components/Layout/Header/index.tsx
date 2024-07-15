@@ -47,6 +47,14 @@ const Header: React.FC = () => {
                     Trang sức
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/pricing"
+                    className="px-[21px] py-[4px] text-[17px] font-semibold text-[#2e2e2e]"
+                  >
+                    Bảng giá kim cương
+                  </Link>
+                </li>
               </ul>
             </nav>
             <div className="flex items-center space-x-10">
