@@ -106,7 +106,7 @@ export const fetchDiamonds = async (
   orderByDesc: boolean
 ) => {
   const response = await fetch(
-    `${BASE_URL}/Diamonds?QueryDto.PageNumber=${page}&QueryDto.PageSize=${rowsPerPage}&QueryDto.SortBy=${sortColumn}&QueryDto.OrderByDesc=${orderByDesc}&Name=${search}`
+    `${BASE_URL}/Diamonds?QueryDto.PageNumber=${page}.PageSize=${rowsPerPage}.SortBy=${sortColumn}.OrderByDesc=${orderByDesc}&Name=${search}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch diamonds");
@@ -278,53 +278,86 @@ export const deletePromotion = async (promotionId: string) => {
   }
 };
 
-// const buildPromotionFormData = (promotion: Partial<Promotion>): FormData => {
-//   const formData = new FormData();
-//   formData.append("Name", promotion.name || "");
-//   formData.append("Description", promotion.description || "");
-//   formData.append("ExpiredDate", promotion.expiredDate || "");
-//   formData.append("DiscountPercent", promotion.discountPercent ? promotion.discountPercent.toString() : "");
-//   formData.append("Status", promotion.status || "");
 
-//   return formData;
-// };
+// Account
 
-// export const createPromotion = async (promotion: Partial<Promotion>) => {
-//   const formData = buildPromotionFormData(promotion);
+export const fetchAccounts = async (
+  search: string,
+  page: number,
+  rowsPerPage: number,
+  sortColumn: string,
+  orderByDesc: boolean
+) => {
+  const response = await fetch(
+    `${BASE_URL}/Accounts?PageNumber=${page}&PageSize=${rowsPerPage}&SortBy=${sortColumn}&OrderByDesc=${orderByDesc}&email=${search}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch accounts");
+  }
+  return response.json();
+};
 
-//   const response = await fetch(`${BASE_URL}/Promotions`, {
-//     method: 'POST',
-//     headers: {
-//       'accept': '*/*',
-//     },
-//     body: formData,
-//   });
+export const fetchAccountById = async (id: string) => {
+  const response = await fetch(`${BASE_URL}/Accounts/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch account data');
+  }
+  return await response.json();
+};
 
-//   if (!response.ok) {
-//     throw new Error('Failed to create promotion');
-//   }
+const buildAccountFormData = (account: Partial<AuthAccount>): FormData => {
+  const formData = new FormData();
+  formData.append("Email", account.email || "");
+  formData.append("Role", account.role || "");
+  formData.append("Status", account.status || "");
+  formData.append("Customer.FullName", account.customer.fullname || "");
+  formData.append("StakeHolder.FullName", account.stakeHolder.fullname || "");
 
-//   return await response.json();
-// };
+  return formData;
+};
 
-// export const updatePromotion = async (promotion: Partial<Promotion>) => {
-//   if (!promotion.id) {
-//     throw new Error('Promotion ID is required for updating');
-//   }
-  
-//   const formData = buildPromotionFormData(promotion);
+export const updateAccount = async (account: Partial<AuthAccount>) => {
+  const formData = buildAccountFormData(account);
 
-//   const response = await fetch(`${BASE_URL}/Promotions/${promotion.id}`, {
-//     method: 'PUT',
-//     headers: {
-//       'accept': '*/*',
-//     },
-//     body: formData,
-//   });
+  const response = await fetch(`${BASE_URL}/Accounts/${account.id}`, {
+    method: 'PUT',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
 
-//   if (!response.ok) {
-//     throw new Error('Failed to update promotion');
-//   }
+  if (!response.ok) {
+    throw new Error('Failed to update account');
+  }
 
-//   return await response.json();
-// };
+  return await response;
+};
+
+export const createAccount = async (account: Partial<AuthAccount>) => {
+  const formData = buildAccountFormData(account);
+
+  const response = await fetch(`${BASE_URL}/Accounts`, {
+    method: 'POST',
+    headers: {
+      'accept': '*/*',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create account');
+  }
+
+  return await response;
+};
+
+export const deleteAccount = async (accountId: string) => {
+  const response = await fetch(`${BASE_URL}/Accounts/${accountId}/Deleted`, {
+    method: 'PUT',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete account');
+  }
+};
