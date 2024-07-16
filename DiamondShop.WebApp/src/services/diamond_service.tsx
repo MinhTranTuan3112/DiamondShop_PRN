@@ -6,7 +6,9 @@ export const fetchPagedDiamonds = async (pageNumber: number = 1,
     orderByDesc: boolean = false,
     startPrice: number | null = null,
     endPrice: number | null = null,
-    cuts: string[] = []) => {
+    cuts: string[] = [],
+    colors: string[] = [],
+    clarities: string[] = []) => {
     try {
 
         let url = `/diamonds?pageNumber=${pageNumber}&pageSize=${pageSize}&sortColumn=${sortColumn}&orderByDesc=${orderByDesc}`;
@@ -22,6 +24,18 @@ export const fetchPagedDiamonds = async (pageNumber: number = 1,
         if (cuts.length > 0) {
             cuts.forEach(cut => {
                 url += `&cuts=${cut}`;
+            });
+        }
+
+        if (colors.length > 0) {
+            colors.forEach(color => {
+                url += `&colors=${color}`;
+            });
+        }
+
+        if (clarities.length > 0) {
+            clarities.forEach(clarity => {
+                url += `&clarities=${clarity}`;
             });
         }
 
@@ -45,5 +59,22 @@ export const fetchPagedDiamonds = async (pageNumber: number = 1,
 
     } catch (error) {
         console.error(`Error fetching diamonds: ${error}`);
+    }
+}
+
+export const fetchDiamondDetails = async (id: string) => {
+    try {
+        
+        const response = await customFetch({
+            endpointPath: `/diamonds/${id}`,
+            options: {
+                method: 'GET'
+            }
+        });
+
+        return response;
+
+    } catch (error) {
+        console.error(`Error fetching diamond details: ${error}`);
     }
 }

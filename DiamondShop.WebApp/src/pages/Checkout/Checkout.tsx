@@ -9,6 +9,7 @@ import useAuth from "../../hooks/useAuth";
 import { fetchCartInfo, fetchConfirmOrder } from "../../services/order_service";
 import { formatPrice } from "../../utils/priceUtils";
 import Swal from "sweetalert2";
+import { OrderCartInfo, OrderDetail } from "../../types/OrderCartInfo";
 
 // interface CartItem {
 //   id: number;
@@ -222,7 +223,7 @@ const Checkout: React.FC = () => {
     <>
       <Header />
       {!orderInCart ? (
-        <p className="text-center font-bold text-3xl">
+        <p className="text-center font-bold text-3xl py-56">
           Giỏ hàng của bạn đang trống
         </p>
       ) : (

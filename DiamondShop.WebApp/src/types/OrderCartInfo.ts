@@ -1,4 +1,4 @@
-type OrderCartInfo = {
+export type OrderCartInfo = {
     id: string;
     code: string;
     orderDate: string;
@@ -12,7 +12,7 @@ type OrderCartInfo = {
     orderDetails: OrderDetail[];
 };
 
-type OrderDetail = {
+export type OrderDetail = {
     id: string;
     complexProduction: boolean;
     quantity: number;

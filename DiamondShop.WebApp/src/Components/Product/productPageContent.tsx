@@ -81,7 +81,14 @@ const ProductPageContent = (props: Props) => {
   ]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchParams({ ...searchParams, name: e.target.value });
+    setSearchParams({
+      ...searchParams,
+      page: '1',
+      name: e.target.value,
+      startPrice: startPriceParam?.toString(),
+      endPrice: endPriceParam?.toString(),
+      types: typesParam?.join(","),
+    });
   };
 
   function valuetext(value: number) {
@@ -109,8 +116,11 @@ const ProductPageContent = (props: Props) => {
     setPriceRange([newStartPrice, newEndPrice]);
     setSearchParams({
       ...searchParams,
+      page: '1',
       startPrice: newStartPrice.toString(),
       endPrice: newEndPrice.toString(),
+      name: nameParam,
+      types: typesParam?.join(","),
     });
   };
 
@@ -118,7 +128,14 @@ const ProductPageContent = (props: Props) => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setSearchParams({ ...searchParams, page: value.toString() });
+    setSearchParams({
+      ...searchParams,
+      page: value.toString(),
+      startPrice: startPriceParam?.toString(),
+      endPrice: endPriceParam?.toString(),
+      name: nameParam,
+      types: typesParam?.join(","),
+    });
   };
 
   const handleTypeChange = (
@@ -138,7 +155,14 @@ const ProductPageContent = (props: Props) => {
 
     const newTypesString = newTypesParam.join(",");
 
-    setSearchParams({ ...searchParams, types: newTypesString });
+    setSearchParams({
+      ...searchParams,
+      page: '1',
+      types: newTypesString,
+      startPrice: startPriceParam?.toString(),
+      endPrice: endPriceParam?.toString(),
+      name: nameParam,
+    });
   };
 
   return (
@@ -222,7 +246,7 @@ const ProductPageContent = (props: Props) => {
                   <ProductCard
                     product={product}
                     key={index}
-                    // className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-full h-[300px]"
+                  // className="border border-gray-300 rounded-lg overflow-hidden flex flex-col items-center justify-center w-full h-[300px]"
                   />
                 ))}
               </div>
