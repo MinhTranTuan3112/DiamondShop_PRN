@@ -97,5 +97,18 @@ namespace DiamondShop.DataAccess.Repositories
                                         .AsSplitQuery()
                                         .FirstOrDefaultAsync();
         }
+
+        public async Task<Order?> GetOrderWithDetailsCustomerInfo(Guid orderId)
+        {
+            return await _context.Orders
+                                    .Include(o => o.OrderDetails)
+                                    .ThenInclude(od => od.Product)
+                                    .Include(o => o.OrderDetails)
+                                    .ThenInclude(od => od.Diamond)
+                                    .Include(o => o.Customer)
+                                    .ThenInclude(c => c.Account)
+                                    .AsSplitQuery()
+                                    .SingleOrDefaultAsync(o => o.Id == orderId);
+        }
     }
 }

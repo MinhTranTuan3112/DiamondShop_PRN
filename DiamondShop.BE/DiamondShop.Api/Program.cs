@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var configuration = builder.Configuration;
 builder.Services.AddApiDependencies(configuration)
-                .AddBusinessLogicDependencies()
+                .AddBusinessLogicDependencies(configuration)
                 .AddDataAccessDependencies();
 
 builder.Services.AddControllers().AddJsonOptions(options =>

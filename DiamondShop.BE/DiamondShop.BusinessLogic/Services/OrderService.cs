@@ -111,7 +111,7 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task<bool> UpdateStatus(Guid ordId, string newStatus, string interacterRole)
         {
-            var currentOrder = await _unitOfWork.GetOrderRepository().GetByIdAsync(ordId)
+            var currentOrder = await _unitOfWork.GetOrderRepository().GetOrderWithDetailsCustomerInfo(ordId)
                 ?? throw new NotFoundException("Not found this Order");
 
             if (currentOrder.Status!.ToLower().Equals(newStatus.ToLower()))
@@ -148,8 +148,17 @@ namespace DiamondShop.BusinessLogic.Services
             currentOrder.Status = newStatus;
 
             //Save Change
-            return await _unitOfWork.SaveChangesAsync() > 0;
+            bool result = await _unitOfWork.SaveChangesAsync() > 0;
+
+            if (result)
+            {
+                await _serviceFactory.GetEmailService().SendOrderEmail(currentOrder);
+            }
+            
+            return result;
         }
+
+
 
         public async Task<bool> UpdateOrder(OrderInfoDto order)
         {
