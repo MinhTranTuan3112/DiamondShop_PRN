@@ -5,7 +5,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
 {
     public interface IPromotionService
     {
-        Task<(List<Promotion> Promotions, int TotalPage)> GetPromotions(int pageIndex, int pageSize, string searchString, DateTime ExpireDate);
+        Task<(List<Promotion> Promotions, int TotalCount)> GetPromotions(int pageIndex, int pageSize, string searchString, DateTime ExpireDate);
         Task<Promotion> GetPromotionByCode(string code);
         Task CreatePromotion(CreatePromotion createPromotion);
         Task UpdatePromotion(UpdatePromotion updatePromotion);

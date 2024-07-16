@@ -41,9 +41,6 @@ const ProductDetailsPage = (props: Props) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  console.log(OrderStatus.Pending_Confirm.toString());
-
-
   if (!id) {
     return <div>Invalid product id</div>;
   }

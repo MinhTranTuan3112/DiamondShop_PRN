@@ -5,6 +5,8 @@ import { Box, Checkbox, FormControlLabel, FormGroup, Pagination, Slider, Typogra
 import { formatPrice } from '../../utils/priceUtils';
 import DiamondCard from './DiamondCard';
 import { DiamondCut } from '../../enums/DiamondCut';
+import { DiamondColor } from '../../enums/DiamondColor';
+import { DiamondClarity } from '../../enums/DiamondClarity';
 
 type Props = {
 
@@ -28,13 +30,15 @@ const DiamondPageContent = (props: Props) => {
         : null;
 
     const cutsParam = searchParams.get("cuts") ? searchParams.get("cuts")?.split(",") : [];
+    const colorsParam = searchParams.get("colors") ? searchParams.get("colors")?.split(",") : [];
+    const claritiesParam = searchParams.get("clarities") ? searchParams.get("clarities")?.split(",") : [];
 
     useEffect(() => {
         setIsLoading(true);
 
         const timer = setTimeout(() => {
             fetchPagedDiamonds(pageParam, pageSizeParam, sortColumn, orderByDesc, startPriceParam, endPriceParam,
-                cutsParam
+                cutsParam, colorsParam, claritiesParam
             ).then((data) => setPagedResult(data));
         }, 400);
 
@@ -44,13 +48,21 @@ const DiamondPageContent = (props: Props) => {
             clearTimeout(timer);
         }
 
-    }, [pageParam, pageSizeParam, startPriceParam, endPriceParam, cutsParam]);
+    }, [pageParam, pageSizeParam, startPriceParam, endPriceParam, cutsParam, colorsParam, claritiesParam]);
 
     const handlePageChanged = (
         event: React.ChangeEvent<unknown>,
         value: number
     ) => {
-        setSearchParams({ ...searchParams, page: value.toString() });
+        setSearchParams({
+            ...searchParams,
+            page: value.toString(),
+            startPrice: startPriceParam?.toString(),
+            endPrice: endPriceParam?.toString(),
+            cuts: cutsParam?.join(","),
+            colors: colorsParam?.join(","),
+            clarities: claritiesParam?.join(","),
+        });
     };
 
     function valuetext(value: number) {
@@ -78,8 +90,12 @@ const DiamondPageContent = (props: Props) => {
         setPriceRange([newStartPrice, newEndPrice]);
         setSearchParams({
             ...searchParams,
+            page: '1',
             startPrice: newStartPrice.toString(),
             endPrice: newEndPrice.toString(),
+            cuts: cutsParam?.join(","),
+            colors: colorsParam?.join(","),
+            clarities: claritiesParam?.join(","),
         });
     };
 
@@ -100,8 +116,72 @@ const DiamondPageContent = (props: Props) => {
 
         const newCutsString = newCutsParam.join(",");
 
-        setSearchParams({ ...searchParams, cuts: newCutsString });
+        setSearchParams({
+            ...searchParams,
+            page: '1',
+            cuts: newCutsString,
+            colors: colorsParam?.join(","),
+            startPrice: startPriceParam?.toString(),
+            endPrice: endPriceParam?.toString(),
+            clarities: claritiesParam?.join(","),
+        });
     };
+
+    const handleColorsChanged = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean
+    ) => {
+        let newColorsParam = colorsParam ? [...colorsParam] : [];
+        const newValue = event.target.value;
+
+        if (checked) {
+            if (!newColorsParam.includes(newValue)) {
+                newColorsParam.push(newValue);
+            }
+        } else {
+            newColorsParam = newColorsParam.filter((color) => color !== newValue);
+        }
+
+        const newColorsString = newColorsParam.join(",");
+
+        setSearchParams({
+            ...searchParams,
+            page: '1',
+            colors: newColorsString,
+            cuts: cutsParam?.join(","),
+            startPrice: startPriceParam?.toString(),
+            endPrice: endPriceParam?.toString(),
+            clarities: claritiesParam?.join(","),
+        });
+    }
+
+    const handleClaritiesChanged = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        checked: boolean
+    ) => {
+        let newClaritiesParam = claritiesParam ? [...claritiesParam] : [];
+        const newValue = event.target.value;
+
+        if (checked) {
+            if (!newClaritiesParam.includes(newValue)) {
+                newClaritiesParam.push(newValue);
+            }
+        } else {
+            newClaritiesParam = newClaritiesParam.filter((clarity) => clarity !== newValue);
+        }
+
+        const newClaritiesString = newClaritiesParam.join(",");
+
+        setSearchParams({
+            ...searchParams,
+            page: '1',
+            clarities: newClaritiesString,
+            colors: colorsParam?.join(","),
+            cuts: cutsParam?.join(","),
+            startPrice: startPriceParam?.toString(),
+            endPrice: endPriceParam?.toString(),
+        });
+    }
 
     return (
         <div className="w-[1170px] max-w-[calc(100%-48px)] mx-auto">
@@ -113,8 +193,6 @@ const DiamondPageContent = (props: Props) => {
                             <FormControlLabel
                                 control={
                                     <Checkbox
-                                        // onChange={handleTypeChange}
-                                        // checked={typesParam?.includes(type)}
                                         onChange={handleCutsChanged}
                                         checked={cutsParam?.includes(cut)}
                                         sx={{
@@ -130,6 +208,47 @@ const DiamondPageContent = (props: Props) => {
                         ))}
                     </FormGroup>
                     <br />
+                    <p className="font-bold">Màu sắc</p>
+                    <FormGroup>
+                        {Object.values(DiamondColor).map((color, index) => (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        onChange={handleColorsChanged}
+                                        checked={colorsParam?.includes(color)}
+                                        sx={{
+                                            "& .MuiSvgIcon-root": { fontSize: 28, color: "#141313" },
+                                            color: "#141313",
+                                        }}
+                                    />
+                                }
+                                label={color}
+                                value={color}
+                                key={index}
+                            />
+                        ))}
+                    </FormGroup>
+                    <br />
+                    <p>Độ tinh khiết</p>
+                    <FormGroup>
+                        {Object.values(DiamondClarity).map((clarity, index) => (
+                            <FormControlLabel control={
+                                <Checkbox
+                                    onChange={handleClaritiesChanged}
+                                    checked={claritiesParam?.includes(clarity)}
+                                    sx={{
+                                        "& .MuiSvgIcon-root": { fontSize: 28, color: "#141313" },
+                                        color: "#141313",
+                                    }}
+                                />
+                            }
+                                label={clarity}
+                                value={clarity}
+                                key={index}>
+
+                            </FormControlLabel>
+                        ))}
+                    </FormGroup>
                 </aside>
                 <aside className="right_content flex-1">
                     <section className="">

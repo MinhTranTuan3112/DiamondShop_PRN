@@ -12,7 +12,7 @@ type Picture = {
 
 type Diamond = {
     id: string;
-    name: string;
+    shape: string;
     color: string;
     origin: string;
     certificationUrl: string;
@@ -24,6 +24,7 @@ type Diamond = {
     warrantyPeriod: number;
     lastUpdate: Date;
     status: string;
+    pictures: [],
 };
 
 type ProductPart = {
@@ -34,7 +35,7 @@ type ProductPart = {
     diamond: Diamond;
 };
 
-type ProductDetails = {
+type Product = {
     id: string;
     name: string;
     type: string;

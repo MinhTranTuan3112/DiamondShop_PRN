@@ -14,31 +14,17 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
+import {
+  fetchDiamonds,
+  deleteObject,
+  fetchDiamondById,
+  updateDiamond,
+  createDiamond,
+} from "./APIClient";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchDiamonds, deleteObject } from "./APIClient";
 import { Empty } from "antd";
 import DiamondModal from "./Modal/DiamondModal";
-
-interface Diamond {
-  id: string;
-  shape: string;
-  color: string;
-  origin: string;
-  certificationUrl: string | null;
-  caratWeight: string;
-  clarity: string;
-  cut: string;
-  price: number;
-  quantity: number;
-  warrantyPeriod: number;
-  lastUpdate: string;
-  status: string;
-  pictures: {
-    id: string;
-    urlPath: string;
-  }[];
-}
 
 const theme = createTheme({
   typography: {
@@ -59,7 +45,7 @@ const theme = createTheme({
 const DiamondManagement: React.FC = () => {
   const [diamonds, setDiamonds] = useState<Diamond[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalDiamonds, setTotalDiamonds] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -70,26 +56,27 @@ const DiamondManagement: React.FC = () => {
     null
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchDiamonds(
-          search,
-          page,
-          rowsPerPage,
-          sortColumn,
-          orderByDesc
-        );
-        setDiamonds(data.results);
-        setTotalDiamonds(data.totalCount);
-      } catch (error) {
-        console.error("Error fetching diamonds:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const data = await fetchDiamonds(
+        search,
+        page,
+        rowsPerPage,
+        sortColumn,
+        orderByDesc
+      );
 
+      setDiamonds(data.results);
+      setTotalDiamonds(data.totalCount);
+    } catch (error) {
+      console.error("Error fetching diamonds:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       fetchData();
     }, 400);
@@ -99,7 +86,7 @@ const DiamondManagement: React.FC = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [search, rowsPerPage, sortColumn, orderByDesc]);
+  }, []);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -127,20 +114,26 @@ const DiamondManagement: React.FC = () => {
     setCurrentDiamond(null);
   };
 
-  const handleSaveDiamond = (diamond: Partial<Diamond>) => {
-    // Save diamond data logic here
-    handleCloseModal();
+  const handleSaveDiamond = async (diamond: Partial<Diamond>) => {
+    setModalOpen(false);
+    if (diamond.id) {
+      await updateDiamond(diamond);
+    } else {
+      await createDiamond(diamond);
+      setTotalDiamonds(totalDiamonds + 1);
+    }
+    fetchData();
   };
 
-  const handleDeleteDiamond = async (DiamondId: string) => {
+  const handleDeleteDiamond = async (diamondId: string) => {
     try {
-      await deleteObject("Diamonds", DiamondId);
+      await deleteObject("Diamonds", diamondId);
       setDiamonds((prevDiamonds) =>
-        prevDiamonds.filter((Diamond) => Diamond.id !== DiamondId)
+        prevDiamonds.filter((diamond) => diamond.id !== diamondId)
       );
       setTotalDiamonds(totalDiamonds - 1);
     } catch (error) {
-      console.error("Lỗi khi xóa sản phẩm:", error);
+      console.error("Lỗi khi xóa kim cương:", error);
     }
   };
 
@@ -157,12 +150,12 @@ const DiamondManagement: React.FC = () => {
             padding: "10px",
             outline: "none",
             border: "none",
-            borderBottom: "2px solid #FFD700 ",
+            borderBottom: "2px solid #FFD700",
           }}
         />
         <Button
           variant="contained"
-          style={{ background: "#FFD700 ", fontSize: "10px" }}
+          style={{ background: "#FFD700", fontSize: "10px" }}
           onClick={() => handleOpenModal()}
         >
           Add Diamond
@@ -178,7 +171,7 @@ const DiamondManagement: React.FC = () => {
             height: "500px",
           }}
         >
-          <CircularProgress style={{ color: "#FFD700 " }} />
+          <CircularProgress style={{ color: "#FFD700" }} />
         </div>
       ) : diamonds.length === 0 ? (
         <div
@@ -203,12 +196,13 @@ const DiamondManagement: React.FC = () => {
                   sx={{
                     fontWeight: 700,
                     color: "#2e2e2e",
-                    width: "20%",
+                    width: "10%",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleSort("Shape")}
+                  onClick={() => handleSort("shape")}
                 >
-                  Shape {sortColumn === "Shape" && (orderByDesc ? "↓" : "↑")}
+                  Hình dạng{" "}
+                  {sortColumn === "shape" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -219,7 +213,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("color")}
                 >
-                  Color {sortColumn === "color" && (orderByDesc ? "↓" : "↑")}
+                  Màu sắc {sortColumn === "color" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -230,7 +224,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("origin")}
                 >
-                  Origin {sortColumn === "origin" && (orderByDesc ? "↓" : "↑")}
+                  Xuất xứ {sortColumn === "origin" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -241,7 +235,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("caratWeight")}
                 >
-                  Carat Weight{" "}
+                  Carat{" "}
                   {sortColumn === "caratWeight" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
@@ -253,7 +247,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("clarity")}
                 >
-                  Clarity{" "}
+                  Độ tinh khiết{" "}
                   {sortColumn === "clarity" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
@@ -265,7 +259,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("cut")}
                 >
-                  Cut {sortColumn === "cut" && (orderByDesc ? "↓" : "↑")}
+                  Vết cắt {sortColumn === "cut" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -276,29 +270,7 @@ const DiamondManagement: React.FC = () => {
                   }}
                   onClick={() => handleSort("price")}
                 >
-                  Price ($){" "}
-                  {sortColumn === "price" && (orderByDesc ? "↓" : "↑")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 700,
-                    color: "#2e2e2e",
-                    width: "10%",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => handleSort("quantity")}
-                >
-                  Quantity{" "}
-                  {sortColumn === "quantity" && (orderByDesc ? "↓" : "↑")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 700,
-                    color: "#2e2e2e",
-                    width: "20%",
-                  }}
-                >
-                  Picture
+                  Giá ($) {sortColumn === "price" && (orderByDesc ? "↓" : "↑")}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -307,7 +279,34 @@ const DiamondManagement: React.FC = () => {
                     width: "10%",
                   }}
                 >
-                  Action
+                  Số lượng
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                  }}
+                >
+                  Thời gian bảo hành
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                  }}
+                >
+                  Ảnh
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                  }}
+                >
+                  Hành động
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -317,7 +316,7 @@ const DiamondManagement: React.FC = () => {
                   key={diamond.id}
                   sx={{ background: "rgb(243,247,251)" }}
                 >
-                  <TableCell sx={{ width: "20%" }}>{diamond.shape}</TableCell>
+                  <TableCell sx={{ width: "10%" }}>{diamond.shape}</TableCell>
                   <TableCell sx={{ width: "10%" }}>{diamond.color}</TableCell>
                   <TableCell sx={{ width: "10%" }}>{diamond.origin}</TableCell>
                   <TableCell sx={{ width: "10%" }}>
@@ -329,10 +328,14 @@ const DiamondManagement: React.FC = () => {
                   <TableCell sx={{ width: "10%" }}>
                     {diamond.quantity}
                   </TableCell>
-                  <TableCell sx={{ width: "20%" }}>
+                  <TableCell sx={{ width: "10%" }}>
+                    {diamond.warrantyPeriod}
+                  </TableCell>
+                  <TableCell sx={{ width: "10%" }}>
                     {diamond.pictures.length > 0 && (
                       <img
                         src={diamond.pictures[0].urlPath}
+                        alt={diamond.shape}
                         style={{
                           width: "50px",
                           height: "80px",
@@ -343,7 +346,7 @@ const DiamondManagement: React.FC = () => {
                   </TableCell>
                   <TableCell sx={{ width: "10%" }}>
                     <IconButton
-                      style={{ color: "#FFD700 " }}
+                      style={{ color: "#FFD700" }}
                       onClick={() => handleOpenModal(diamond)}
                     >
                       <EditIcon />
@@ -397,7 +400,9 @@ const DiamondManagement: React.FC = () => {
         open={modalOpen}
         handleClose={handleCloseModal}
         handleSave={handleSaveDiamond}
-        initialData={currentDiamond}
+        initialData={currentDiamond || undefined}
+        diamondId={currentDiamond?.id || undefined}
+        fetchDiamondById={fetchDiamondById}
       />
     </ThemeProvider>
   );

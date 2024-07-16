@@ -271,7 +271,9 @@ namespace DiamondShop.BusinessLogic.Services
                 throw new UnauthorizedException("Unauthorized");
             }
 
-            var order = await _unitOfWork.GetOrderRepository().Entities.ProjectToType<GetCartOrderDto>()
+            var order = await _unitOfWork.GetOrderRepository().Entities
+                                                        .Where(o => o.CustomerId == customer.Id && o.Status == OrderStatus.InCart.ToString())
+                                                        .ProjectToType<GetCartOrderDto>()
                                                         .FirstOrDefaultAsync();
             
             return order is not null ? order : throw new NotFoundException("Empty cart");
