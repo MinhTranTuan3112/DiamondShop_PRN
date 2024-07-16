@@ -126,13 +126,13 @@ namespace DiamondShop.BusinessLogic.Services
             return existOrderDetail;
         }
 
-        public async Task<List<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId)
+        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId)
         {
             var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailfromOrderId(orderId)
                 ?? throw new NotFoundException("Not found any order detail of that order!");
             return listOrderDetail;
         }
-        public async Task<PagedResult<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters)
+        public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters)
         {
             var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailByFilter(filters)
                 ?? throw new NotFoundException("Not found any order detail of that order!");

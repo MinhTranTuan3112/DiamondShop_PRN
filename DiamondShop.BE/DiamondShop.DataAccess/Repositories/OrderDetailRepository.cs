@@ -25,7 +25,7 @@ namespace DiamondShop.DataAccess.Repositories
                 .FirstOrDefaultAsync(odtl => odtl.Id == orderDetailId);
         }
 
-        public async Task<PagedResult<OrderDetail>> GetListOrderDetailByFilter(OrderDetail_PagingDto filters)
+        public async Task<IEnumerable<OrderDetail>> GetListOrderDetailByFilter(OrderDetail_PagingDto filters)
         {
             var query = _context.OrderDetails
                 .AsNoTracking()
@@ -52,12 +52,7 @@ namespace DiamondShop.DataAccess.Repositories
                 .Take(amountItem)
                 .ToListAsync();
 
-            return new PagedResult<OrderDetail>{
-                Results = queriedOrderDetails,
-                TotalCount = await query.CountAsync(),
-                PageSize = amountItem,
-                CurrentPage = pageIndex
-            };
+            return queriedOrderDetails;
         }
 
         public async Task<bool> DeleteOrderDetailAndReferences(OrderDetail? orderDetail)

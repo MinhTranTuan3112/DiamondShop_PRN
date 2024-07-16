@@ -11,8 +11,8 @@ namespace DiamondShop.BusinessLogic.Interfaces
         Task HandleAddDiamondToCart(Order order, AddToCartDto addToCartDto);
         public Task<OrderDetail> Get_OrderDetail_By_Id(Guid orderDetailId);
         public Task<OrderDetail> Get_OrderDetail_IncludeReference(Guid orderDetailId);
-        public Task<List<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId);
-        public Task<PagedResult<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters);
+        public Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId);
+        public Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters);
         public Task<bool> UpdateOrderDetail(OrderDetail_InfoDto updatedOrderDetail);
         public Task<bool> DeleteOrderDetail(Guid orderDetailId);
 
