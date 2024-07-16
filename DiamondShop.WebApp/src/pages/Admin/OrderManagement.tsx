@@ -175,7 +175,6 @@ const OrderManagement: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <input type="text" placeholder="Tìm Mã Đơn..." value={code} onChange={(e) => setCode(e.target.value)}
           style={{ width: "300px", padding: "10px", outline: "none", border: "none", borderBottom: "2px solid #FFD700" }} />
@@ -290,7 +289,6 @@ const OrderManagement: React.FC = () => {
       </div>
       <Pagination count={Math.ceil(totalOrders / rowsPerPage)} page={page} onChange={handleChangePage} sx={{ display: "flex", justifyContent: "center", "& .MuiPaginationItem-root.Mui-selected": { backgroundColor: "#FFD700", color: "white" } }} />
       <OrderModal open={modalOpen} handleClose={handleCloseModal} handleSave={handleSaveOrder} initialData={currentOrder} />
-      <Footer />
     </ThemeProvider>
   );
 };
