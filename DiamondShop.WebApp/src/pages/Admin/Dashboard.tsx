@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
           totalRevenue: monthlyData.totalRevenue,
           averageOrderValue: monthlyData.averageOrderValue,
           diamondCount: monthlyData.diamondCount,
-          productCount: monthlyData.productCount
+          productCount: monthlyData.productCount,
         });
       }
 
@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
       setaverageOrderValueEachMonth(
         allData.map((item) => item.averageOrderValue)
       );
-      
+
       setStats({
         ...stats,
         numberOfDiamonds: allData[0].diamondCount,
@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
                     <DiamondIcon />
                     Diamonds
                   </Typography>
-                  <Typography variant="h2">
+                  <Typography variant="h4">
                     {stats?.numberOfDiamonds ?? 0}
                   </Typography>
                 </CardContent>
@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
                     <InventoryIcon />
                     Products
                   </Typography>
-                  <Typography variant="h2">
+                  <Typography variant="h4">
                     {stats?.numberOfProducts ?? 0}
                   </Typography>
                 </CardContent>
@@ -141,7 +141,7 @@ const Dashboard: React.FC = () => {
                   >
                     <MonetizationOnIcon /> Revenue
                   </Typography>
-                  <Typography variant="h2">
+                  <Typography variant="h4">
                     ${stats?.revenue.toLocaleString() ?? 0}
                   </Typography>
                 </CardContent>
@@ -157,7 +157,7 @@ const Dashboard: React.FC = () => {
                   >
                     <TrendingUpIcon /> Profit
                   </Typography>
-                  <Typography variant="h2">
+                  <Typography variant="h4">
                     ${stats?.profit.toLocaleString() ?? 0}
                   </Typography>
                 </CardContent>

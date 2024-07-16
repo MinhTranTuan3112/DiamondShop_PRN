@@ -60,7 +60,7 @@ const Header: React.FC = () => {
                     to="/pricing"
                     className="px-[21px] py-[4px] text-[17px] font-semibold text-[#2e2e2e]"
                   >
-                    Bảng giá kim cương
+                    Bảng giá
                   </Link>
                 </li>
               </ul>

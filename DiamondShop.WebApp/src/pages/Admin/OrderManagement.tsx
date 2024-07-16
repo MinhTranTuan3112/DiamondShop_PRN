@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, IconButton, Button, Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Button,
+  Pagination,
   CircularProgress,
   ThemeProvider,
   createTheme,
@@ -42,7 +50,6 @@ const theme = createTheme({
 });
 
 const OrderManagement: React.FC = () => {
-
   const [orders, setOrders] = useState<Order[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [page, setPage] = useState<number>(1);
@@ -60,7 +67,6 @@ const OrderManagement: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currentOrder, setCurrentOrder] = useState<Partial<Order> | null>(null);
   const { accessToken } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,12 +76,18 @@ const OrderManagement: React.FC = () => {
           window.location.href = "/login";
         } else {
           const data = await fetchOrders(
-            rowsPerPage, page,
-            code, payMethod, shipAddress, note, status,
+            rowsPerPage,
+            page,
+            code,
+            payMethod,
+            shipAddress,
+            note,
+            status,
             sortColumn === "code",
             sortColumn === "code" ? isDescendingCode : undefined,
             sortColumn === "orderDate" ? isDescendingDate : undefined,
-            accessToken);
+            accessToken
+          );
 
           const mappedOrders: Order[] = data.results.map((result: any) => ({
             id: result.id,
@@ -84,7 +96,7 @@ const OrderManagement: React.FC = () => {
             shipDate: formatDate(result.shipDate),
             payMethod: result.payMethod,
             totalPrice: result.totalPrice,
-            status: result.status
+            status: result.status,
           }));
           setOrders(mappedOrders);
           setTotalOrders(data.totalCount);
@@ -101,19 +113,33 @@ const OrderManagement: React.FC = () => {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [rowsPerPage, page,
-    code, payMethod, shipAddress, note, status,
+  }, [
+    rowsPerPage,
+    page,
+    code,
+    payMethod,
+    shipAddress,
+    note,
+    status,
     sortColumn,
     isDescendingCode,
-    isDescendingDate]);
+    isDescendingDate,
+  ]);
 
   useEffect(() => {
     setPage(1);
-  }, [rowsPerPage, page,
-    code, payMethod, shipAddress, note, status,
+  }, [
+    rowsPerPage,
+    page,
+    code,
+    payMethod,
+    shipAddress,
+    note,
+    status,
     sortColumn,
     isDescendingCode,
-    isDescendingDate]);
+    isDescendingDate,
+  ]);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -123,11 +149,11 @@ const OrderManagement: React.FC = () => {
   };
 
   const formatDate = (dateString: string | null) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
 
     const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
@@ -175,21 +201,49 @@ const OrderManagement: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Header />
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <input type="text" placeholder="Tìm Mã Đơn..." value={code} onChange={(e) => setCode(e.target.value)}
-          style={{ width: "300px", padding: "10px", outline: "none", border: "none", borderBottom: "2px solid #FFD700" }} />
+        <input
+          type="text"
+          placeholder="Tìm Mã Đơn..."
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          style={{
+            width: "300px",
+            padding: "10px",
+            outline: "none",
+            border: "none",
+            borderBottom: "2px solid #FFD700",
+          }}
+        />
 
-        <select value={payMethod} onChange={(e) => setPayMethod(e.target.value)}
-          style={{ width: "300px", padding: "10px", outline: "none", border: "none", borderBottom: "2px solid #FFD700" }} >
+        <select
+          value={payMethod}
+          onChange={(e) => setPayMethod(e.target.value)}
+          style={{
+            width: "300px",
+            padding: "10px",
+            outline: "none",
+            border: "none",
+            borderBottom: "2px solid #FFD700",
+          }}
+        >
           <option value="">Tất Cả</option>
           <option value="Tiền Mặt">Tiền Mặt</option>
           <option value="Chuyển Khoản">Chuyển Khoản</option>
           <option value="Thẻ">Thẻ Tín Dụng</option>
         </select>
 
-        <select value={status} onChange={(e) => setStatus(e.target.value)}
-          style={{ width: "300px", padding: "10px", outline: "none", border: "none", borderBottom: "2px solid #FFD700" }}>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          style={{
+            width: "300px",
+            padding: "10px",
+            outline: "none",
+            border: "none",
+            borderBottom: "2px solid #FFD700",
+          }}
+        >
           <option value="">Tất Cả</option>
           <option value="InCart">Trong Giỏ</option>
           <option value="Pending_Confirm">Chờ Nhận Đơn</option>
@@ -203,50 +257,117 @@ const OrderManagement: React.FC = () => {
           <option value="Deleted">Đã Xóa</option>
         </select>
 
-        <Button variant="contained" style={{ background: "#FFD700", fontSize: "10px" }} onClick={() => handleOpenModal()} >
+        <Button
+          variant="contained"
+          style={{ background: "#FFD700", fontSize: "10px" }}
+          onClick={() => handleOpenModal()}
+        >
           Add Order
         </Button>
       </div>
 
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "500px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "500px",
+          }}
+        >
           <CircularProgress style={{ color: "#FFD700" }} />
         </div>
       ) : orders.length === 0 ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "500px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "500px",
+          }}
+        >
           <Empty description="Không Có Đơn Hàng Nào :(" />
         </div>
       ) : (
-        <TableContainer component={Paper} sx={{ borderRadius: "5px", marginTop: "10px", minHeight: "300px" }}>
+        <TableContainer
+          component={Paper}
+          sx={{ borderRadius: "5px", marginTop: "10px", minHeight: "300px" }}
+        >
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow sx={{ height: "25px" }}>
-
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }} onClick={() => handleSort("code")}>
-                  Mã {" "} {sortColumn === "code" && (isDescendingCode ? "↓" : "↑")}
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleSort("code")}
+                >
+                  Mã {sortColumn === "code" && (isDescendingCode ? "↓" : "↑")}
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }} onClick={() => handleSort("orderDate")} >
-                  Ngày Đặt {" "}{sortColumn === "orderDate" && (isDescendingDate ? "↓" : "↑")}
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleSort("orderDate")}
+                >
+                  Ngày Đặt{" "}
+                  {sortColumn === "orderDate" && (isDescendingDate ? "↓" : "↑")}
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }}>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                >
                   Ngày Giao{" "}
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }}>
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                >
                   Thanh Toán{" "}
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }} >
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                >
                   Tổng Tiền ($){" "}
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%", cursor: "pointer" }} >
+                <TableCell
+                  sx={{
+                    fontWeight: 700,
+                    color: "#2e2e2e",
+                    width: "10%",
+                    cursor: "pointer",
+                  }}
+                >
                   Trạng Thái
                 </TableCell>
 
-                <TableCell sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%" }} >
+                <TableCell
+                  sx={{ fontWeight: 700, color: "#2e2e2e", width: "10%" }}
+                >
                   Hành Động
                 </TableCell>
               </TableRow>
@@ -254,26 +375,46 @@ const OrderManagement: React.FC = () => {
 
             <TableBody>
               {orders.map((order) => (
-                <TableRow key={order.id} sx={{ background: "rgb(243,247,251)" }} >
+                <TableRow
+                  key={order.id}
+                  sx={{ background: "rgb(243,247,251)" }}
+                >
                   <TableCell sx={{ width: "10%" }}>{order.code}</TableCell>
 
-                  <TableCell sx={{ width: "15%" }}> {order.orderDate}</TableCell>
-                  <TableCell sx={{ width: "15%" }}> {order.shipDate} </TableCell>
+                  <TableCell sx={{ width: "15%" }}>
+                    {" "}
+                    {order.orderDate}
+                  </TableCell>
+                  <TableCell sx={{ width: "15%" }}>
+                    {" "}
+                    {order.shipDate}{" "}
+                  </TableCell>
 
                   <TableCell sx={{ width: "10%" }}>{order.payMethod}</TableCell>
-                  <TableCell sx={{ width: "10%" }}>{order.totalPrice}</TableCell>
+                  <TableCell sx={{ width: "10%" }}>
+                    {order.totalPrice}
+                  </TableCell>
                   <TableCell sx={{ width: "10%" }}>{order.status}</TableCell>
 
                   <TableCell sx={{ width: "10%" }}>
-                    <IconButton style={{ color: "#2776EA" }} onClick={() => ViewOrderDetail(order.id)}>
+                    <IconButton
+                      style={{ color: "#2776EA" }}
+                      onClick={() => ViewOrderDetail(order.id)}
+                    >
                       <EyeTwoTone />
                     </IconButton>
 
-                    <IconButton style={{ color: "#FFD700" }} onClick={() => handleOpenModal(order)}>
+                    <IconButton
+                      style={{ color: "#FFD700" }}
+                      onClick={() => handleOpenModal(order)}
+                    >
                       <EditIcon />
                     </IconButton>
 
-                    <IconButton style={{ color: "red" }} onClick={() => handleDeleteOrder(order.id)}>
+                    <IconButton
+                      style={{ color: "red" }}
+                      onClick={() => handleDeleteOrder(order.id)}
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>
@@ -283,14 +424,44 @@ const OrderManagement: React.FC = () => {
           </Table>
         </TableContainer>
       )}
-      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "10px", marginTop: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+          gap: "10px",
+          marginTop: "20px",
+        }}
+      >
         <label>Rows Per Page:</label>
-        <input value={rowsPerPage} onChange={(e) => setRowsPerPage(parseInt(e.target.value))} type="number" min={1} max={25} style={{ width: "50px", padding: "5px" }}
+        <input
+          value={rowsPerPage}
+          onChange={(e) => setRowsPerPage(parseInt(e.target.value))}
+          type="number"
+          min={1}
+          max={25}
+          style={{ width: "50px", padding: "5px" }}
         />
       </div>
-      <Pagination count={Math.ceil(totalOrders / rowsPerPage)} page={page} onChange={handleChangePage} sx={{ display: "flex", justifyContent: "center", "& .MuiPaginationItem-root.Mui-selected": { backgroundColor: "#FFD700", color: "white" } }} />
-      <OrderModal open={modalOpen} handleClose={handleCloseModal} handleSave={handleSaveOrder} initialData={currentOrder} />
-      <Footer />
+      <Pagination
+        count={Math.ceil(totalOrders / rowsPerPage)}
+        page={page}
+        onChange={handleChangePage}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          "& .MuiPaginationItem-root.Mui-selected": {
+            backgroundColor: "#FFD700",
+            color: "white",
+          },
+        }}
+      />
+      <OrderModal
+        open={modalOpen}
+        handleClose={handleCloseModal}
+        handleSave={handleSaveOrder}
+        initialData={currentOrder}
+      />
     </ThemeProvider>
   );
 };

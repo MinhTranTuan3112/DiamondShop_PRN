@@ -27,8 +27,7 @@ const ProductCard = ({ product }: Props) => {
       )} */}
       <img
         onClick={navigateToProductDetails}
-        //   src={product.pictures[0].urlPath}
-        src={Thumbnail}
+        src={product.pictures[0]?.urlPath}
         alt={product.name}
         className="w-full rounded-lg h-80 object-cover cursor-pointer mb-4"
       />
@@ -39,7 +38,8 @@ const ProductCard = ({ product }: Props) => {
         {product.name}
       </h3>
       <p className="text-xl text-gray-600">{formatPrice(product.price)} VNĐ</p>
-      <Button onClick={navigateToProductDetails}
+      <Button
+        onClick={navigateToProductDetails}
         variant="contained"
         style={{ width: "100px", marginTop: "auto", background: "#1c1c1c" }}
       >
