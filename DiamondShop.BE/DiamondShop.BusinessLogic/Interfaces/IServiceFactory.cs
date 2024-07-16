@@ -22,5 +22,7 @@ namespace DiamondShop.BusinessLogic.Interfaces
         IAccountService GetAccountService();
         ICertificateService GetCertificateService();
         IPromotionService GetPromotionService();
+
+        IEmailService GetEmailService();
     }
 }

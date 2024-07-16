@@ -10,6 +10,7 @@ import { fetchCartInfo, fetchConfirmOrder } from "../../services/order_service";
 import { formatPrice } from "../../utils/priceUtils";
 import Swal from "sweetalert2";
 import { OrderCartInfo, OrderDetail } from "../../types/OrderCartInfo";
+import { useNavigate } from "react-router-dom";
 
 // interface CartItem {
 //   id: number;
@@ -31,6 +32,7 @@ interface Promotion {
 
 const Checkout: React.FC = () => {
   const { accessToken } = useAuth();
+  const navigate = useNavigate();
   // const [cartItems, setCartItems] = useState<CartItem[]>([
   //   {
   //     id: 1,
@@ -213,6 +215,7 @@ const Checkout: React.FC = () => {
           title: "Đặt hàng thành công!",
           text: "Cảm ơn bạn đã mua hàng tại MAPTH Diamond Shop!",
         });
+        navigate("/");
       }
     } catch (error) {
       console.error("Failed to confirm order:", error);

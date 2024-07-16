@@ -14,16 +14,19 @@ using DiamondShop.DataAccess.DTOs.ProductPart;
 using DiamondShop.DataAccess.Models;
 using Google.Cloud.Storage.V1;
 using Mapster;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiamondShop.BusinessLogic.Extensions
 {
     public static class IServiceCollectionExtensions
     {
-        public static IServiceCollection AddBusinessLogicDependencies(this IServiceCollection services)
+        public static IServiceCollection AddBusinessLogicDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddServices()
-                    .AddMapsterConfigurations();
+                    .AddMapsterConfigurations()
+                    .AddFluentEmailConfigurations(configuration);
+            services.AddRazorTemplating();
             return services;
         }
 
@@ -55,6 +58,21 @@ namespace DiamondShop.BusinessLogic.Extensions
             services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IEmailService, EmailService>();
+            return services;
+        }
+
+        private static IServiceCollection AddFluentEmailConfigurations(this IServiceCollection services, IConfiguration configuration)
+        {
+            string defaultFromEmail = configuration["FluentEmail:Email"]!;
+            string host = configuration["FluentEmail:Host"]!;
+            int port = int.Parse(configuration["FluentEmail:Port"]!);
+            string username = configuration["FluentEmail:Email"]!;
+            string password = configuration["FluentEmail:Password"]!;
+
+            services.AddFluentEmail(defaultFromEmail)
+                    .AddSmtpSender(host, port, username, password);
+
             return services;
         }
     }

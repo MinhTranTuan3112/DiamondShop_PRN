@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using DiamondShop.BusinessLogic.Interfaces;
 using DiamondShop.BusinessLogic.Services;
 using DiamondShop.DataAccess.Interfaces;
+using FluentEmail.Core;
 using Google.Cloud.Storage.V1;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client.Extensions.Msal;
+using Razor.Templating.Core;
 
 namespace DiamondShop.BusinessLogic
 {
@@ -26,7 +28,10 @@ namespace DiamondShop.BusinessLogic
         private readonly Lazy<IAccountService> _accountService;
         private readonly Lazy<ICertificateService> _certificateSerivce;
         private readonly Lazy<IPromotionService> promotionService;
-        public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient)
+
+        private readonly Lazy<IEmailService> _emailService;
+        public ServiceFactory(IUnitOfWork unitOfWork, IConfiguration configuration, StorageClient storageClient,
+        IFluentEmailFactory fluentEmailFactory, IRazorTemplateEngine razorTemplateEngine)
         {
             _authService = new Lazy<IAuthService>(() => new AuthService(unitOfWork, configuration));
             _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, this));
@@ -41,6 +46,7 @@ namespace DiamondShop.BusinessLogic
             _accountService = new Lazy<IAccountService>(() => new AccountService(unitOfWork, this));
             _certificateSerivce = new Lazy<ICertificateService>(() => new CertificateService(unitOfWork));
             promotionService = new Lazy<IPromotionService>(() => new PromotionService(unitOfWork));
+            _emailService = new Lazy<IEmailService>(() => new EmailService(fluentEmailFactory, razorTemplateEngine));
         }
 
         public IAuthService GetAuthService()
@@ -104,6 +110,11 @@ namespace DiamondShop.BusinessLogic
         public IPromotionService GetPromotionService()
         {
             return promotionService.Value;
+        }
+
+        public IEmailService GetEmailService()
+        {
+            return _emailService.Value;
         }
     }
 }

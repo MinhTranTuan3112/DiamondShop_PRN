@@ -130,7 +130,7 @@ namespace DiamondShop.BusinessLogic.Services
         {
             var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailfromOrderId(orderId)
                 ?? throw new NotFoundException("Not found any order detail of that order!");
-            return listOrderDetail;
+            return listOrderDetail.ToList();
         }
         public async Task<PagedResult<OrderDetail>> GetList_OrderDetail_By_Filter(OrderDetail_PagingDto filters)
         {
