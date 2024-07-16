@@ -253,7 +253,7 @@ export const fetchPromotions = async (
   name: string,
   pageNumber: number,
   pageSize: number,
-): Promise<{ results: Promotion[]; totalCount: number }> => {
+): Promise<{ data: any[]; totalCount: number }> => {
   let url = `${BASE_URL}/Promotions?pageIndex=${pageNumber}&pageSize=${pageSize}`;
 
   if (name.trim() !== "") {
@@ -268,6 +268,59 @@ export const fetchPromotions = async (
   const data = await response.json();
   return data;
 };
+
+
+export const createPromotion = async (promotion) => {
+  const query = new URLSearchParams({
+    Name: promotion.name || "",
+    Description: promotion.description || "",
+    ExpiredDate: promotion.expiredDate || "",
+    DiscountPercent: promotion.discountPercent?.toString() || "0",
+    Status: promotion.status || "",
+  }).toString();
+
+  const response = await fetch(`${BASE_URL}/Promotions?${query}`, {
+    method: 'POST',
+    headers: {
+      'accept': '*/*',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create promotion');
+  }
+
+  return await response.json();
+};
+
+export const updatePromotion = async (promotion) => {
+  if (!promotion.id) {
+    throw new Error('Promotion ID is required for updating');
+  }
+
+  const query = new URLSearchParams({
+    Id: promotion.id,
+    Name: promotion.name || "",
+    Description: promotion.description || "",
+    ExpiredDate: promotion.expiredDate || "",
+    DiscountPercent: promotion.discountPercent?.toString() || "0",
+    Status: promotion.status || "",
+  }).toString();
+
+  const response = await fetch(`${BASE_URL}/Promotions?${query}`, {
+    method: 'PUT',
+    headers: {
+      'accept': '*/*',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update promotion');
+  }
+
+  return await response.json();
+};
+
 
 export const deletePromotion = async (promotionId: string) => {
   const response = await fetch(`${BASE_URL}/Promotions?id=${promotionId}`, {
@@ -305,51 +358,28 @@ export const fetchAccountById = async (id: string) => {
   return await response.json();
 };
 
-const buildAccountFormData = (account: Partial<AuthAccount>): FormData => {
-  const formData = new FormData();
-  formData.append("Email", account.email || "");
-  formData.append("Role", account.role || "");
-  formData.append("Status", account.status || "");
-  formData.append("Customer.FullName", account.customer.fullname || "");
-  formData.append("StakeHolder.FullName", account.stakeHolder.fullname || "");
 
-  return formData;
-};
 
-export const updateAccount = async (account: Partial<AuthAccount>) => {
-  const formData = buildAccountFormData(account);
+export const createAccount = async (account) => {
+  try {
+    const response = await fetch(`${BASE_URL}/Auth/create-account`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': '*/*', 
+      },
+      body: JSON.stringify(account), 
+    });
 
-  const response = await fetch(`${BASE_URL}/Accounts/${account.id}`, {
-    method: 'PUT',
-    headers: {
-      'accept': '*/*',
-    },
-    body: formData,
-  });
+    if (!response.ok) {
+      throw new Error('Failed to create account');
+    }
 
-  if (!response.ok) {
-    throw new Error('Failed to update account');
+    return await response.json();
+  } catch (error) {
+    console.error('Error creating account:', error);
+    throw error; 
   }
-
-  return await response;
-};
-
-export const createAccount = async (account: Partial<AuthAccount>) => {
-  const formData = buildAccountFormData(account);
-
-  const response = await fetch(`${BASE_URL}/Accounts`, {
-    method: 'POST',
-    headers: {
-      'accept': '*/*',
-    },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to create account');
-  }
-
-  return await response;
 };
 
 export const deleteAccount = async (accountId: string) => {

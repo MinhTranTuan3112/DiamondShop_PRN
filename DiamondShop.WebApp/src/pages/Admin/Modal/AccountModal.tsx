@@ -9,43 +9,25 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { fetchAccountById } from "../APIClient";
 import { AuthAccount } from "../../../types/account";
 
 interface AccountModalProps {
   open: boolean;
   handleClose: () => void;
   handleSave: (account: Partial<AuthAccount>) => void;
-  initialData?: Partial<AuthAccount>;
 }
 
 const AccountModal: React.FC<AccountModalProps> = ({
   open,
   handleClose,
   handleSave,
-  initialData,
 }) => {
-  const [account, setAccount] = useState<Partial<AuthAccount>>({
+  const [account, setAccount] = useState({
     email: "",
     role: "",
-    status: "",
-    customer: { fullname: "" },
-    stakeHolder: { fullname: "" },
+    fullname: "",
+    password: "",
   });
-
-  useEffect(() => {
-    if (initialData) {
-      setAccount(initialData);
-    } else {
-      setAccount({
-        email: "",
-        role: "",
-        status: "",
-        customer: { fullname: "" },
-        stakeHolder: { fullname: "" },
-      });
-    }
-  }, [initialData]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>
@@ -80,7 +62,15 @@ const AccountModal: React.FC<AccountModalProps> = ({
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={modalStyle}>
-        <h2>{initialData ? "Edit Account" : "Add Account"}</h2>
+        <h2>Add Account</h2>
+        <TextField
+          fullWidth
+          margin="normal"
+          label="Full Name"
+          name="fullname"
+          value={account.fullname}
+          onChange={handleChange}
+        />
         <TextField
           fullWidth
           margin="normal"
@@ -99,27 +89,15 @@ const AccountModal: React.FC<AccountModalProps> = ({
             <MenuItem value="DeliveryStaff">DeliveryStaff</MenuItem>
           </Select>
         </FormControl>
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Status</InputLabel>
-          <Select name="status" value={account.status} onChange={handleChange}>
-            <MenuItem value="available">Available</MenuItem>
-            <MenuItem value="working">working</MenuItem>
-          </Select>
-        </FormControl>
         <TextField
           fullWidth
           margin="normal"
-          label={
-            account.customer?.fullname ? "Customer Name" : "StakeHolder Name"
-          }
-          name="customer.fullname"
-          value={
-            account.customer?.fullname
-              ? account.customer?.fullname
-              : account.stakeHolder?.fullname
-          }
+          label="Password"
+          name="password"
+          value={account.password}
           onChange={handleChange}
         />
+
         <div
           style={{
             display: "flex",

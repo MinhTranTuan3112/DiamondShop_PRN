@@ -40,6 +40,7 @@ namespace DiamondShop.DataAccess.Repositories
             query = orderByDesc
                 ? query.OrderByDescending(GetSortProperty(sortBy))
                 : query.OrderBy(GetSortProperty(sortBy));
+            query = query.Where(a => a.Status != "deleted");
             return await query.ToPaginationResultAsync(pageNumber, pageSize);
         }
         private Expression<Func<Account, object>> GetSortProperty(string sortColumn)

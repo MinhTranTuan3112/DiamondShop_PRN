@@ -17,7 +17,12 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { fetchPromotions, deletePromotion } from "./APIClient";
+import {
+  fetchPromotions,
+  deletePromotion,
+  createPromotion,
+  updatePromotion,
+} from "./APIClient";
 import { Empty } from "antd";
 import PromotionModal from "./Modal/PromotionModal";
 
@@ -28,11 +33,6 @@ interface Promotion {
   expiredDate: string;
   discountPercent: number;
   status: string;
-}
-
-interface ApiResponse {
-  data: Promotion[];
-  totalPage: number;
 }
 
 const theme = createTheme({
@@ -55,34 +55,42 @@ const PromotionManagement: React.FC = () => {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [totalPages, setTotalPages] = useState<number>(1); // Total pages from API
+  const [totalPromotion, settotalPromotion] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currentPromotion, setCurrentPromotion] =
     useState<Partial<Promotion> | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchPromotions(search, page, rowsPerPage);
-        if (response) {
-          const { data, totalPage } = response;
-          setPromotions(data);
-          setTotalPages(totalPage);
-        }
-      } catch (error) {
-        console.error("Error fetching promotions:", error);
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await fetchPromotions(search, page, rowsPerPage);
+      if (response) {
+        const data = response;
+        setPromotions(data.data);
+        settotalPromotion(data.totalCount);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching promotions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [page, rowsPerPage, search]);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      fetchData();
+    }, 400);
 
-  const handleChangePage = (value: number) => {
+    return () => clearTimeout(timeoutId);
+  }, [page, rowsPerPage, search, totalPromotion]);
+
+  console.log(promotions);
+  const handleChangePage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value);
   };
 
@@ -96,8 +104,16 @@ const PromotionManagement: React.FC = () => {
     setCurrentPromotion(null);
   };
 
-  const handleSavePromotion = (promotion: Partial<Promotion>) => {
+  const handleSavePromotion = async (promotion: Partial<Promotion>) => {
     setModalOpen(false);
+    if (promotion.id) {
+      await updatePromotion(promotion);
+    } else {
+      await createPromotion(promotion);
+      settotalPromotion(totalPromotion + 1);
+    }
+
+    fetchData();
   };
 
   const handleDeletePromotion = async (promotionId: string) => {
@@ -106,12 +122,13 @@ const PromotionManagement: React.FC = () => {
       setPromotions((prevPromotions) =>
         prevPromotions.filter((promotion) => promotion.id !== promotionId)
       );
+      settotalPromotion(totalPromotion - 1);
     } catch (error) {
       console.error("Error deleting promotion:", error);
     }
   };
 
-  const handleSearch = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
     setPage(1);
@@ -289,9 +306,9 @@ const PromotionManagement: React.FC = () => {
         />
       </div>
       <Pagination
-        count={totalPages}
+        count={Math.ceil(totalPromotion / rowsPerPage)}
         page={page}
-        onChange={() => handleChangePage}
+        onChange={handleChangePage}
         sx={{
           display: "flex",
           justifyContent: "center",

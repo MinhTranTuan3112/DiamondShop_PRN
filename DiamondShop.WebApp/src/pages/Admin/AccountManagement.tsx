@@ -115,12 +115,8 @@ const AccountManagement: React.FC = () => {
 
   const handleSaveAccount = async (account: Partial<AuthAccount>) => {
     setModalOpen(false);
-    if (account.id) {
-      await updateAccount(account);
-    } else {
-      await createAccount(account);
-      setTotalAccounts(totalAccounts + 1);
-    }
+    await createAccount(account);
+    setTotalAccounts(totalAccounts + 1);
     fetchData();
   };
 
@@ -259,12 +255,6 @@ const AccountManagement: React.FC = () => {
                       : account.stakeHolder?.fullname}
                   </TableCell>
                   <TableCell sx={{ width: "10%" }}>
-                    <IconButton
-                      style={{ color: "#FFD700" }}
-                      onClick={() => handleOpenModal(account)}
-                    >
-                      <EditIcon />
-                    </IconButton>
                     <IconButton
                       style={{ color: "orangered" }}
                       onClick={() => handleDeleteAccount(account.id)}
