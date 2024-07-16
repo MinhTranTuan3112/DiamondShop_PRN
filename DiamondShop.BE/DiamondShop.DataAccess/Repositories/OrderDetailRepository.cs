@@ -19,6 +19,7 @@ namespace DiamondShop.DataAccess.Repositories
                 .Include(odtl => odtl.Product)
                 .Include(odtl => odtl.Order)
                 .Include(odtl => odtl.Warranties)
+                .Include(x => x.Diamond)
                 .FirstOrDefaultAsync(odtl => odtl.Id == orderDetailId);
         }
 
