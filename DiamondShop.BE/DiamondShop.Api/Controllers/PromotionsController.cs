@@ -31,14 +31,14 @@ namespace DiamondShop.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePromotion([FromQuery] CreatePromotion createPromotion)
+        public async Task<IActionResult> CreatePromotion([FromForm] CreatePromotion createPromotion)
         {
             await _serviceFactory.GetPromotionService().CreatePromotion(createPromotion);
             return Created();
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePromotion([FromQuery] UpdatePromotion updatePromotion)
+        public async Task<IActionResult> UpdatePromotion([FromForm] UpdatePromotion updatePromotion)
         {
             await _serviceFactory.GetPromotionService().UpdatePromotion(updatePromotion);
             return Ok("Updated");

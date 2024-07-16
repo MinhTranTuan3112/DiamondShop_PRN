@@ -15,7 +15,7 @@ namespace DiamondShop.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ViewDetail([FromRoute] Guid id)
         {
-            return Ok(await _serviceFactory.GetOrderDetailService().Get_OrderDetail_By_Id(id));
+            return Ok(await _serviceFactory.GetOrderDetailService().Get_OrderDetail_IncludeReference(id));
         }
 
         [HttpGet("order/{id}")]
