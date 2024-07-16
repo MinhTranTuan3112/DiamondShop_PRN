@@ -8,5 +8,6 @@ namespace DiamondShop.DataAccess.Interfaces
         public Task<OrderDetail?> GetById_IncludeReference(Guid orderDetailId);
         public Task<IEnumerable<OrderDetail>> GetListOrderDetailByFilter(OrderDetail_PagingDto filters);
         public Task<bool> DeleteOrderDetailAndReferences(OrderDetail? orderDetail);
+        Task<IEnumerable<OrderDetail>> GetListOrderDetailfromOrderId(Guid orderid);
     }
 }

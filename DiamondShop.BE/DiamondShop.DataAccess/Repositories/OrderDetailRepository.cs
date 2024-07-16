@@ -63,5 +63,14 @@ namespace DiamondShop.DataAccess.Repositories
             _context.OrderDetails.Remove(orderDetail);
             return await _context.SaveChangesAsync()>0;
         }
+
+        public async Task<IEnumerable<OrderDetail>> GetListOrderDetailfromOrderId(Guid orderid)
+        {
+            return await _context.OrderDetails
+                .Where(odtl => odtl.OrderId == orderid)
+                .Include(odtl => odtl.Product)
+                .Include(odtl => odtl.Diamond)
+                .ToListAsync();
+        }
     }
 }

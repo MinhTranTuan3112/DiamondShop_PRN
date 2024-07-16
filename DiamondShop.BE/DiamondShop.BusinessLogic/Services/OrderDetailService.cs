@@ -127,7 +127,7 @@ namespace DiamondShop.BusinessLogic.Services
 
         public async Task<IEnumerable<OrderDetail>> GetList_OrderDetail_By_OrderId(Guid orderId)
         {
-            var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().FindAsync(odtl => odtl.OrderId == orderId)
+            var listOrderDetail = await _unitOfWork.GetOrderDetailRepository().GetListOrderDetailfromOrderId(orderId)
                 ?? throw new NotFoundException("Not found any order detail of that order!");
             return listOrderDetail;
         }

@@ -79,7 +79,7 @@ const OrderDetails: React.FC = () => {
                 <TableCell style={{ fontSize: "13px", fontWeight: "700" }}>Sum Size Price</TableCell>
                 <TableCell style={{ fontSize: "13px", fontWeight: "700" }}>SubTotal</TableCell>
                 <TableCell style={{ fontSize: "13px", fontWeight: "700" }}>Status</TableCell>
-                <TableCell style={{ fontSize: "13px", fontWeight: "700" }}>Product ID</TableCell>
+                <TableCell style={{ fontSize: "13px", fontWeight: "700" }}>Product Name</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -91,7 +91,7 @@ const OrderDetails: React.FC = () => {
                 <TableCell style={{ fontSize: "12px" }}>{orderDetail.sumSizePrice}</TableCell>
                 <TableCell style={{ fontSize: "12px" }}>{orderDetail.subTotal}</TableCell>
                 <TableCell style={{ fontSize: "12px" }}>{orderDetail.status}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.productId ?? orderDetail.diamondId}</TableCell>
+                <TableCell style={{ fontSize: "12px" }}>{orderDetail.diamond !== null ? orderDetail.diamond.origin : orderDetail.product.name}</TableCell>
               </TableRow>
                 ))
                     }   
