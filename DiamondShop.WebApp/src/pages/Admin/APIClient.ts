@@ -174,6 +174,24 @@ export const createDiamond = async (diamond: Partial<Diamond>) => {
   return await response;
 };
 
+export const createCertificate = async (certificate: Partial<Certificate>) => {
+  const response = await fetch(`${BASE_URL}/Certificates`, {
+    method: 'POST',
+    headers: {
+      'accept': 'text/plain',
+      'Content-Type': 'application/json-patch+json',
+    },
+    body: JSON.stringify(certificate),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create certificate');
+  }
+
+  return await response.json();
+};
+
+
 // Fetch Dashboard
 export interface DashboardStats {
   numberOfDiamonds: number;
@@ -219,9 +237,6 @@ export const fetchOrders = async (
 
   Promise<{ results: any[]; totalCount: number }> => {
   let url = `${BASE_URL}/Orders/list`;
-
-  Size = (Size === 0) ? 5 : Size;
-  Page = (Page === 0) ? 1 : Page;
   OrderByCode = (OrderByCode === undefined) ? true : OrderByCode;
   IsDescendingCode = (IsDescendingCode === undefined) ? true : IsDescendingCode;
   IsDescendingTime = (IsDescendingTime === undefined) ? true : IsDescendingTime;

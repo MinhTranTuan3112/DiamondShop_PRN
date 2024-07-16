@@ -195,17 +195,21 @@ const DiamondModal: React.FC<DiamondModalProps> = ({
               </Select>
             </FormControl>
           </Grid>
-          {/* Remaining fields like certificationUrl, caratWeight, price, quantity, warrantyPeriod */}
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              margin="normal"
-              name="certificationUrl"
-              label="Certification URL"
-              value={diamond.certificationUrl || ""}
-              onChange={handleChange}
-            />
-          </Grid>
+          {initialData ? (
+            <></>
+          ) : (
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                margin="normal"
+                name="certificationUrl"
+                label="Certification URL"
+                value={diamond.certificationUrl || ""}
+                onChange={handleChange}
+              />
+            </Grid>
+          )}
+
           <Grid item xs={6}>
             <TextField
               fullWidth

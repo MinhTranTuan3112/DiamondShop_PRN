@@ -52,7 +52,7 @@ const theme = createTheme({
 const OrderManagement: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
   const [totalOrders, setTotalOrders] = useState<number>(0);
   const [code, setCode] = useState<string>("");
   const [payMethod, setPayMethod] = useState<string>("");
@@ -67,6 +67,7 @@ const OrderManagement: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currentOrder, setCurrentOrder] = useState<Partial<Order> | null>(null);
   const { accessToken } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -113,21 +114,6 @@ const OrderManagement: React.FC = () => {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [
-    rowsPerPage,
-    page,
-    code,
-    payMethod,
-    shipAddress,
-    note,
-    status,
-    sortColumn,
-    isDescendingCode,
-    isDescendingDate,
-  ]);
-
-  useEffect(() => {
-    setPage(1);
   }, [
     rowsPerPage,
     page,

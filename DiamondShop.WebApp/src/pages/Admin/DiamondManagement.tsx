@@ -20,11 +20,13 @@ import {
   fetchDiamondById,
   updateDiamond,
   createDiamond,
+  createCertificate,
 } from "./APIClient";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Empty } from "antd";
 import DiamondModal from "./Modal/DiamondModal";
+import CertificateModal from "./Modal/CertificateModal";
 
 const theme = createTheme({
   typography: {
@@ -48,10 +50,12 @@ const DiamondManagement: React.FC = () => {
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalDiamonds, setTotalDiamonds] = useState<number>(0);
   const [search, setSearch] = useState<string>("");
+  const [certid, setCertid] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [sortColumn, setSortColumn] = useState<string>("");
   const [orderByDesc, setOrderByDesc] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [certmodalOpen, setcertModalOpen] = useState<boolean>(false);
   const [currentDiamond, setCurrentDiamond] = useState<Partial<Diamond> | null>(
     null
   );
@@ -114,6 +118,14 @@ const DiamondManagement: React.FC = () => {
     setCurrentDiamond(null);
   };
 
+  const handleOpencertModal = () => {
+    setcertModalOpen(true);
+  };
+
+  const handleClosecertModal = () => {
+    setcertModalOpen(false);
+  };
+
   const handleSaveDiamond = async (diamond: Partial<Diamond>) => {
     setModalOpen(false);
     if (diamond.id) {
@@ -122,6 +134,15 @@ const DiamondManagement: React.FC = () => {
       await createDiamond(diamond);
       setTotalDiamonds(totalDiamonds + 1);
     }
+    fetchData();
+  };
+
+  const handleSaveCert = async (cert) => {
+    setcertModalOpen(false);
+    const data = await createCertificate(cert);
+    setCertid(data.id);
+    console.log(certid);
+
     fetchData();
   };
 
@@ -140,25 +161,20 @@ const DiamondManagement: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <input
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            width: "300px",
-            padding: "10px",
-            outline: "none",
-            border: "none",
-            borderBottom: "2px solid #FFD700",
-          }}
-        />
+        <label>New Certificate: {certid ? certid : ""}</label>
         <Button
           variant="contained"
           style={{ background: "#FFD700", fontSize: "10px" }}
           onClick={() => handleOpenModal()}
         >
           Add Diamond
+        </Button>
+        <Button
+          variant="contained"
+          style={{ background: "#FFD700", fontSize: "10px" }}
+          onClick={() => handleOpencertModal()}
+        >
+          Add Certificate
         </Button>
       </div>
 
@@ -403,6 +419,12 @@ const DiamondManagement: React.FC = () => {
         initialData={currentDiamond || undefined}
         diamondId={currentDiamond?.id || undefined}
         fetchDiamondById={fetchDiamondById}
+      />
+
+      <CertificateModal
+        open={certmodalOpen}
+        handleClose={handleClosecertModal}
+        handleSave={handleSaveCert}
       />
     </ThemeProvider>
   );

@@ -45,6 +45,7 @@ const items: MenuItem[] = [
   getItem("Orders", "4", <ShoppingCartOutlined />),
   getItem("Promotions", "5", <ShoppingCartOutlined />),
   getItem("Account Management", "6", <UserOutlined />),
+
   getItem("Logout", "7", <LogoutOutlined />),
 ];
 
