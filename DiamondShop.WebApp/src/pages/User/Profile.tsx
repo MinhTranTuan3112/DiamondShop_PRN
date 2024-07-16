@@ -97,8 +97,6 @@ export default function Profile() {
         <div className="profile-info">
           <div className="profile-wrap">
             <h2 className="profile-info-heading">Account info</h2>
-
-            <button className="profile-edit-btn">Edit</button>
           </div>
           <p className="profile-info-desc">
             Addresses, contact information and password
