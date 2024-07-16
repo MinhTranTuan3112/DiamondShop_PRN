@@ -37,7 +37,7 @@ const OrderDetails: React.FC = () => {
     const fetchOrderDetails = async () => {
     
       try {
-        const response = await fetch(`https://localhost:7054/order/${id}`);
+        const response = await fetch(`https://localhost:7054/api/OrderDetails/order/${id}`);
         const data = await response.json();
         console.log(data);
         
@@ -60,10 +60,6 @@ const OrderDetails: React.FC = () => {
     return <div>{error}</div>;
   }
 
-  if (!orderDetails) {
-    return <div>No order details found</div>;
-  }
-
   return (
     <>
       <Header />
@@ -83,19 +79,27 @@ const OrderDetails: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-                {orderDetails.map((orderDetail, index: number) => (
-              <TableRow key={index}>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.complexProduction ? 'Yes' : 'No'}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.quantity}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.ringSize}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.sumSizePrice}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.subTotal}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.status}</TableCell>
-                <TableCell style={{ fontSize: "12px" }}>{orderDetail.diamond !== null ? orderDetail.diamond.origin : orderDetail.product.name}</TableCell>
-              </TableRow>
-                ))
-                    }   
-            </TableBody>
+  {orderDetails && orderDetails.length === 0 ? (
+    <TableRow>
+      <TableCell colSpan={7} style={{ fontSize: "12px", textAlign: "center" }}>
+        No order details found
+      </TableCell>
+    </TableRow>
+  ) : (
+        orderDetails.map((orderDetail, index) => (
+          <TableRow key={index}>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.complexProduction ? 'Yes' : 'No'}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.quantity}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.ringSize}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.sumSizePrice}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.subTotal}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.status}</TableCell>
+            <TableCell style={{ fontSize: "12px" }}>{orderDetail.diamond !== null ? orderDetail.diamond.origin : orderDetail.product.name}</TableCell>
+          </TableRow>
+        ))
+      )}
+    </TableBody>
+
           </Table>
         </TableContainer>
       </div>
