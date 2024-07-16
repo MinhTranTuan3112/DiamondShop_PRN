@@ -130,7 +130,6 @@ export const fetchOrders = async (
   IsDescendingCode = (IsDescendingCode === undefined) ? true : IsDescendingCode;
   IsDescendingTime = (IsDescendingTime === undefined) ? true : IsDescendingTime;
 
-  console.log("page before to server:" +Page);
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -157,14 +156,18 @@ export const fetchOrders = async (
   return await response.json();
 };
 
-export const deleteOrder = async (orderId: string) => {
+export const deleteOrder = async (orderId: string, accessToken?: string) => {
   const response = await fetch(`${BASE_URL}/Orders/${orderId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
   });
-  if (response.status === 204) {
+  if (response.status === 201) {
     return;
   } else {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}\nMessage: ${response.text()}`);
   }
 };
 

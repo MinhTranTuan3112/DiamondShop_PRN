@@ -119,7 +119,6 @@ const OrderManagement: React.FC = () => {
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    console.log("Page changed to:", value);
     setPage(value);
   };
 
@@ -160,7 +159,7 @@ const OrderManagement: React.FC = () => {
 
   const handleDeleteOrder = async (orderId: string) => {
     try {
-      await deleteOrder(orderId);
+      await deleteOrder(orderId, accessToken);
       setOrders((prevOrders) =>
         prevOrders.filter((order) => order.id !== orderId)
       );

@@ -179,11 +179,10 @@ namespace DiamondShop.BusinessLogic.Services
             }
             CheckDeleted(currentOrder.Status!);
 
-            currentOrder.Status = "Deleted";
+            currentOrder.Status = OrderStatus.Deleted.ToString();
 
             //Save Change
-            await _unitOfWork.GetOrderRepository().UpdateAsync(currentOrder);
-            return true;
+            return await _unitOfWork.SaveChangesAsync()>0;
         }
 
         public async Task<OrderStatistic> GetOrderStatisticsAsync(int month)
