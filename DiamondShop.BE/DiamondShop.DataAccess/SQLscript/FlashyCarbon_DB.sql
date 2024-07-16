@@ -1,4 +1,4 @@
-use master;
+﻿use master;
 go
 if exists (select name from sys.databases where name = 'FlashyCarbon_DB')
 begin
@@ -132,18 +132,41 @@ create table [Order]
 	Id uniqueidentifier default newid() primary key,
 	Code nvarchar(max) not null,
 	OrderDate datetime not null default CURRENT_TIMESTAMP,
+	Point int default 0 not null,
+	PromotionPercent int default 0 not null,
 	Total money default 0 not null,
 	PayMethod nvarchar(20),
 	ShipDate datetime,
 	ShipAddress nvarchar(max),
-	Note nvarchar(max) default 'Nothing!',
-	[Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
-
+	Note nvarchar(max) default N'Trống!',
+	[Status] nvarchar(20) default 'InCart',	--Pending_Confirm | Confirmed | Pending_Deliver | Delivering | Deliveried | Received | Pending_Refund | Refunded | Deleted
+	
 	CustomerId uniqueidentifier not null foreign key references [Customer](Id),
 	SalesStaffId uniqueidentifier foreign key references [StakeHolder](Id),
 	DeliveryStaffId uniqueidentifier foreign key references [StakeHolder](Id)
 );
 create nonclustered index IX_Order_CustomerId on [order] (customerid);
+go
+
+create table [OrderDetail]
+(
+	Id uniqueidentifier default newid() primary key,
+	ComplexProduction bit,
+	Quantity int default 0 not null,
+	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
+	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
+	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
+	[Status] nvarchar(20)  default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
+
+	OrderId uniqueidentifier not null foreign key references [Order](Id),
+	ProductId uniqueidentifier foreign key references [Product](Id),
+	DiamondId uniqueidentifier foreign key references [Diamond](Id),
+	constraint CHK_ProductOrDiamond_ForeignKey check (
+        (ProductId is not null and DiamondId is null) 
+        or (ProductId is null and DiamondId is not null)
+    )
+);
+create nonclustered index IX_OrderDetail_OrderId on [OrderDetail] (OrderId);
 go
 
 create table [Promotion]
@@ -167,27 +190,6 @@ create table [CustomerPromotion]
 );
 create nonclustered index IX_CustomerPromotion_PromotionId on [CustomerPromotion] (PromotionId);
 create nonclustered index IX_CustomerPromotion_CustomerId on [CustomerPromotion] (CustomerId);
-go
-
-create table [OrderDetail]
-(
-	Id uniqueidentifier default newid() primary key,
-	ComplexProduction bit,
-	Quantity int default 0 not null,
-	RingSize nvarchar(max),								--list size serperate by ,		example: 5,15,30
-	SumSizePrice money default 0 not null,				--default 0 and will be update when customer want to view the subtotal
-	SubTotal money default 0 not null,					--Subtotal=(Product price * quantity)+ SumSizePrice
-	[Status] nvarchar(20)  default 'InCart',	--Pending_Confirm | Confirmed | Pay | Delivering | Deliveried | Pending_Refund | Refunded | Deleted
-
-	OrderId uniqueidentifier not null foreign key references [Order](Id),
-	ProductId uniqueidentifier foreign key references [Product](Id),
-	DiamondId uniqueidentifier foreign key references [Diamond](Id),
-	constraint CHK_ProductOrDiamond_ForeignKey check (
-        (ProductId is not null and DiamondId is null) 
-        or (ProductId is null and DiamondId is not null)
-    )
-);
-create nonclustered index IX_OrderDetail_OrderId on [OrderDetail] (OrderId);
 go
 
 create table [Warranty]

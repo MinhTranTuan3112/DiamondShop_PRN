@@ -223,9 +223,7 @@ const Checkout: React.FC = () => {
     <>
       <Header />
       {!orderInCart ? (
-        <p className="text-center font-bold text-3xl py-56">
-          Giỏ hàng của bạn đang trống
-        </p>
+        <p className="text-center font-bold h-[500px] text-3xl">Giỏ hàng của bạn đang trống</p>
       ) : (
         <div className="checkout-container">
           <section className="col-8 product_section">

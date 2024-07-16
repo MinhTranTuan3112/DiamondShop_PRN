@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DiamondShop.DataAccess.Models;
+﻿namespace DiamondShop.DataAccess.Models;
 
 public partial class Order
 {
@@ -10,6 +7,10 @@ public partial class Order
     public string Code { get; set; } = null!;
 
     public DateTime OrderDate { get; set; }
+
+    public int Point { get; set; }
+
+    public int PromotionPercent { get; set; }
 
     public decimal Total { get; set; }
 

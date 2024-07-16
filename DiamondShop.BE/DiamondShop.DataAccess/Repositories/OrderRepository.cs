@@ -1,17 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
-using DiamondShop.DataAccess.DTOs.Diamond;
 using DiamondShop.DataAccess.DTOs.Order;
+using DiamondShop.DataAccess.DTOs.Query;
 using DiamondShop.DataAccess.Enums;
-using DiamondShop.DataAccess.Extensions;
 using DiamondShop.DataAccess.Interfaces;
 using DiamondShop.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DiamondShop.DataAccess.Repositories
 {
@@ -28,14 +22,13 @@ namespace DiamondShop.DataAccess.Repositories
             return _context.Orders.Include(o => o.OrderDetails)
                                  .FirstOrDefaultAsync(LINQ_Regex);
         }
-        public async Task<IEnumerable<Order>?> GetListAsync(QueryOrderDto input)
+        public async Task<PagedResult<Order>?> GetListAsync(QueryOrderDto input)
         {
             var query = _context.Orders
                 .AsNoTracking()
                 .AsSplitQuery()
                 .AsQueryable();
 
-            query = query.Where(o => o.Status != "Deleted");
             // Apply search
             if (input.SalesStaffId != Guid.Empty)
             {
@@ -49,6 +42,10 @@ namespace DiamondShop.DataAccess.Repositories
             {
                 query = query.Where(ord => ord.Code.ToLower().Contains(input.Code!.ToLower()));
             }
+            if (!input.PayMethod.IsNullOrEmpty())
+            {
+                query = query.Where(ord => ord.PayMethod.ToLower().Contains(input.PayMethod!.ToLower()));
+            }
             if (!input.ShipAddress.IsNullOrEmpty())
             {
                 query = query.Where(ord => ord.ShipAddress.ToLower().Contains(input.ShipAddress!.ToLower()));
@@ -59,12 +56,17 @@ namespace DiamondShop.DataAccess.Repositories
             }
             if (!input.Status.IsNullOrEmpty())
             {
-                query = query.Where(ord => ord.Code.ToLower().Equals(input.Code!.ToLower()));
+                query = query.Where(ord => ord.Status.ToLower().Equals(input.Status!.ToLower()));
             }
 
-            // Sort by code
-            query = (input.IsDescending == true) ?
-                query.OrderByDescending(ord => ord.Code) : query.OrderBy(ord => ord.Code);
+            // Sort
+            if(input.OrderByCode == true)
+            {
+                query = input.IsDescendingCode ?query.OrderByDescending(ord => ord.Code) : query.OrderBy(ord => ord.Code);
+            } else
+            {
+                query = input.IsDescendingDate? query.OrderByDescending(ord => ord.OrderDate) : query.OrderBy(ord => ord.OrderDate);
+            }
 
             int amountItem = input.Size == 0 ? 5 : input.Size;
             int pageIndex = input.Page == 0 ? 1 : input.Page;
@@ -75,7 +77,13 @@ namespace DiamondShop.DataAccess.Repositories
                 .Take(amountItem)
                 .ToListAsync();
 
-            return queriedOrders;
+            return new PagedResult<Order>
+            {
+                Results = queriedOrders,
+                TotalCount = await query.CountAsync(),
+                PageSize = amountItem,
+                CurrentPage = pageIndex
+            };
         }
 
         public async Task<Order?> GetCustomerCartInfo(Guid customerId)

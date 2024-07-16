@@ -212,39 +212,58 @@ export const fetchCategories = async () => {
 };
 
 export const fetchOrders = async (
-  search: string,
-  page: number,
-  rowsPerPage: number,
-  sortColumn?: string,
-  orderByDesc?: boolean
-): Promise<{ results: any[]; totalCount: number }> => {
-  let url = `${BASE_URL}/Orders?pageNumber=${page}&pageSize=${rowsPerPage}`;
+  Size: number, Page: number,
+  Code?: string, PayMethod?: string, ShipAddress?: string, Note?: string, Status?: string,
+  OrderByCode?: boolean, IsDescendingCode?: boolean, IsDescendingTime?: boolean,
+  accessToken?: string):
 
-  if (search.trim() !== "") {
-    url += `&search=${search}`;
-  }
+  Promise<{ results: any[]; totalCount: number }> => {
+  let url = `${BASE_URL}/Orders/list`;
 
-  if (sortColumn) {
-    url += `&sortColumn=${sortColumn}&orderByDesc=${orderByDesc ? "true" : "false"}`;
-  }
+  Size = (Size === 0) ? 5 : Size;
+  Page = (Page === 0) ? 1 : Page;
+  OrderByCode = (OrderByCode === undefined) ? true : OrderByCode;
+  IsDescendingCode = (IsDescendingCode === undefined) ? true : IsDescendingCode;
+  IsDescendingTime = (IsDescendingTime === undefined) ? true : IsDescendingTime;
 
-  const response = await fetch(url);
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({
+      Size,
+      Page,
+      Code,
+      PayMethod,
+      ShipAddress,
+      Note,
+      Status,
+      OrderByCode,
+      IsDescendingCode,
+      IsDescendingTime,
+    })
+  });
+
   if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}\nMessage: ${response.text()}`);
   }
-
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
-export const deleteOrder = async (orderId: string) => {
+export const deleteOrder = async (orderId: string, accessToken?: string) => {
   const response = await fetch(`${BASE_URL}/Orders/${orderId}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
   });
-  if (response.status === 204) {
+  if (response.status === 201) {
     return;
   } else {
-    throw new Error(`HTTP error! Status: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}\nMessage: ${response.text()}`);
   }
 };
 

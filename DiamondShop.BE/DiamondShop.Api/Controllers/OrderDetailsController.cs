@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondShop.Api.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class OrderDetailsController : Controller
     {
         private readonly IServiceFactory _serviceFactory;
